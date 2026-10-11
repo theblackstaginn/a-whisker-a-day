@@ -762,6 +762,11 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .cottage-view .shop-item{min-width:0}
 .cottage-view .shop-item .btn{width:100%;min-height:42px}
 @media(max-width:420px){.yarrow-view .outfit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cottage-view .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
+/* iPhone-friendly pull-to-refresh indicator. */
+.whisker-ptr{position:fixed;z-index:250;top:calc(8px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-130%);opacity:0;pointer-events:none;background:#36503e;color:#fff6df;border:1px solid #c8ac74;border-radius:25px;padding:10px 18px;font:600 12px Georgia,serif;box-shadow:0 5px 18px #17281d30;transition:opacity .15s,transform .15s}
+.whisker-ptr.visible{transform:translate(-50%,0);opacity:1}
+.whisker-ptr.ready{background:#55754b}
+@media(prefers-reduced-motion:reduce){.whisker-ptr{transition:none}}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1934,11 +1939,44 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     window.addEventListener('focus',rolloverIfNeeded);
     window.setInterval(rolloverIfNeeded,60000);
   }
+  function setupPullToRefresh(){
+    if(!('ontouchstart' in window))return;
+    let startY=0,startX=0,pulling=false,ready=false;
+    const indicator=document.createElement('div');
+    indicator.className='whisker-ptr';indicator.setAttribute('role','status');
+    indicator.setAttribute('aria-live','polite');indicator.textContent='↓ Pull to refresh';
+    document.body.appendChild(indicator);
+    const reset=()=>{pulling=false;ready=false;indicator.classList.remove('visible','ready');};
+    document.addEventListener('touchstart',event=>{
+      if(event.touches.length!==1||window.scrollY>2||document.querySelector('.modal-backdrop')||event.target.closest('input,textarea,select,[contenteditable],.gratitude-open-notes')){reset();return;}
+      startY=event.touches[0].clientY;startX=event.touches[0].clientX;pulling=true;ready=false;
+    },{passive:true});
+    document.addEventListener('touchmove',event=>{
+      if(!pulling||event.touches.length!==1)return;
+      const dy=event.touches[0].clientY-startY,dx=Math.abs(event.touches[0].clientX-startX);
+      if(window.scrollY>2||dx>dy){reset();return;}
+      ready=dy>105;
+      indicator.classList.toggle('visible',dy>30);
+      indicator.classList.toggle('ready',ready);
+      indicator.textContent=ready?'↑ Release to refresh':'↓ Pull to refresh';
+    },{passive:true});
+    document.addEventListener('touchend',()=>{
+      if(!pulling)return;
+      const shouldRefresh=ready;reset();
+      if(!shouldRefresh)return;
+      indicator.classList.add('visible');indicator.textContent='✧ Freshening the cottage…';
+      // Keep local progress: refresh the page, never reset app storage.
+      const url=new URL(location.href);url.searchParams.set('refresh',String(Date.now()));
+      if('serviceWorker' in navigator)navigator.serviceWorker.getRegistration().then(reg=>reg?.update()).catch(()=>{}).finally(()=>location.replace(url.toString()));
+      else location.replace(url.toString());
+    },{passive:true});
+    document.addEventListener('touchcancel',reset,{passive:true});
+  }
   function init() {
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
-    bindEvents();render();startYarrowLife();
+    bindEvents();render();startYarrowLife();setupPullToRefresh();
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta3',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
