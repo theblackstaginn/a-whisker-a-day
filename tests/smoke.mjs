@@ -32,7 +32,7 @@ assert.ok(manifest.icons.some(i=>i.src==='./app-icon.svg'));
 assert.ok(index.includes('function exportBackup()') && index.includes('async function importBackup('));
 
 /* Optional witchy content must not replace saved user rituals or invent mandatory chores. */
-const libraryMatch=index.match(/const RITUAL_LIBRARY = (\[[^;]+\]);/);
+const libraryMatch=index.match(/const RITUAL_LIBRARY = (\[[\s\S]*?\]);\s*const GRIMOIRE_LORE =/);
 assert.ok(libraryMatch,'Optional ritual library missing');
 const library=JSON.parse(libraryMatch[1]);
 assert.equal(library.length,24,'Keep the curated 24-practice library intact');
