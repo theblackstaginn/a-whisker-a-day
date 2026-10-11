@@ -1,5 +1,5 @@
 /* A Whisker a Day: gentle offline support, network-first for fresh pages */
-const CACHE_NAME = 'whisker-a-day-v2.4-beta2';
+const CACHE_NAME = 'whisker-a-day-v2.4-ptr1';
 const HOME = './index.html';
 self.addEventListener('install',event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(['./',HOME,'./app-icon.svg','./manifest.webmanifest','./assets/yarrow-storybook.webp','./assets/hearth-v24/apothecary.webp','./assets/hearth-v24/yarrow-parts.webp','./assets/cottage-reading-nook.webp','./assets/Jar.PNG'])).then(()=>self.skipWaiting()));
@@ -16,5 +16,5 @@ self.addEventListener('fetch',event => {
     }).catch(()=>caches.match(HOME)));
     return;
   }
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
+  event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy)).catch(()=>{});}return response;}).catch(()=>caches.match(event.request)));
 });
