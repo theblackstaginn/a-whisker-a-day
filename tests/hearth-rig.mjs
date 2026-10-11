@@ -46,7 +46,7 @@ for(const [outfit,wearable,anchor] of [
  ['ribbon','yr-worn-ribbon','yr-painted-head'],
  ['star','yr-worn-star','yr-painted-head'],
  ['acorn','yr-worn-acorn','yr-painted-head'],
- ['satchel','yr-worn-satchel','yr-book-body'],
+ ['satchel','yr-worn-satchel','yr-painted-torso'],
  ['cape','yr-worn-cape','yr-painted-torso']
 ]){
  const markup=rig.render({outfit});
