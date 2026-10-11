@@ -1,0 +1,16 @@
+{
+  "name": "A Whisker a Day",
+  "short_name": "Whisker a Day",
+  "description": "A little magic, a little kindness, one whisker at a time. Tend your daily rituals with Yarrow, your black cat familiar.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6eedf",
+  "theme_color": "#365540",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src":"./app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"./app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"maskable"}
+  ]
+}
