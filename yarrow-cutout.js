@@ -1,4 +1,4 @@
-/* Yarrow Jointed Cutout Familiar • v1.8
+/* Yarrow Inked Storybook Familiar • v1.9
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -14,6 +14,25 @@
     if(outfit==='cape')return `<g class="yr-extra"><path d="M131 300Q85 347 79 437Q184 516 277 454Q275 337 238 297Z" fill="#475d46" stroke="#afbc91" stroke-width="5" opacity=".86"/><path d="M102 434Q185 477 258 449" stroke="#a7b791" stroke-width="3" fill="none"/></g>`;
     return '';
   }
+  // Deterministic illustration details: no per-frame noise, cutout or image switching.
+  function furInk(part) {
+    let seed=part==='head'?78249:30571;
+    const rnd=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+    const paths=['','','',''];
+    for(let i=0;i<(part==='head'?260:380);i++){
+      const x=part==='head'?87+rnd()*190:94+rnd()*178;
+      const y=part==='head'?129+rnd()*149:295+rnd()*178;
+      // No brush marks over the animated eyes, muzzle or expression.
+      if(part==='head'&&x>111&&x<250&&y>180&&y<252)continue;
+      const length=(part==='head'?3:5)+rnd()*(part==='head'?9:12);
+      const slant=(rnd()-.5)*(part==='head'?10:7);
+      const idx=Math.floor(rnd()*4);
+      paths[idx]+='M'+x.toFixed(1)+' '+y.toFixed(1)+'q'+(slant*.5).toFixed(1)+' '+(length*.35).toFixed(1)+' '+slant.toFixed(1)+' '+length.toFixed(1);
+    }
+    const shades=[['#c7a077','.32','1.1'],['#795339','.43','1.3'],['#140e0d','.49','1.15'],['#e3c6a0','.2','.9']];
+    return '<g class="yr-ink-detail" clip-path="url(#yr-'+part+'-coat-clip)" fill="none" stroke-linecap="round">'+
+      paths.map((d,i)=>'<path d="'+d+'" stroke="'+shades[i][0]+'" opacity="'+shades[i][1]+'" stroke-width="'+shades[i][2]+'"/>').join('')+'</g>';
+  }
   function svg(outfit='default'){
     return `<svg class="yr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
       <defs>
@@ -21,6 +40,7 @@
         <linearGradient id="yr-bib" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#504034"/><stop offset="1" stop-color="#2c2420"/></linearGradient>
         <radialGradient id="yr-eye"><stop stop-color="#ffe08a"/><stop offset=".58" stop-color="#f3b43a"/><stop offset="1" stop-color="#d88724"/></radialGradient>
         <linearGradient id="yr-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff0af"/><stop offset=".55" stop-color="#e6b755"/><stop offset="1" stop-color="#a26d2d"/></linearGradient>
+        <clipPath id="yr-head-coat-clip"><path d="M96 164Q103 143 127 132L134 126L141 127L149 113L157 121L168 110L176 121L189 109L198 120L208 112L216 127Q253 130 270 158L261 163Q281 174 280 193L287 200L279 207Q283 221 269 230L276 238Q266 262 239 271L228 267Q207 285 181 285Q157 287 136 276L125 279Q102 268 96 252L85 251L91 237Q78 224 84 208L77 202Q79 177 96 164Z"/></clipPath><clipPath id="yr-body-coat-clip"><path d="M142 283Q117 275 105 302L111 307Q94 313 91 332L83 342L92 350Q76 393 104 445Q128 479 181 478Q253 485 277 444Q297 405 282 367L288 351L276 344Q273 312 248 291Q238 282 223 282Z"/></clipPath>
       </defs>
       <ellipse class="yr-floor" cx="180" cy="474" rx="125" ry="19" fill="#231a16" opacity=".24"/>
       <g class="yr-tail" transform-origin="270px 385px">
@@ -33,13 +53,14 @@
         </g>
       </g>
       <g class="yr-body" transform-origin="185px 436px">
-        <path d="M142 283Q105 281 91 332Q70 393 104 445Q128 479 181 478Q253 485 277 444Q295 387 267 326Q248 282 223 282Z" fill="url(#yr-fur)" stroke="#171411" stroke-width="6"/>
+        <path d="M142 283Q117 275 105 302L111 307Q94 313 91 332L83 342L92 350Q76 393 104 445Q128 479 181 478Q253 485 277 444Q297 405 282 367L288 351L276 344Q273 312 248 291Q238 282 223 282Z" fill="url(#yr-fur)" stroke="#171411" stroke-width="6"/>
         <path d="M128 318Q111 340 115 394Q122 427 143 445" fill="none" stroke="#6b4c3c" stroke-width="7" opacity=".37" stroke-linecap="round"/>
         <path d="M235 312Q264 344 265 403Q263 432 248 444" fill="none" stroke="#82604c" stroke-width="5" opacity=".25" stroke-linecap="round"/>
         <path d="M152 305Q175 298 218 306Q244 352 224 427Q181 463 137 421Q125 349 152 305Z" fill="url(#yr-bib)" opacity=".9"/>
         <g fill="none" stroke="#8e7055" stroke-width="3" opacity=".24" stroke-linecap="round">
           <path d="M160 332l-6 21m26-21-6 26m29-25 6 22m-55 15-6 19m35-12-3 26m25-26 5 25m-48 15 8 17m32-17-3 18"/>
         </g>
+        <path d="M135 303q-16 19-19 41l12-7-6 23 13-11-5 26 14-17 4-36m95-15q16 17 18 42l-10-9 7 24-13-11 3 25-13-18-3-29" fill="none" stroke="#a27651" stroke-width="3.4" opacity=".33" stroke-linecap="round"/>${furInk("body")}
       </g>
       <g class="yr-hind-feet" fill="#29211c" stroke="#17130f" stroke-width="4">
         <path d="M110 420q-29 13-29 36 2 27 51 25l23-26Z"/>
@@ -73,7 +94,7 @@
       </g>
       <g class="yr-neck" aria-hidden="true">
         <path d="M128 259q50 28 113 0l13 46Q179 326 118 302Z" fill="#25201a" stroke="#171411" stroke-width="5"/>
-        <path d="M125 282q58 27 126-5l2 18q-66 30-130 7Z" fill="#82906b" stroke="#47543a" stroke-width="4"/>
+        <path d="M125 282q58 27 126-5l2 18q-66 30-130 7Z" fill="#849068" stroke="#47543a" stroke-width="4"/><path d="M128 287q57 22 116-3m-117 9q63 22 119-3" fill="none" stroke="#c4b883" stroke-width="2" opacity=".57"/>
         <path d="M240 282q15 20 28 38l-26-9-12 26-5-35" fill="#859368" stroke="#4f6044" stroke-width="3"/>
         <path d="M233 286q17-17 34-8 5 15-8 26-12-4-26-18Z" fill="#9aa781" stroke="#4f6044" stroke-width="3"/>
         <path d="M227 288q-23-12-32 0 16 15 31 8Z" fill="#899775" stroke="#4f6044" stroke-width="3"/>
@@ -88,23 +109,23 @@
         <g class="yr-ear-left" transform-origin="113px 151px">
           <path d="M111 156Q90 107 92 56Q121 68 153 122Z" fill="#30221e" stroke="#1a1412" stroke-width="6" stroke-linejoin="round"/>
           <path d="M113 143Q101 100 103 77Q119 86 139 125Z" fill="#99614e" stroke="#5b3e31" stroke-width="3"/>
-          <path d="M116 127q-2-24-8-35" stroke="#dba182" stroke-width="3" opacity=".6" fill="none"/>
+          <path d="M116 127q-2-24-8-35m10 31-5-19m13 24-5-15m-13 13-3-10" stroke="#dba182" stroke-width="2.5" opacity=".64" fill="none" stroke-linecap="round"/>
         </g>
         <g class="yr-ear-right" transform-origin="241px 153px">
           <path d="M211 119Q248 70 267 55Q270 109 253 164Z" fill="#31231f" stroke="#1a1412" stroke-width="6" stroke-linejoin="round"/>
           <path d="M226 124Q250 85 259 78Q261 107 246 148Z" fill="#98614c" stroke="#5b3e32" stroke-width="3"/>
-          <path d="M248 96q-9 21-15 27" stroke="#daa081" stroke-width="3" opacity=".55" fill="none"/>
+          <path d="M248 96q-9 21-15 27m18-35-14 30m9-11-8 14m12-24-5 20" stroke="#daa081" stroke-width="2.5" opacity=".62" fill="none" stroke-linecap="round"/>
         </g>
-        <path d="M97 162Q108 129 139 120L150 112L158 122 170 110 177 122 189 109 198 120 208 111 216 128Q262 132 277 176Q288 218 255 259Q224 285 181 285Q130 285 105 256Q70 221 86 180Z" fill="url(#yr-fur)" stroke="#171310" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M96 164Q103 143 127 132L134 126L141 127L149 113L157 121L168 110L176 121L189 109L198 120L208 112L216 127Q253 130 270 158L261 163Q281 174 280 193L287 200L279 207Q283 221 269 230L276 238Q266 262 239 271L228 267Q207 285 181 285Q157 287 136 276L125 279Q102 268 96 252L85 251L91 237Q78 224 84 208L77 202Q79 177 96 164Z" fill="url(#yr-fur)" stroke="#1d1511" stroke-width="4.5" stroke-linejoin="round"/><path d="M102 185q-16 11-18 27l12-3-10 19 16-7m162-39q17 12 17 29l-12-5 9 20-15-10M125 142q13-23 24-15l6-15 12 10 12-13 12 14 15-12 15 22" fill="none" stroke="#8e6445" stroke-width="3" opacity=".55" stroke-linecap="round"/>${furInk("head")}
         <path d="M95 208q-13 22 10 42m161-42q12 22-9 42" stroke="#6f5142" stroke-width="7" fill="none" opacity=".36" stroke-linecap="round"/>
         <g fill="#473329" opacity=".68">
           <path d="M117 172q14-15 31-9 9 2 13 10-18-8-44-1Z"/>
           <path d="M200 170q22-12 42 0l-5 8q-16-11-37-8Z"/>
         </g>
         <g class="yr-eye-set" transform-origin="182px 202px">
-          <ellipse cx="143" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
+          <ellipse cx="143" cy="200" rx="23" ry="27" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4.5"/>
           <ellipse cx="220" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
-          <ellipse cx="148" cy="201" rx="7.2" ry="22" fill="#201812"/><ellipse cx="216" cy="201" rx="7.2" ry="22" fill="#201812"/>
+          <ellipse cx="148" cy="201" rx="7.2" ry="17" fill="#201812"/><ellipse cx="216" cy="201" rx="7.2" ry="17" fill="#201812"/>
           <ellipse cx="136" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/><ellipse cx="212" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/>
           <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/><circle cx="222" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/>
         </g>
@@ -144,5 +165,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'1.8.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'1.9.0'});
 })();

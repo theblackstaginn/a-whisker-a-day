@@ -1,8 +1,14 @@
-# A Whisker a Day — Yarrow Jointed Familiar v1.8
+# A Whisker a Day — Yarrow Inked Storybook Familiar v1.9
 
 A real, installable self-care storybook app with daily rituals, a gentle Moon Mirror, a private journal, a herb garden and a little black cat familiar. 
 
-## New in v1.8
+## New in v1.9
+
+* Refinement toward the existing *In the Old Herb Garden* pen-and-watercolor style: tufted silhouette, fine etched fur, painted ear detail and textured sage ribbon.
+* Keeps the v1.8 independent limb and tail animations. No whole-body picture switching.
+* This is still a custom SVG cutout, not the original painted image remastered into separate layers. Full hand-painted animation will require a clean layered illustration.
+
+## Earlier v1.8 improvements
 
 * Each front paw now has an independent shoulder, forearm and wrist/paw group for natural alternating kneading and jointed paw offers.
 * The tail has a separately animated, delayed curling tip.

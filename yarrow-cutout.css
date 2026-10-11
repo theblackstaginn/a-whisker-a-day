@@ -1,4 +1,4 @@
-/* Yarrow's hand-illustrated paper-cut animation, v1.8 */
+/* Yarrow's hand-illustrated paper-cut animation, v1.9 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -45,7 +45,7 @@
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
 
-/* v1.8: independently articulated front paws, forearms, and tail tip. */
+/* v1.9: independently articulated front paws, forearms, and tail tip. */
 .cutout-yarrow .yr-svg g{transform-box:view-box}
 .cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:none;animation:yr-stance-l 6.4s ease-in-out infinite}
 .cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:none;animation:yr-stance-r 6.9s ease-in-out infinite}
@@ -89,3 +89,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 .cutout-yarrow[data-pose="swish"] .yr-tail-tip,.cutout-yarrow[data-pose="happy"] .yr-tail-tip{animation:yr-curl-big 1.3s ease-in-out 1}
 .cutout-yarrow[data-pose="purr"] .yr-left-paw,.cutout-yarrow[data-pose="purr"] .yr-right-paw{animation:yr-paw-l 1.3s ease-in-out 2}
 .cutout-yarrow.is-nighttime .yr-tail-tip{animation-duration:6.4s}
+
+/* Hand-inked herb garden character finish. Each part remains independently animated. */
+.cutout-yarrow .yr-ink-detail{pointer-events:none}
+.cutout-yarrow .yr-svg{image-rendering:auto}
