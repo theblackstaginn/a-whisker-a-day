@@ -20,9 +20,9 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.2.0'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.2.0'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.2"),'Bump offline cache with each release');
+assert.ok(index.includes("window.__whiskerVersion = '2.3.0'"),'Keep release metadata current');
+assert.ok(js.includes("version:'2.3.0'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.3"),'Bump offline cache with each release');
 assert.ok(!index.includes('YARROW_FLUID_ART'),'Do not ship obsolete monolithic photo/mesh prototype');
 assert.ok(!index.includes('createYarrowCanvasMesh('),'Do not ship obsolete triangular mesh renderer');
 assert.ok(index.includes("if(firstAward)setYarrowPose('happy',1350)"),'Rituals should animate Yarrow');
@@ -40,15 +40,16 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.2.0');
+assert.equal(ctx.window.YarrowCutout.version,'2.3.0');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
- assert.ok(markup.includes('yr-book-silhouette')&&markup.includes('yr-book-body')&&markup.includes('yr-book-head'),'Original painted familiar layers missing for '+outfit);
+ assert.ok(markup.includes('yr-book-vignette')&&markup.includes('yr-book-body')&&markup.includes('yr-book-head'),'Original painting vignette missing for '+outfit);
  assert.ok(markup.includes('yr-book-lids')&&markup.includes('yr-book-magic'),'Original painted familiar expression layers missing for '+outfit);
  const opens=(markup.match(/<g(?:\s|>)/g)||[]).length;
  const closes=(markup.match(/<\/g>/g)||[]).length;
  assert.equal(opens,closes,'Unbalanced SVG groups for '+outfit);
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
-console.log('A Whisker a Day v2.2: original painterly art, expressions, embedded source, privacy, offline and animation checks passed.');
+assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
+console.log('A Whisker a Day v2.3: original painterly art, expressions, embedded source, privacy, offline and animation checks passed.');

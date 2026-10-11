@@ -1,4 +1,4 @@
-/* Yarrow Original-Art Familiar • v2.2
+/* Yarrow Unified Painting Familiar • v2.3
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -165,35 +165,31 @@
      illustration, not another vector interpretation. Separate photo layers
      share one immutable 440x700 source and overlapped neck masks. */
   const STORYBOOK_ART='./assets/yarrow-storybook.webp';
-  const STORYBOOK_OUTLINE='M110 28L105 29L103 36L101 40L99 46L92 58L87 70L89 74L84 96L84 108L81 111L80 117L74 120L74 147L70 149L70 164L72 166L72 170L68 172L68 176L73 182L73 185L65 190L62 190L66 195L66 198L62 202L59 202L50 213L50 216L48 218L49 228L44 234L44 241L40 245L40 247L45 243L49 243L51 245L51 251L46 256L47 263L44 268L53 265L62 273L62 276L55 281L64 280L66 282L66 287L70 291L74 291L76 293L75 299L77 303L88 301L99 309L100 321L120 341L122 350L120 352L115 352L104 341L102 341L89 354L76 362L62 376L58 376L52 373L47 373L45 376L25 376L25 380L23 382L19 382L19 384L14 387L16 407L25 455L43 504L66 529L100 546L112 548L142 549L163 553L167 557L167 562L161 566L167 569L167 573L173 566L179 563L190 563L195 566L202 578L202 593L194 608L194 626L201 627L204 632L209 632L213 636L219 637L224 634L228 634L233 638L244 637L246 639L255 640L257 644L264 646L269 643L279 644L283 649L301 650L305 654L307 665L313 671L316 671L319 674L318 681L323 683L332 683L335 689L361 689L363 692L372 692L381 688L390 688L392 692L396 692L401 689L425 665L433 665L437 660L439 660L439 571L437 571L432 566L428 566L417 561L408 561L405 558L380 554L378 552L371 553L362 558L337 556L328 547L320 546L317 543L308 541L305 538L301 528L302 520L299 513L300 499L305 494L306 488L311 484L309 467L312 462L312 458L322 446L322 441L326 436L326 431L322 423L322 407L324 401L331 392L332 385L334 383L334 371L311 347L296 340L290 339L288 337L288 328L290 326L298 326L304 306L329 287L325 276L327 274L331 274L335 278L338 278L341 275L330 257L330 253L333 250L327 244L329 237L326 233L326 230L331 227L335 202L335 187L331 183L331 179L336 169L336 163L342 150L347 124L347 114L349 112L350 65L347 60L341 59L339 57L333 57L313 68L293 86L287 88L269 106L266 106L259 115L254 115L245 123L238 120L233 126L230 126L226 122L221 122L219 120L213 122L208 117L206 117L204 119L198 119L189 124L183 124L168 111L156 110L142 80L129 61Z';
+  /* v2.3: One continuous original painting. No disconnected head/body
+     masks or traced silhouette. The soft image vignette is purely visual. */
+  const STORYBOOK_BLEND_MASK='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAACMCAAAAADdUTHRAAAB3klEQVR42u3a22obMRAG4NFKWrsmaZzi9v3fr6Ykzq4Oc+yF5UBvVXI3P4iFBX0MP7u6EsAXJUAIMaac17zmnFOMywxjKkJMSIRMLGKWIKTj6en5+/nl/PLy/HQ65BlZsJXtdnt/e3+/feylsyWAmI9Pr5fLr5+Xy4/z8+kwA3Pbb29/rtff10M0IQJYvqpjhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGH/0kaTwMzsHsmmLHR4HN7ur9UFWEiQkwQJ1xGJGIWUR10AgAzFSbE3mqORlNXWHsptbaOJKJmD1iFCVvd1xQU1wnYpNdt20vriHyXE4DZcHMMgjVPwVj37bbtpSGJ6OhYlanVNS0mvR7S1DVhamX/uG2lduIxsZkJYy8xGGM9rjOwKWEt+7bttSOJmkECABXqcQkmWL8dcgwTEytTa6WUvTRk0dGxCsUlmFA7rmuag4UQW6u1NmSxR8fCCCbU13VNcZmBTYQIO/Z+r+LxVQQwZWw5pRjDFKwizERERI8qDBTAlCmmGJcY5mBTFRFhEb7/fAEghLCEZSQEmIJBzXTEBgwBwghMjft5ij3OMTAY44WxIPzHQWljgcFX5i9BboHlWCToGQAAAABJRU5ErkJggg==';
   const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+      viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
     <defs>
-      <clipPath id="yr-book-silhouette"><path d="${STORYBOOK_OUTLINE}"/></clipPath>
-      <clipPath id="yr-book-head-zone"><path d="M0 0H440V315Q366 339 294 338Q218 346 160 342Q60 333 0 315Z"/></clipPath>
-      <clipPath id="yr-book-body-zone"><path d="M0 311Q90 334 182 334Q273 334 350 315H440V700H0Z"/></clipPath>
+      <mask id="yr-book-vignette" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" style="mask-type:luminance">
+        <image href="${STORYBOOK_BLEND_MASK}" x="0" y="0" width="440" height="700" preserveAspectRatio="none"/>
+      </mask>
     </defs>
-    <ellipse class="yr-book-ground" cx="228" cy="679" rx="171" ry="15" fill="#221a14" opacity=".18"/>
     <g class="yr-book-body">
-      <g clip-path="url(#yr-book-silhouette)">
-        <image href="${STORYBOOK_ART}" x="0" y="0" width="440" height="700" clip-path="url(#yr-book-body-zone)"/>
+      <image href="${STORYBOOK_ART}" width="440" height="700" mask="url(#yr-book-vignette)" preserveAspectRatio="none"/>
+      <g class="yr-book-head">
+        <g class="yr-book-lids" opacity="0" aria-hidden="true">
+          <path d="M111 212Q115 187 136 184Q155 182 165 203Q171 231 149 243Q125 249 112 224Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
+          <path d="M216 229Q216 211 235 207Q259 200 269 223Q278 245 262 263Q242 274 221 254Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
+          <path d="M119 223Q140 231 160 219M222 241Q245 250 266 236" fill="none" stroke="#775443" stroke-width="2.4" opacity=".7" stroke-linecap="round"/>
+        </g>
       </g>
-    </g>
-    <g class="yr-book-head">
-      <g clip-path="url(#yr-book-silhouette)">
-        <image href="${STORYBOOK_ART}" x="0" y="0" width="440" height="700" clip-path="url(#yr-book-head-zone)"/>
-      </g>
-      <g class="yr-book-lids" opacity="0" aria-hidden="true">
-        <path d="M111 212Q115 187 136 184Q155 182 165 203Q171 231 149 243Q125 249 112 224Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
-        <path d="M216 229Q216 211 235 207Q259 200 269 223Q278 245 262 263Q242 274 221 254Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
-        <path d="M119 223Q140 231 160 219M222 241Q245 250 266 236" fill="none" stroke="#775443" stroke-width="2.4" opacity=".7" stroke-linecap="round"/>
-      </g>
-    </g>
     ${outfit==='flowers'?'<g class="yr-book-flowers" aria-hidden="true"><path d="M149 116Q214 98 283 123" stroke="#728155" stroke-width="5" fill="none"/><g fill="#f6df9e"><circle cx="169" cy="107" r="7"/><circle cx="205" cy="103" r="6"/><circle cx="249" cy="111" r="7"/></g><g fill="#ad8041"><circle cx="169" cy="107" r="2"/><circle cx="205" cy="103" r="2"/><circle cx="249" cy="111" r="2"/></g></g>':''}
     ${outfit==='hat'?'<g class="yr-book-hat" aria-hidden="true"><path d="M120 139Q183 27 247 11Q241 95 317 141Q216 155 120 139Z" fill="#445844" stroke="#283b2e" stroke-width="6"/><path d="M128 127Q218 145 298 124L309 148Q215 165 114 145Z" fill="#344c3b" stroke="#d1b47e" stroke-width="5"/></g>':''}
     ${outfit==='scarf'?'<path aria-hidden="true" d="M282 339Q305 376 300 447L277 447Q278 393 260 361Z" fill="#9e654b" stroke="#dbb28d" stroke-width="4" opacity=".9"/>':''}
     ${outfit==='satchel'?'<g aria-hidden="true"><path d="M125 368Q221 394 298 575" fill="none" stroke="#bca16e" stroke-width="6" opacity=".8"/><path d="M289 554q23-11 47 3l-5 61-53-4Z" fill="#746440" stroke="#c1a56e" stroke-width="4"/></g>':''}
     ${outfit==='cape'?'<g aria-hidden="true" opacity=".75"><path d="M72 372Q38 491 50 571Q76 607 117 620Q87 527 126 371Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/><path d="M308 364Q336 436 343 542L307 569Q320 483 279 376Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/></g>':''}
+    </g>
     <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3" fill="none" stroke-linecap="round">
       <path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/>
     </g>
@@ -218,5 +214,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.2.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.3.0'});
 })();

@@ -1,4 +1,4 @@
-# A Whisker a Day — v2.2
+# A Whisker a Day — v2.3
 
 **A little everyday magic.** A private, installable self-care storybook featuring Yarrow, a velvety black cat familiar with amber eyes, a sage ribbon and brass crescent charm.
 
@@ -11,6 +11,13 @@
 - **Cottage & herb garden:** garden growth through rituals, collectible plants and decorations.
 - **Yarrow:** friendship, outfits, short story chapters, independently animated ears, head, front arms, paws, tail-tip, eyes, collar charm and purrs.
 - **Preferences and portability:** optional sound/motion, time-of-day light settings, export and restore backups.
+
+## v2.3 — Whole, unbroken Yarrow
+
+- Removed the failed hard-edged tracing that cut the original painted illustration into jagged head and torso pieces on iPhone.
+- Her Hearth and Familiar appearances now display **one complete original painting** with a gently feathered storybook vignette; no shoulder or paw pixels are carved away.
+- Interactive petting, blink, tiny body motions, friendship and five action controls still function. Whole-image gestures are intentionally subtle: independent leg animation needs purpose-drawn matching painted parts.
+- No other feature, user's local progress, or image asset is replaced. Offline cache is refreshed.
 
 ## v2.2 — Original illustrated Yarrow
 
