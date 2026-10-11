@@ -767,6 +767,24 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .whisker-ptr.visible{transform:translate(-50%,0);opacity:1}
 .whisker-ptr.ready{background:#55754b}
 @media(prefers-reduced-motion:reduce){.whisker-ptr{transition:none}}
+/* Ritual cupboard: a clear, inviting optional discovery moment. */
+.ritual-library-feature{position:relative;isolation:isolate;overflow:hidden;padding:26px 27px!important;border:1px solid #b5a27b;background:radial-gradient(circle at 94% 7%,#e9d9a5a8,transparent 34%),linear-gradient(125deg,#fbf2de 0%,#f3e9d2 49%,#e0e9d7 100%);box-shadow:0 9px 27px #4b4d3020,inset 0 0 0 5px #fff9e54a}
+.ritual-library-feature:before{content:'';position:absolute;inset:8px;border:1px solid #b89c7045;border-radius:inherit;pointer-events:none}
+.ritual-library-glow{position:absolute;right:28px;top:13px;font:52px Georgia,serif;letter-spacing:11px;color:#a78950;opacity:.21;pointer-events:none;transform:rotate(-10deg)}
+.ritual-library-glow span{font-size:25px}
+.ritual-library-header{display:flex;gap:22px;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.ritual-library-copy{min-width:0;max-width:650px}
+.ritual-library-copy .eyebrow{color:#9b734f;letter-spacing:2px}
+.ritual-library-copy .card-heading{font:500 clamp(25px,3vw,36px)/1.16 Fraunces,Georgia,serif;color:#334e3c;margin:9px 0 13px}
+.ritual-library-copy .card-heading em{font-weight:400;color:#a07450}
+.ritual-library-copy .card-subtext{font-size:14px;line-height:1.65;color:#667466;margin:0}
+.ritual-library-promise{margin-top:14px;font:600 11px system-ui,sans-serif;letter-spacing:.3px;color:#708565}
+.ritual-library-promise span{margin:0 7px;color:#b8a078}
+.ritual-library-open{flex-shrink:0;min-height:52px;padding:13px 18px!important;box-shadow:0 5px 15px #47613d30;white-space:nowrap}
+.ritual-library-open:focus-visible{outline:3px solid #36583e;outline-offset:3px}
+.ritual-library-feature>.shop-grid{position:relative;z-index:1;margin-top:22px;padding-top:18px;border-top:1px solid #c9b99899}
+@media(max-width:700px){.ritual-library-feature{padding:24px 19px!important}.ritual-library-header{flex-direction:column;align-items:stretch;gap:18px}.ritual-library-open{width:100%;justify-content:center;white-space:normal}.ritual-library-glow{font-size:38px;right:10px;top:12px}.ritual-library-copy .card-heading{font-size:29px}}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1500,7 +1518,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         <div><span class="ritual-name">${esc(r.title)}</span><span class="ritual-hint">${esc(r.hint||r.area)} · ${esc(r.area)}</span></div>
         <div class="ritual-meta"><span class="ritual-reward">${isDone(r.id)?'✓ Tended':'+4 ✿'}</span><button type="button" class="del-icon" data-action="delete-ritual" data-id="${esc(r.id)}" aria-label="Remove ${esc(r.title)}" title="Remove ritual">${icon('trash')}</button></div>
       </div>`).join(''):'<div class="card empty-state">No rituals in this little corner yet. Try another category, or add your own.</div>'}</div>
-      <section class="card card-pad" style="margin-top:20px"><div class="row-space"><div><span class="eyebrow">A hedge-witch's little cupboard</span><h2 class="card-heading">Optional ritual library</h2></div><button type="button" class="btn btn-secondary btn-small" data-action="toggle-library" aria-expanded="${ritualLibraryOpen}">${ritualLibraryOpen?'Close':'Browse'} 24 practices</button></div><p class="card-subtext">Pick what helps you. These are suggestions, not more chores. Your existing ritual list will not change unless you choose to add something.</p>${ritualLibraryOpen?`<div class="shop-grid">${RITUAL_LIBRARY.map(r=>`<article class="shop-item"><span class="eyebrow">${esc(r.area)}</span><strong>${esc(r.title)}</strong><small style="line-height:1.5">${esc(r.hint)}</small><button type="button" class="btn btn-primary btn-small" data-action="add-library-ritual" data-id="${esc(r.id)}" ${state.rituals.some(x=>x.id===r.id)?'disabled':''}>${state.rituals.some(x=>x.id===r.id)?'Already in your rituals':'+ Add to my rituals'}</button></article>`).join('')}</div>` : ''}</section>
+      <section class="card card-pad ritual-library-feature" style="margin-top:20px"><div class="ritual-library-glow" aria-hidden="true">☾ <span>✦</span> ❧</div><div class="ritual-library-header"><div class="ritual-library-copy"><span class="eyebrow">✧ A hedge-witch's little cupboard</span><h2 class="card-heading">The little <em>ritual cupboard</em></h2><p class="card-subtext">Twenty-four gentle ways to tend your day. Pick what feels good—nothing here is another chore, and your rituals stay yours until you choose to add one.</p><div class="ritual-library-promise">✿ Optional discoveries <span aria-hidden="true">·</span> ♡ Your own pace</div></div><button type="button" class="btn btn-primary ritual-library-open" data-action="toggle-library" aria-expanded="${ritualLibraryOpen}"><span aria-hidden="true">${ritualLibraryOpen?'☾':'✧'}</span> ${ritualLibraryOpen?'Close cupboard':'Explore 24 practices'} <span aria-hidden="true">→</span></button></div>${ritualLibraryOpen?`<div class="shop-grid">${RITUAL_LIBRARY.map(r=>`<article class="shop-item"><span class="eyebrow">${esc(r.area)}</span><strong>${esc(r.title)}</strong><small style="line-height:1.5">${esc(r.hint)}</small><button type="button" class="btn btn-primary btn-small" data-action="add-library-ritual" data-id="${esc(r.id)}" ${state.rituals.some(x=>x.id===r.id)?'disabled':''}>${state.rituals.some(x=>x.id===r.id)?'Already in your rituals':'+ Add to my rituals'}</button></article>`).join('')}</div>` : ''}</section>
       <div class="ritual-footer"><p class="tiny-muted">✧ New day, fresh page. Unfinished rituals never count against you.</p><button type="button" class="btn btn-secondary" data-action="add-ritual">${icon('plus')} Make your own ritual</button></div>
     </div>`;
   }
