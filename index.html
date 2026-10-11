@@ -1075,6 +1075,8 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   let grimoireTopic = 'All';
   let cottageTab = 'room';
   let journalDraft = '';
+  let gratitudeDraft = '';
+  let seasonalDraft = null;
   let journalEditingId = null;
   let promptIndex = 0;
   let moodDraft = { mood: 'cloudy', note: '' };
@@ -1121,7 +1123,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       logs:{}, awards:{}, petals:16, friendship:0, totalMagic:0, checkins:[], journal:[],
       outfitsOwned:['crescent'], outfit:'crescent', decorOwned:['fern'], decorVisible:['fern'],
       garden:[{ plant:'lavender', growth:1 },null,null,null,null,null], herbarium:{},
-      petToday:{}, sound:true, animation:true, timePreference:'auto'
+      petToday:{}, gratitudeJar:[], seasonalReflection:'', sound:true, animation:true, timePreference:'auto'
     };
   }
   function normalize(raw) {
@@ -1145,6 +1147,8 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     merged.garden = Array.isArray(raw.garden)?Array.from({length:6},(_,i)=>{const p=raw.garden[i];return p&&PLANTS.some(plant=>plant.id===p.plant)?{plant:p.plant,growth:Math.max(0,Math.min(4,Math.floor(Number(p.growth)||0)))}:null;}):base.garden;
     merged.herbarium = raw.herbarium && typeof raw.herbarium==='object' && !Array.isArray(raw.herbarium) ? Object.fromEntries(PLANTS.map(p=>[p.id,Math.max(0,Math.min(10000,Math.floor(Number(raw.herbarium[p.id])||0)))])) : {};
     merged.petToday = raw.petToday && typeof raw.petToday==='object' && !Array.isArray(raw.petToday)?raw.petToday:{};
+    merged.gratitudeJar = Array.isArray(raw.gratitudeJar) ? raw.gratitudeJar.slice(-100).filter(x=>x&&typeof x.text==='string').map(x=>({id:String(x.id||'').slice(0,60),date:String(x.date||'').slice(0,30),text:x.text.slice(0,280)})) : [];
+    merged.seasonalReflection = typeof raw.seasonalReflection==='string' ? raw.seasonalReflection.slice(0,500) : '';
     merged.sound = typeof raw.sound==='boolean'?raw.sound:true;
     merged.animation = typeof raw.animation==='boolean'?raw.animation:true;
     merged.timePreference = ['auto','dawn','day','dusk','night'].includes(raw.timePreference)?raw.timePreference:'auto';
@@ -1398,7 +1402,15 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     return `<div class="cottage-layout"><div>
       <section class="card cottage-visual">${hearthScene('room-scene')}<span class="visual-badge">♡ Your own little sanctuary</span>${decorOverlay()}</section>
       <p class="tiny-muted" style="margin-top:12px">Decorate as slowly as you please. There is no hurry to finish a home.</p>
-      </div><section class="card card-pad"><span class="eyebrow">A quiet corner of your own</span><h2 class="card-heading">A tiny cottage blessing</h2><p class="card-subtext">Choose one familiar object—a pebble, cup, leaf fallen naturally, or cherished photograph. Place it where you'll see it, notice three details, and name one thing you are grateful for. No candle, purchase or special belief is needed.</p><p class="tiny-muted">Modern reflective practice · candle-free · take only what nature can spare.</p></section><section class="card card-pad"><div class="row-space"><h2 class="card-heading">Cottage comforts</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Spend petals from your rituals to gather lovely little things.</p><div class="shop-grid">
+      </div><div style="display:grid;gap:18px">
+      <section class="card card-pad"><span class="eyebrow">The gratitude jar</span><h2 class="card-heading">Little things worth keeping</h2><p class="card-subtext">A pocket of goodness, with no streaks or daily obligation. Your notes stay on this device and are included in your app backup.</p>
+        <form data-form="gratitude"><label for="gratitude-note">One thing you noticed or appreciated</label><textarea id="gratitude-note" name="gratitude" maxlength="280" rows="2" required placeholder="A warm cup, the sound of rain, a kind word…">${esc(gratitudeDraft)}</textarea><div class="form-actions"><button class="btn btn-primary btn-small" type="submit">${icon('plus')} Place in jar</button></div></form>
+        <p class="tiny-muted">${state.gratitudeJar.length} note${state.gratitudeJar.length===1?'':'s'} tucked away · Most recent 100 kept</p>
+        ${[...state.gratitudeJar].reverse().slice(0,5).map(note=>`<div class="entry-card" style="border-top:1px solid #b8b49b;padding:10px 0"><p>${esc(note.text)}</p><button type="button" class="btn btn-plain btn-small" data-action="remove-gratitude" data-id="${esc(note.id)}" aria-label="Remove gratitude note">Remove</button></div>`).join('')}
+      </section>
+      <section class="card card-pad"><span class="eyebrow">The seasonal reflection shelf</span><h2 class="card-heading">What is changing around you?</h2><p class="card-subtext">Notice a sign of the season, then set an intention that feels kind and achievable. You can return to this note whenever you wish.</p>
+        <form data-form="seasonal-reflection"><label for="seasonal-note">Your seasonal thought</label><textarea id="seasonal-note" name="seasonal" maxlength="500" rows="3" placeholder="This season, I am noticing…">${esc(seasonalDraft===null?state.seasonalReflection:seasonalDraft)}</textarea><div class="form-actions"><button class="btn btn-secondary btn-small" type="submit">${icon('pen')} Save reflection</button></div></form><p class="tiny-muted">Modern symbolic reflection · no required beliefs or ritual objects</p>
+      </section></div><section class="card card-pad"><span class="eyebrow">A quiet corner of your own</span><h2 class="card-heading">A tiny cottage blessing</h2><p class="card-subtext">Choose one familiar object—a pebble, cup, leaf fallen naturally, or cherished photograph. Place it where you'll see it, notice three details, and name one thing you are grateful for. No candle, purchase or special belief is needed.</p><p class="tiny-muted">Modern reflective practice · candle-free · take only what nature can spare.</p></section><section class="card card-pad"><div class="row-space"><h2 class="card-heading">Cottage comforts</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Spend petals from your rituals to gather lovely little things.</p><div class="shop-grid">
       ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id);return `<div class="shop-item"><span class="shop-emoji" aria-hidden="true">${d.emoji}</span><strong>${d.name}</strong><small>${d.hint}</small><button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':'Place in room'):d.price===0?'Free':`${d.price} petals`}</button></div>`}).join('')}
       </div></section></div>`;
   }
@@ -1656,6 +1668,11 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         case 'yarrow-gift':yarrowWisdom();break;
         case 'outfit':outfit(id);break;
         case 'decor':decor(id);break;
+        case 'remove-gratitude':{
+          if(!window.confirm('Remove this note from your gratitude jar?'))break;
+          state.gratitudeJar=state.gratitudeJar.filter(note=>note.id!==id);
+          save();render();toast('The note has been removed.');break;
+        }
         case 'garden-plot':gardenPlot(i);break;
         case 'plant':plant(i,id);break;
         case 'harvest':harvest(i);break;
@@ -1682,6 +1699,17 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     document.addEventListener('submit',(event)=>{
       const f=event.target.closest('form[data-form]');if(!f)return;event.preventDefault();
       const type=f.dataset.form;
+      if(type==='gratitude'){
+        const note=f.querySelector('[name="gratitude"]')?.value.trim().slice(0,280);
+        if(!note)return;
+        state.gratitudeJar.push({id:uid(),date:new Date().toISOString(),text:note});
+        state.gratitudeJar=state.gratitudeJar.slice(-100);
+        gratitudeDraft='';save();render();toast('A little moment tucked into your jar.');return;
+      }
+      if(type==='seasonal-reflection'){
+        state.seasonalReflection=f.querySelector('[name="seasonal"]')?.value.trim().slice(0,500)||'';
+        seasonalDraft=null;save();render();toast('Your seasonal reflection is saved.');return;
+      }
       if(type==='add-ritual'){
         const title=f.querySelector('[name="title"]').value.trim().slice(0,90);
         const area=f.querySelector('[name="area"]').value;
@@ -1697,7 +1725,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       }
       if(type==='mood'){saveMood(f.querySelector('[name="note"]')?.value);}
     });
-    document.addEventListener('input',(event)=>{if(event.target.id==='journal-text')journalDraft=event.target.value;if(event.target.id==='mood-note')moodDraft.note=event.target.value;});
+    document.addEventListener('input',(event)=>{if(event.target.id==='journal-text')journalDraft=event.target.value;if(event.target.id==='gratitude-note')gratitudeDraft=event.target.value;if(event.target.id==='seasonal-note')seasonalDraft=event.target.value;if(event.target.id==='mood-note')moodDraft.note=event.target.value;});
     document.addEventListener('change',(event)=>{if(event.target.id==='import-file'){const file=event.target.files?.[0];importBackup(file);event.target.value='';}});
     document.addEventListener('keydown',(event)=>{
       if(event.key==='Escape'&&modalRoot.innerHTML){closeModal();return;}
