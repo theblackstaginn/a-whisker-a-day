@@ -476,7 +476,57 @@ body.motion-off .hearth-world *,body.motion-off .yarrow-puppet *,body.motion-off
 body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow .yarrow-still{transition:none!important}
 
 </style>
-  <title>A Whisker a Day · Living Familiar v1.5</title>
+<style>
+/* Editable in yarrow-cutout.css inside the full source archive */
+/* Yarrow's hand-illustrated paper-cut animation, v1.7 */
+.yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
+.cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
+.cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
+.cutout-yarrow .yr-head{transform-origin:181px 267px;animation:yr-look 7.3s ease-in-out infinite}
+.cutout-yarrow .yr-tail{transform-origin:270px 385px;animation:yr-sway 4.6s ease-in-out infinite}
+.cutout-yarrow .yr-ear-left{transform-origin:113px 151px;animation:yr-ear-l 11s ease-in-out infinite}
+.cutout-yarrow .yr-ear-right{transform-origin:241px 153px;animation:yr-ear-r 13s ease-in-out infinite}
+.cutout-yarrow .yr-eye-set{transform-origin:182px 202px;animation:yr-auto-blink 7.4s ease-in-out infinite}
+.cutout-yarrow .yr-charm{transform-origin:178px 303px;animation:yr-charm 4.8s ease-in-out infinite}
+.cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
+.cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
+.cutout-yarrow .yr-svg g{transform-box:view-box;will-change:auto}
+@keyframes yr-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.015,1.01)}}
+@keyframes yr-look{0%,37%,100%{transform:rotate(0deg)}43%,55%{transform:rotate(2deg)}69%{transform:rotate(-1.8deg)}}
+@keyframes yr-sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(8deg)}}
+@keyframes yr-ear-l{0%,32%,40%,100%{transform:rotate(0)}35%{transform:rotate(-8deg)}37%{transform:rotate(4deg)}}
+@keyframes yr-ear-r{0%,67%,75%,100%{transform:rotate(0)}70%{transform:rotate(9deg)}72%{transform:rotate(-4deg)}}
+@keyframes yr-auto-blink{0%,44%,46%,100%{transform:scaleY(1)}45%{transform:scaleY(.07)}}
+@keyframes yr-blink-now{0%,30%,72%,100%{transform:scaleY(1)}47%,55%{transform:scaleY(.055)}}
+@keyframes yr-charm{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+@keyframes yr-happy{0%,100%{transform:translateY(0)}45%{transform:translateY(-9px)}}
+@keyframes yr-purr{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(3px) rotate(-4deg)}}
+@keyframes yr-tilt{0%,100%{transform:rotate(0)}35%,70%{transform:rotate(-11deg)}}
+@keyframes yr-offer-left{0%,100%{transform:rotate(0)}30%,78%{transform:translate(-3px,-68px) rotate(-18deg) scaleY(.80)}}
+@keyframes yr-offer-right{0%,100%{transform:rotate(0)}30%,78%{transform:translate(3px,-68px) rotate(18deg) scaleY(.80)}}
+@keyframes yr-knead-left{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px)}70%{transform:translateY(-3px)}}
+@keyframes yr-knead-right{0%,100%{transform:translateY(-14px)}40%{transform:translateY(0)}70%{transform:translateY(-11px)}}
+@keyframes yr-big-swish{0%,100%{transform:rotate(-5deg)}40%{transform:rotate(18deg)}70%{transform:rotate(-13deg)}}
+@keyframes yr-sparkles{0%,100%{opacity:0;transform:scale(.7)}45%{opacity:1;transform:scale(1.15)}}
+.cutout-yarrow[data-pose="blink"] .yr-eye-set{animation:yr-blink-now .85s ease-in-out 1}
+.cutout-yarrow[data-pose="tilt"] .yr-head{animation:yr-tilt 1.4s ease-in-out 1}
+.cutout-yarrow[data-pose="purr"] .yr-head{animation:yr-purr .7s ease-in-out 3}
+.cutout-yarrow[data-pose="purr"] .yr-eye-set{animation:yr-blink-now 1.2s ease-in-out 2}
+.cutout-yarrow[data-pose="purr"] .yr-body{animation:yr-breathe 1.9s ease-in-out infinite}
+.cutout-yarrow[data-pose="swish"] .yr-tail{animation:yr-big-swish 1.3s ease-in-out 1}
+.cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-left .7s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-leg{animation:yr-knead-right .7s ease-in-out 4}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-leg{animation:yr-offer-left 1.9s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-right 1.9s ease-in-out 1}
+.cutout-yarrow[data-pose="happy"] .yr-head{animation:yr-happy 1.1s ease-in-out 1}
+.cutout-yarrow[data-pose="happy"] .yr-magic,.cutout-yarrow[data-pose="purr"] .yr-magic{animation:yr-sparkles 1.4s ease-in-out infinite}
+.cutout-yarrow.is-nighttime .yr-eye-set{animation-duration:9.3s}
+.cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
+@media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
+body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
+
+</style>
+  <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -523,6 +573,139 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
+/* Editable in yarrow-cutout.js inside the full source archive */
+/* Yarrow Paper-Cut Familiar • v1.7
+   A single authored character: separate SVG anatomy, never full-photo switching.
+   No subscriptions, network requests, tracking, timers per frame, or third-party assets.
+*/
+(()=>{
+  'use strict';
+  const whisker = '#c4a586';
+  const detail = (path)=>`<path d="${path}" stroke="#aa815e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".37"/>`;
+  function accessories(outfit){
+    if(outfit==='flowers')return `<g class="yr-extra" aria-hidden="true" transform="translate(190 108)"><path d="M-67 4Q0-32 76-1" stroke="#77885e" fill="none" stroke-width="6"/><g fill="#f9e9c7" stroke="#c9ae78" stroke-width="1.5"><ellipse rx="11" ry="6" transform="translate(-45 -7) rotate(20)"/><ellipse rx="11" ry="6" transform="translate(-12 -15) rotate(50)"/><ellipse rx="11" ry="6" transform="translate(22 -16) rotate(-20)"/><ellipse rx="11" ry="6" transform="translate(54 -5) rotate(35)"/></g><g fill="#efb843"><circle cx="-45" cy="-7" r="4"/><circle cx="-12" cy="-15" r="4"/><circle cx="22" cy="-16" r="4"/><circle cx="54" cy="-5" r="4"/></g></g>`;
+    if(outfit==='hat')return `<g class="yr-extra"><path d="M134 137Q178 58 220 18Q224 94 267 135Q207 116 134 137Z" fill="#405640" stroke="#242b24" stroke-width="5"/><path d="M145 123Q192 136 258 117L272 134Q190 157 133 137Z" fill="#314636" stroke="#c8ae77" stroke-width="4"/><path d="M183 115q20 8 50 1" stroke="#d5b06d" stroke-width="6" fill="none"/></g>`;
+    if(outfit==='scarf')return `<g class="yr-extra"><path d="M130 276Q181 296 252 272L253 299Q194 321 135 299Z" fill="#a96447" stroke="#e4b78a" stroke-width="4"/><path d="M227 298q18 51 3 91l-18-6 2-83Z" fill="#b46a4a" stroke="#edbd86" stroke-width="3"/><path d="M228 316l-4 57" stroke="#edbc83" stroke-width="3"/></g>`;
+    if(outfit==='satchel')return `<g class="yr-extra"><path d="M130 308Q189 336 267 428" fill="none" stroke="#b49c62" stroke-width="7"/><path d="M255 419q22-9 52 0l-2 57-52-4Z" fill="#7c693d" stroke="#d9bb77" stroke-width="4"/><path d="M255 426q29-12 52 0l-9 19-43-3Z" fill="#9d8454" stroke="#d9bb77" stroke-width="2"/></g>`;
+    if(outfit==='cape')return `<g class="yr-extra"><path d="M131 300Q85 347 79 437Q184 516 277 454Q275 337 238 297Z" fill="#475d46" stroke="#afbc91" stroke-width="5" opacity=".86"/><path d="M102 434Q185 477 258 449" stroke="#a7b791" stroke-width="3" fill="none"/></g>`;
+    return '';
+  }
+  function svg(outfit='default'){
+    return `<svg class="yr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="yr-fur" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#342722"/><stop offset=".60" stop-color="#241b19"/><stop offset="1" stop-color="#1b1615"/></linearGradient>
+        <linearGradient id="yr-bib" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#504034"/><stop offset="1" stop-color="#2c2420"/></linearGradient>
+        <radialGradient id="yr-eye"><stop stop-color="#ffe08a"/><stop offset=".58" stop-color="#f3b43a"/><stop offset="1" stop-color="#d88724"/></radialGradient>
+        <linearGradient id="yr-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff0af"/><stop offset=".55" stop-color="#e6b755"/><stop offset="1" stop-color="#a26d2d"/></linearGradient>
+      </defs>
+      <ellipse class="yr-floor" cx="180" cy="474" rx="125" ry="19" fill="#231a16" opacity=".24"/>
+      <g class="yr-tail" transform-origin="270px 385px">
+        <path d="M247 378Q296 364 321 390Q342 409 322 432Q297 453 254 445Q276 427 267 410Q258 394 247 378Z" fill="#251d1a" stroke="#171310" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M283 394Q328 404 305 430" fill="none" stroke="#5d493c" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+        ${detail('M275 407q7 10 18 13m-11-20q6 6 9 8')}
+      </g>
+      <g class="yr-body" transform-origin="185px 436px">
+        <path d="M142 283Q105 281 91 332Q70 393 104 445Q128 479 181 478Q253 485 277 444Q295 387 267 326Q248 282 223 282Z" fill="url(#yr-fur)" stroke="#171411" stroke-width="6"/>
+        <path d="M128 318Q111 340 115 394Q122 427 143 445" fill="none" stroke="#6b4c3c" stroke-width="7" opacity=".37" stroke-linecap="round"/>
+        <path d="M235 312Q264 344 265 403Q263 432 248 444" fill="none" stroke="#82604c" stroke-width="5" opacity=".25" stroke-linecap="round"/>
+        <path d="M152 305Q175 298 218 306Q244 352 224 427Q181 463 137 421Q125 349 152 305Z" fill="url(#yr-bib)" opacity=".9"/>
+        <g fill="none" stroke="#8e7055" stroke-width="3" opacity=".24" stroke-linecap="round">
+          <path d="M160 332l-6 21m26-21-6 26m29-25 6 22m-55 15-6 19m35-12-3 26m25-26 5 25m-48 15 8 17m32-17-3 18"/>
+        </g>
+      </g>
+      <g class="yr-hind-feet" fill="#29211c" stroke="#17130f" stroke-width="4">
+        <path d="M110 420q-29 13-29 36 2 27 51 25l23-26Z"/>
+        <path d="M235 454q25-36 52-19 20 13 7 34-9 17-48 13Z"/>
+      </g>
+      <g class="yr-left-leg" transform-origin="149px 324px">
+        <path d="M148 326Q124 327 126 365L117 441Q115 463 139 469Q159 474 169 450L173 356Z" fill="#2a211d" stroke="#191511" stroke-width="5"/>
+        <path d="M123 438q14-10 36 0 19 8 10 25-8 13-37 12-22-2-22-18 0-9 13-19Z" fill="#352820" stroke="#17130f" stroke-width="4"/>
+        <path d="M132 452v16m16-15 1 16m-27-5q9 7 21 3" fill="none" stroke="#725542" stroke-width="3" stroke-linecap="round"/>
+        <path d="M146 342q-12 34-10 59" fill="none" stroke="#634535" stroke-width="4" opacity=".52"/>
+      </g>
+      <g class="yr-right-leg" transform-origin="214px 324px">
+        <path d="M210 321Q238 319 242 362L244 436Q253 469 224 471Q195 472 193 447L190 362Z" fill="#2b211d" stroke="#17130f" stroke-width="5"/>
+        <path d="M199 442q21-12 44-3 15 7 11 23-5 15-30 16-28 1-35-14-5-11 10-22Z" fill="#382a21" stroke="#17130f" stroke-width="4"/>
+        <path d="M210 453v17m16-18 1 17m14-9q-9 9-22 8" fill="none" stroke="#765843" stroke-width="3" stroke-linecap="round"/>
+        <path d="M217 338q12 28 10 57" fill="none" stroke="#74533c" stroke-width="4" opacity=".46"/>
+      </g>
+      <g class="yr-neck" aria-hidden="true">
+        <path d="M128 259q50 28 113 0l13 46Q179 326 118 302Z" fill="#25201a" stroke="#171411" stroke-width="5"/>
+        <path d="M125 282q58 27 126-5l2 18q-66 30-130 7Z" fill="#82906b" stroke="#47543a" stroke-width="4"/>
+        <path d="M240 282q15 20 28 38l-26-9-12 26-5-35" fill="#859368" stroke="#4f6044" stroke-width="3"/>
+        <path d="M233 286q17-17 34-8 5 15-8 26-12-4-26-18Z" fill="#9aa781" stroke="#4f6044" stroke-width="3"/>
+        <path d="M227 288q-23-12-32 0 16 15 31 8Z" fill="#899775" stroke="#4f6044" stroke-width="3"/>
+      </g>
+      <g class="yr-charm" transform-origin="178px 303px">
+        <path d="M179 302v21" stroke="#b9934d" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="179" cy="323" r="4" fill="url(#yr-gold)" stroke="#6d4b26" stroke-width="1.6"/>
+        <path d="M186 330a16 16 0 1 0 14 27 19 19 0 1 1-14-27Z" fill="url(#yr-gold)" stroke="#9a6f32" stroke-width="2.3"/>
+        <path d="M198 334l2 8m-4-4h9" stroke="#fff2c1" stroke-width="1.9" opacity=".7"/>
+      </g>
+      <g class="yr-head" transform-origin="181px 267px">
+        <g class="yr-ear-left" transform-origin="113px 151px">
+          <path d="M111 156Q90 107 92 56Q121 68 153 122Z" fill="#30221e" stroke="#1a1412" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M113 143Q101 100 103 77Q119 86 139 125Z" fill="#99614e" stroke="#5b3e31" stroke-width="3"/>
+          <path d="M116 127q-2-24-8-35" stroke="#dba182" stroke-width="3" opacity=".6" fill="none"/>
+        </g>
+        <g class="yr-ear-right" transform-origin="241px 153px">
+          <path d="M211 119Q248 70 267 55Q270 109 253 164Z" fill="#31231f" stroke="#1a1412" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M226 124Q250 85 259 78Q261 107 246 148Z" fill="#98614c" stroke="#5b3e32" stroke-width="3"/>
+          <path d="M248 96q-9 21-15 27" stroke="#daa081" stroke-width="3" opacity=".55" fill="none"/>
+        </g>
+        <path d="M97 162Q108 129 139 120L150 112L158 122 170 110 177 122 189 109 198 120 208 111 216 128Q262 132 277 176Q288 218 255 259Q224 285 181 285Q130 285 105 256Q70 221 86 180Z" fill="url(#yr-fur)" stroke="#171310" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M95 208q-13 22 10 42m161-42q12 22-9 42" stroke="#6f5142" stroke-width="7" fill="none" opacity=".36" stroke-linecap="round"/>
+        <g fill="#473329" opacity=".68">
+          <path d="M117 172q14-15 31-9 9 2 13 10-18-8-44-1Z"/>
+          <path d="M200 170q22-12 42 0l-5 8q-16-11-37-8Z"/>
+        </g>
+        <g class="yr-eye-set" transform-origin="182px 202px">
+          <ellipse cx="143" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
+          <ellipse cx="220" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
+          <ellipse cx="148" cy="201" rx="7.2" ry="22" fill="#201812"/><ellipse cx="216" cy="201" rx="7.2" ry="22" fill="#201812"/>
+          <ellipse cx="136" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/><ellipse cx="212" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/>
+          <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/><circle cx="222" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/>
+        </g>
+        <path d="M168 234q13-9 26 0l-13 10Z" fill="#a57966" stroke="#211713" stroke-width="2"/>
+        <path d="M182 243v7q-10 12-21 0m21 0q11 12 21 0" fill="none" stroke="#b48d7b" stroke-width="3" stroke-linecap="round"/>
+        <path d="M133 244q-15 1-23 10m124-10q15 1 23 10" stroke="#5e483b" stroke-width="3" fill="none" opacity=".42"/>
+        <g fill="none" stroke="${whisker}" stroke-width="2.1" stroke-linecap="round" opacity=".85">
+          <path d="M140 236Q105 222 66 231m74 11q-41-4-74 11m74-5q-38 11-60 25"/>
+          <path d="M221 236q35-14 75-5m-74 11q37-4 73 11m-75-5q39 11 62 25"/>
+        </g>
+        <g fill="#a47a61" opacity=".7"><circle cx="122" cy="230" r="2"/><circle cx="127" cy="238" r="1.7"/><circle cx="116" cy="238" r="1.7"/><circle cx="237" cy="230" r="2"/><circle cx="244" cy="238" r="1.7"/><circle cx="231" cy="238" r="1.7"/></g>
+        <path d="M129 151l8-7m18-3 4-9m32 5 6-10m24 19 8-7" stroke="#765445" stroke-width="3" stroke-linecap="round" opacity=".47"/>
+        ${detail('M103 208l-9-8m9 26-6 4m159-22 9-8m-6 25 7 6')}
+      </g>
+      ${accessories(outfit)}
+      <g class="yr-magic" opacity="0" stroke="#ffd889" stroke-linecap="round"><path d="M94 359v15m-7-8h15m192-23v16m-8-8h16" stroke-width="2.5"/></g>
+    </svg>`;
+  }
+  function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
+    const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
+    return `<button type="button" class="yarrow-puppet cutout-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${svg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+  }
+  function mount(puppet){
+    if(!puppet)return null;
+    let timeout=0;
+    let offerSide='right';
+    const scene={ready:true,action:'idle',offerSide,dispose(){clearTimeout(timeout);},pose(name,duration=1400){
+      if(!puppet.isConnected)return false;
+      clearTimeout(timeout);
+      if(name==='offer') {offerSide=offerSide==='right'?'left':'right';scene.offerSide=offerSide;puppet.dataset.side=offerSide;}
+      // Restart repeat taps without requiring a full app render.
+      if(puppet.dataset.pose===name){puppet.dataset.pose='idle';void puppet.offsetWidth;}
+      puppet.dataset.pose=name;scene.action=name;
+      if(name!=='idle')timeout=setTimeout(()=>{if(puppet.isConnected){puppet.dataset.pose='idle';scene.action='idle';}},Math.max(500,duration));
+      return true;
+    }};
+    return scene;
+  }
+  window.YarrowCutout=Object.freeze({render,mount,version:'1.7.0'});
+})();
+
+</script>
+<script>
 /*
  * A Whisker a Day — a cozy, offline-first storybook self-care app.
  * Copyright (c) 2026. All content is stored locally on the user's device.
@@ -791,6 +974,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
     return state.outfit==='cape'?`<g><path d="M146 301Q109 309 66 410L81 483Q201 528 340 455L344 355Q321 293 297 284q-75 32-151 17Z" fill="#405e4b" stroke="#9da77c" stroke-width="5" opacity=".95"/><path d="M106 441q91 47 207 10" stroke="#b3ba8e" fill="none" stroke-width="3" opacity=".6"/></g>`:'';
   }
   function renderAnimatedYarrow(place='hearth') {
+    if(window.YarrowCutout)return window.YarrowCutout.render({place,outfit:state.outfit,sleepy:['night','dusk'].includes(timeOfDay()),comforting:!!state.checkins.find(m=>m.date===todayKey()&&['rainy','cloudy','windy','tender'].includes(m.mood))});
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
     const sleepy=['night','dusk'].includes(timeOfDay());
     const lastMood=state.checkins.find(m=>m.date===todayKey());
@@ -804,6 +988,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
   }
   function yarrowCanAnimate(){return state.animation&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
   function createYarrowScene(){
+    if(window.YarrowCutout){const puppet=document.querySelector('.yarrow-puppet.cutout-yarrow');return puppet&&yarrowCanAnimate()?window.YarrowCutout.mount(puppet):null;}
     const puppet=document.querySelector('.yarrow-puppet.fluid-yarrow');
     if(!puppet||!yarrowCanAnimate())return null;
     return createYarrowCanvasMesh(puppet,puppet.querySelector('canvas'));
@@ -1071,7 +1256,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
   }
   function setupYarrowScene(){
     yarrowSceneController?.dispose();yarrowSceneController=null;
-    if(document.querySelector('.yarrow-puppet.fluid-yarrow'))yarrowSceneController=createYarrowScene();
+    if(document.querySelector('.yarrow-puppet.fluid-yarrow,.yarrow-puppet.cutout-yarrow'))yarrowSceneController=createYarrowScene();
   }
   function setYarrowPose(pose='idle',duration=1550,force=false){
     if(!YARROW_MOTIONS.has(pose)||!document.querySelector('.yarrow-puppet'))return false;
@@ -1516,7 +1701,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
     }
   }
   init();
-  window.__whiskerVersion = '1.6.0';
+  window.__whiskerVersion = '1.7.0';
 })();
 
   </script>
