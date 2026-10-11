@@ -645,6 +645,18 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
 body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 
+
+/* Cottage now shares the Hearth's actual painted environment and Yarrow rig.
+   The former room-scene SVG included a second, flat cat and is not rendered. */
+.cottage-visual.cottage-storybook{height:clamp(330px,59vw,490px);min-height:330px;isolation:isolate;background:#695a40;overflow:hidden}
+.cottage-painted-room{position:absolute;inset:0;background:url('./assets/hearth-v24/apothecary.webp') center 56% / cover no-repeat;filter:saturate(1.04)}
+.cottage-storybook:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#211b1208 20%,transparent 52%,#1f1b1475 100%);pointer-events:none;z-index:1}
+.cottage-storybook .storybook-yarrow.hearth-character{position:absolute;z-index:3;left:50%;bottom:-7%;transform:translateX(-50%);width:min(55%,285px);height:85%;max-width:none;filter:drop-shadow(0 9px 9px #21190f40)}
+.cottage-storybook .visual-badge{z-index:5;top:16px;left:16px}
+.cottage-storybook .cottage-pet-invite{position:absolute;left:17px;bottom:16px;z-index:5;color:#fff4db;text-shadow:0 1px 5px #211a14;background:#314436b5;border:1px solid #d1bd87a8;border-radius:24px;padding:8px 12px;font:italic 13px Georgia,serif;pointer-events:none}
+.cottage-storybook .decor-overlay{z-index:4}
+@media(max-width:520px){.cottage-visual.cottage-storybook{height:clamp(335px,79vw,435px)}.cottage-storybook .storybook-yarrow.hearth-character{width:64%;height:87%;bottom:-8%}.cottage-painted-room{background-position:center 53%}}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1400,7 +1412,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   }
   function renderRoom() {
     return `<div class="cottage-layout"><div>
-      <section class="card cottage-visual">${hearthScene('room-scene')}<span class="visual-badge">♡ Your own little sanctuary</span>${decorOverlay()}</section>
+      <section class="card cottage-visual cottage-storybook"><div class="cottage-painted-room" aria-hidden="true"></div>${renderAnimatedYarrow('hearth')}<span class="visual-badge">♡ Your own little sanctuary</span><span class="cottage-pet-invite" aria-hidden="true">♡ Tap Yarrow to say hello</span>${decorOverlay()}</section>
       <p class="tiny-muted" style="margin-top:12px">Decorate as slowly as you please. There is no hurry to finish a home.</p>
       </div><div style="display:grid;gap:18px">
       <section class="card card-pad"><span class="eyebrow">The gratitude jar</span><h2 class="card-heading">Little things worth keeping</h2><p class="card-subtext">A pocket of goodness, with no streaks or daily obligation. Your notes stay on this device and are included in your app backup.</p>
