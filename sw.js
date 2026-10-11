@@ -1,5 +1,5 @@
 /* A Whisker a Day: gentle offline support, network-first for fresh pages */
-const CACHE_NAME = 'whisker-a-day-v2.0';
+const CACHE_NAME = 'whisker-a-day-v2.1';
 const HOME = './index.html';
 self.addEventListener('install',event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(['./',HOME,'./app-icon.svg','./manifest.webmanifest'])).then(()=>self.skipWaiting()));

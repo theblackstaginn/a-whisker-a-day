@@ -1,4 +1,4 @@
-/* Yarrow's hand-illustrated paper-cut animation, v2.0 */
+/* Yarrow's hand-illustrated paper-cut animation, v2.1 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -6,7 +6,7 @@
 .cutout-yarrow .yr-tail{transform-origin:270px 385px;animation:yr-sway 4.6s ease-in-out infinite}
 .cutout-yarrow .yr-ear-left{transform-origin:113px 151px;animation:yr-ear-l 11s ease-in-out infinite}
 .cutout-yarrow .yr-ear-right{transform-origin:241px 153px;animation:yr-ear-r 13s ease-in-out infinite}
-.cutout-yarrow .yr-eye-set{transform-origin:182px 202px;animation:yr-auto-blink 7.4s ease-in-out infinite}
+.cutout-yarrow .yr-eye-set{transform-origin:182px 202px}
 .cutout-yarrow .yr-charm{transform-origin:178px 303px;animation:yr-charm 4.8s ease-in-out infinite}
 .cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
 .cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
@@ -28,10 +28,10 @@
 @keyframes yr-knead-right{0%,100%{transform:translateY(-14px)}40%{transform:translateY(0)}70%{transform:translateY(-11px)}}
 @keyframes yr-big-swish{0%,100%{transform:rotate(-5deg)}40%{transform:rotate(18deg)}70%{transform:rotate(-13deg)}}
 @keyframes yr-sparkles{0%,100%{opacity:0;transform:scale(.7)}45%{opacity:1;transform:scale(1.15)}}
-.cutout-yarrow[data-pose="blink"] .yr-eye-set{animation:yr-blink-now .85s ease-in-out 1}
+.cutout-yarrow[data-pose="blink"] .yr-lid-left,.cutout-yarrow[data-pose="blink"] .yr-lid-right{animation:yr-lid-on-demand .85s ease-in-out 1}
 .cutout-yarrow[data-pose="tilt"] .yr-head{animation:yr-tilt 1.4s ease-in-out 1}
 .cutout-yarrow[data-pose="purr"] .yr-head{animation:yr-purr .7s ease-in-out 3}
-.cutout-yarrow[data-pose="purr"] .yr-eye-set{animation:yr-blink-now 1.2s ease-in-out 2}
+.cutout-yarrow[data-pose="purr"] .yr-lid-left,.cutout-yarrow[data-pose="purr"] .yr-lid-right{animation:yr-lid-on-demand 1.2s ease-in-out 2}
 .cutout-yarrow[data-pose="purr"] .yr-body{animation:yr-breathe 1.9s ease-in-out infinite}
 .cutout-yarrow[data-pose="swish"] .yr-tail{animation:yr-big-swish 1.3s ease-in-out 1}
 .cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-left .7s ease-in-out 4}
@@ -40,7 +40,7 @@
 .cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-right 1.9s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-head{animation:yr-happy 1.1s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-magic,.cutout-yarrow[data-pose="purr"] .yr-magic{animation:yr-sparkles 1.4s ease-in-out infinite}
-.cutout-yarrow.is-nighttime .yr-eye-set{animation-duration:9.3s}
+.cutout-yarrow.is-nighttime .yr-lid-left,.cutout-yarrow.is-nighttime .yr-lid-right{animation-duration:9.3s}
 .cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
@@ -96,3 +96,26 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 
 /* Finish pass: soften fine fur hatching without losing pen-and-watercolor character. */
 .cutout-yarrow .yr-ink-detail{opacity:.72}
+
+/* v2.1: eyelid curtains reveal steady amber irises; no unnatural eye flattening.
+   The open transform is explicit so reduced-motion users always see open eyes. */
+.cutout-yarrow .yr-lid-left,.cutout-yarrow .yr-lid-right{
+  transform:translateY(-72px);
+  animation:yr-lid-idle 7.4s ease-in-out infinite;
+}
+.cutout-yarrow .yr-lid-window{pointer-events:none}
+.cutout-yarrow .yr-gaze{transform:translate(0,0);animation:yr-gentle-glance 8.8s ease-in-out infinite}
+@keyframes yr-lid-idle{
+  0%,42.7%,46.8%,100%{transform:translateY(-72px)}
+  44.15%,45.1%{transform:translateY(0)}
+}
+@keyframes yr-lid-on-demand{
+  0%,23%,76%,100%{transform:translateY(-72px)}
+  43%,57%{transform:translateY(0)}
+}
+@keyframes yr-gentle-glance{
+  0%,12%,40%,62%,100%{transform:translate(0,0)}
+  18%,31%{transform:translate(2.4px,.7px)}
+  47%,55%{transform:translate(-2px,1px)}
+}
+.cutout-yarrow.is-comforting .yr-gaze{animation-duration:11.2s}

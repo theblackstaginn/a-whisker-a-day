@@ -1,4 +1,4 @@
-# A Whisker a Day — v2.0
+# A Whisker a Day — v2.1
 
 **A little everyday magic.** A private, installable self-care storybook featuring Yarrow, a velvety black cat familiar with amber eyes, a sage ribbon and brass crescent charm.
 
@@ -11,6 +11,13 @@
 - **Cottage & herb garden:** garden growth through rituals, collectible plants and decorations.
 - **Yarrow:** friendship, outfits, short story chapters, independently animated ears, head, front arms, paws, tail-tip, eyes, collar charm and purrs.
 - **Preferences and portability:** optional sound/motion, time-of-day light settings, export and restore backups.
+
+## v2.1 — Yarrow's gentler expressions
+
+- Animated **true eyelid overlays**, clipped precisely to her amber eyes, replace unnatural eye-squashing when blinking or purring.
+- Tiny coordinated glances move her pupils and eye highlights independently of her face, like a curious familiar watching the room.
+- The reduced-motion setting leaves her eyes open, avoiding an eyelid-overlay accessibility regression.
+- Her jointed limbs, tail, outfits, rituals, grimoire, garden, and saved progress are unchanged.
 
 ## v2.0 finish pass
 

@@ -1,4 +1,4 @@
-/* Yarrow Inked Storybook Familiar • v2.0
+/* Yarrow Inked Storybook Familiar • v2.1
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -39,6 +39,8 @@
         <linearGradient id="yr-fur" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#342722"/><stop offset=".60" stop-color="#241b19"/><stop offset="1" stop-color="#1b1615"/></linearGradient>
         <linearGradient id="yr-bib" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#504034"/><stop offset="1" stop-color="#2c2420"/></linearGradient>
         <radialGradient id="yr-eye"><stop stop-color="#ffe08a"/><stop offset=".58" stop-color="#f3b43a"/><stop offset="1" stop-color="#d88724"/></radialGradient>
+        <clipPath id="yr-eye-left-clip" clipPathUnits="userSpaceOnUse"><ellipse cx="143" cy="200" rx="23" ry="27"/></clipPath>
+        <clipPath id="yr-eye-right-clip" clipPathUnits="userSpaceOnUse"><ellipse cx="220" cy="200" rx="22" ry="28"/></clipPath>
         <linearGradient id="yr-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff0af"/><stop offset=".55" stop-color="#e6b755"/><stop offset="1" stop-color="#a26d2d"/></linearGradient>
         <clipPath id="yr-head-coat-clip"><path d="M96 164Q103 143 127 132L134 126L141 127L149 113L157 121L168 110L176 121L189 109L198 120L208 112L216 127Q253 130 270 158L261 163Q281 174 280 193L287 200L279 207Q283 221 269 230L276 238Q266 262 239 271L228 267Q207 285 181 285Q157 287 136 276L125 279Q102 268 96 252L85 251L91 237Q78 224 84 208L77 202Q79 177 96 164Z"/></clipPath><clipPath id="yr-body-coat-clip"><path d="M142 283Q117 275 105 302L111 307Q94 313 91 332L83 342L92 350Q76 393 104 445Q128 479 181 478Q253 485 277 444Q297 405 282 367L288 351L276 344Q273 312 248 291Q238 282 223 282Z"/></clipPath>
       </defs>
@@ -125,9 +127,23 @@
         <g class="yr-eye-set" transform-origin="182px 202px">
           <ellipse cx="143" cy="200" rx="23" ry="27" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4.5"/>
           <ellipse cx="220" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
-          <ellipse cx="148" cy="201" rx="7.2" ry="17" fill="#201812"/><ellipse cx="216" cy="201" rx="7.2" ry="17" fill="#201812"/>
-          <ellipse cx="136" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/><ellipse cx="212" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/>
-          <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/><circle cx="222" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/>
+          <g class="yr-gaze">
+            <ellipse cx="146" cy="201" rx="8.1" ry="17.8" fill="#201812"/><ellipse cx="217" cy="201" rx="8.1" ry="17.8" fill="#201812"/>
+            <ellipse cx="137" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".94"/><ellipse cx="211" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".94"/>
+            <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".7"/><circle cx="221" cy="210" r="2.1" fill="#ffefc1" opacity=".7"/>
+          </g>
+        </g>
+        <g class="yr-lid-window" clip-path="url(#yr-eye-left-clip)">
+          <g class="yr-lid-left">
+            <rect x="114" y="166" width="58" height="68" fill="#271c19"/>
+            <path d="M123 201Q143 207 164 201" stroke="#896149" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+        <g class="yr-lid-window" clip-path="url(#yr-eye-right-clip)">
+          <g class="yr-lid-right">
+            <rect x="193" y="165" width="55" height="70" fill="#271c19"/>
+            <path d="M200 201Q220 207 239 201" stroke="#896149" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </g>
         </g>
         <path d="M168 234q13-9 26 0l-13 10Z" fill="#a57966" stroke="#211713" stroke-width="2"/>
         <path d="M182 243v7q-10 12-21 0m21 0q11 12 21 0" fill="none" stroke="#b48d7b" stroke-width="3" stroke-linecap="round"/>
@@ -165,5 +181,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.0.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.1.0'});
 })();

@@ -490,7 +490,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 </style>
 <style>
 /* Editable in yarrow-cutout.css inside the full source archive */
-/* Yarrow's hand-illustrated paper-cut animation, v2.0 */
+/* Yarrow's hand-illustrated paper-cut animation, v2.1 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -498,7 +498,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 .cutout-yarrow .yr-tail{transform-origin:270px 385px;animation:yr-sway 4.6s ease-in-out infinite}
 .cutout-yarrow .yr-ear-left{transform-origin:113px 151px;animation:yr-ear-l 11s ease-in-out infinite}
 .cutout-yarrow .yr-ear-right{transform-origin:241px 153px;animation:yr-ear-r 13s ease-in-out infinite}
-.cutout-yarrow .yr-eye-set{transform-origin:182px 202px;animation:yr-auto-blink 7.4s ease-in-out infinite}
+.cutout-yarrow .yr-eye-set{transform-origin:182px 202px}
 .cutout-yarrow .yr-charm{transform-origin:178px 303px;animation:yr-charm 4.8s ease-in-out infinite}
 .cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
 .cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
@@ -520,10 +520,10 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 @keyframes yr-knead-right{0%,100%{transform:translateY(-14px)}40%{transform:translateY(0)}70%{transform:translateY(-11px)}}
 @keyframes yr-big-swish{0%,100%{transform:rotate(-5deg)}40%{transform:rotate(18deg)}70%{transform:rotate(-13deg)}}
 @keyframes yr-sparkles{0%,100%{opacity:0;transform:scale(.7)}45%{opacity:1;transform:scale(1.15)}}
-.cutout-yarrow[data-pose="blink"] .yr-eye-set{animation:yr-blink-now .85s ease-in-out 1}
+.cutout-yarrow[data-pose="blink"] .yr-lid-left,.cutout-yarrow[data-pose="blink"] .yr-lid-right{animation:yr-lid-on-demand .85s ease-in-out 1}
 .cutout-yarrow[data-pose="tilt"] .yr-head{animation:yr-tilt 1.4s ease-in-out 1}
 .cutout-yarrow[data-pose="purr"] .yr-head{animation:yr-purr .7s ease-in-out 3}
-.cutout-yarrow[data-pose="purr"] .yr-eye-set{animation:yr-blink-now 1.2s ease-in-out 2}
+.cutout-yarrow[data-pose="purr"] .yr-lid-left,.cutout-yarrow[data-pose="purr"] .yr-lid-right{animation:yr-lid-on-demand 1.2s ease-in-out 2}
 .cutout-yarrow[data-pose="purr"] .yr-body{animation:yr-breathe 1.9s ease-in-out infinite}
 .cutout-yarrow[data-pose="swish"] .yr-tail{animation:yr-big-swish 1.3s ease-in-out 1}
 .cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-left .7s ease-in-out 4}
@@ -532,7 +532,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 .cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-right 1.9s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-head{animation:yr-happy 1.1s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-magic,.cutout-yarrow[data-pose="purr"] .yr-magic{animation:yr-sparkles 1.4s ease-in-out infinite}
-.cutout-yarrow.is-nighttime .yr-eye-set{animation-duration:9.3s}
+.cutout-yarrow.is-nighttime .yr-lid-left,.cutout-yarrow.is-nighttime .yr-lid-right{animation-duration:9.3s}
 .cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
@@ -589,6 +589,29 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 /* Finish pass: soften fine fur hatching without losing pen-and-watercolor character. */
 .cutout-yarrow .yr-ink-detail{opacity:.72}
 
+/* v2.1: eyelid curtains reveal steady amber irises; no unnatural eye flattening.
+   The open transform is explicit so reduced-motion users always see open eyes. */
+.cutout-yarrow .yr-lid-left,.cutout-yarrow .yr-lid-right{
+  transform:translateY(-72px);
+  animation:yr-lid-idle 7.4s ease-in-out infinite;
+}
+.cutout-yarrow .yr-lid-window{pointer-events:none}
+.cutout-yarrow .yr-gaze{transform:translate(0,0);animation:yr-gentle-glance 8.8s ease-in-out infinite}
+@keyframes yr-lid-idle{
+  0%,42.7%,46.8%,100%{transform:translateY(-72px)}
+  44.15%,45.1%{transform:translateY(0)}
+}
+@keyframes yr-lid-on-demand{
+  0%,23%,76%,100%{transform:translateY(-72px)}
+  43%,57%{transform:translateY(0)}
+}
+@keyframes yr-gentle-glance{
+  0%,12%,40%,62%,100%{transform:translate(0,0)}
+  18%,31%{transform:translate(2.4px,.7px)}
+  47%,55%{transform:translate(-2px,1px)}
+}
+.cutout-yarrow.is-comforting .yr-gaze{animation-duration:11.2s}
+
 </style>
   <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
 </head>
@@ -638,7 +661,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
 /* Editable in yarrow-cutout.js inside the full source archive */
-/* Yarrow Inked Storybook Familiar • v2.0
+/* Yarrow Inked Storybook Familiar • v2.1
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -679,6 +702,8 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
         <linearGradient id="yr-fur" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#342722"/><stop offset=".60" stop-color="#241b19"/><stop offset="1" stop-color="#1b1615"/></linearGradient>
         <linearGradient id="yr-bib" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#504034"/><stop offset="1" stop-color="#2c2420"/></linearGradient>
         <radialGradient id="yr-eye"><stop stop-color="#ffe08a"/><stop offset=".58" stop-color="#f3b43a"/><stop offset="1" stop-color="#d88724"/></radialGradient>
+        <clipPath id="yr-eye-left-clip" clipPathUnits="userSpaceOnUse"><ellipse cx="143" cy="200" rx="23" ry="27"/></clipPath>
+        <clipPath id="yr-eye-right-clip" clipPathUnits="userSpaceOnUse"><ellipse cx="220" cy="200" rx="22" ry="28"/></clipPath>
         <linearGradient id="yr-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff0af"/><stop offset=".55" stop-color="#e6b755"/><stop offset="1" stop-color="#a26d2d"/></linearGradient>
         <clipPath id="yr-head-coat-clip"><path d="M96 164Q103 143 127 132L134 126L141 127L149 113L157 121L168 110L176 121L189 109L198 120L208 112L216 127Q253 130 270 158L261 163Q281 174 280 193L287 200L279 207Q283 221 269 230L276 238Q266 262 239 271L228 267Q207 285 181 285Q157 287 136 276L125 279Q102 268 96 252L85 251L91 237Q78 224 84 208L77 202Q79 177 96 164Z"/></clipPath><clipPath id="yr-body-coat-clip"><path d="M142 283Q117 275 105 302L111 307Q94 313 91 332L83 342L92 350Q76 393 104 445Q128 479 181 478Q253 485 277 444Q297 405 282 367L288 351L276 344Q273 312 248 291Q238 282 223 282Z"/></clipPath>
       </defs>
@@ -765,9 +790,23 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
         <g class="yr-eye-set" transform-origin="182px 202px">
           <ellipse cx="143" cy="200" rx="23" ry="27" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4.5"/>
           <ellipse cx="220" cy="200" rx="22" ry="28" fill="url(#yr-eye)" stroke="#120f0c" stroke-width="4"/>
-          <ellipse cx="148" cy="201" rx="7.2" ry="17" fill="#201812"/><ellipse cx="216" cy="201" rx="7.2" ry="17" fill="#201812"/>
-          <ellipse cx="136" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/><ellipse cx="212" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".92"/>
-          <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/><circle cx="222" cy="210" r="2.1" fill="#ffefc1" opacity=".66"/>
+          <g class="yr-gaze">
+            <ellipse cx="146" cy="201" rx="8.1" ry="17.8" fill="#201812"/><ellipse cx="217" cy="201" rx="8.1" ry="17.8" fill="#201812"/>
+            <ellipse cx="137" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".94"/><ellipse cx="211" cy="188" rx="5" ry="8" fill="#fff2c3" opacity=".94"/>
+            <circle cx="150" cy="210" r="2.1" fill="#ffefc1" opacity=".7"/><circle cx="221" cy="210" r="2.1" fill="#ffefc1" opacity=".7"/>
+          </g>
+        </g>
+        <g class="yr-lid-window" clip-path="url(#yr-eye-left-clip)">
+          <g class="yr-lid-left">
+            <rect x="114" y="166" width="58" height="68" fill="#271c19"/>
+            <path d="M123 201Q143 207 164 201" stroke="#896149" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+        <g class="yr-lid-window" clip-path="url(#yr-eye-right-clip)">
+          <g class="yr-lid-right">
+            <rect x="193" y="165" width="55" height="70" fill="#271c19"/>
+            <path d="M200 201Q220 207 239 201" stroke="#896149" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          </g>
         </g>
         <path d="M168 234q13-9 26 0l-13 10Z" fill="#a57966" stroke="#211713" stroke-width="2"/>
         <path d="M182 243v7q-10 12-21 0m21 0q11 12 21 0" fill="none" stroke="#b48d7b" stroke-width="3" stroke-linecap="round"/>
@@ -805,7 +844,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.0.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.1.0'});
 })();
 
 </script>
@@ -1535,7 +1574,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
     }
   }
   init();
-  window.__whiskerVersion = '2.0.0';
+  window.__whiskerVersion = '2.1.0';
 })();
 
   </script>
