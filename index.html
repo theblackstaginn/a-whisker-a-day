@@ -721,6 +721,22 @@ body.motion-off #main.view-enter{animation:none!important}
 @media(prefers-reduced-motion:reduce){.garden-plot:active{transform:none}}
 body.motion-off .garden-plot:active{transform:none}
 
+/* Illustrated gratitude jar and its accessible note-reading interior. */
+.gratitude-jar-button{width:min(100%,320px);margin:14px auto 4px;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;cursor:pointer;color:#536b52;font:italic 15px Georgia,serif;touch-action:manipulation}
+.gratitude-jar-button img{display:block;width:100%;height:auto;mix-blend-mode:multiply;transition:transform .2s ease;object-fit:contain}
+.gratitude-jar-button:hover img{transform:translateY(-4px)}
+.gratitude-jar-button:focus-visible{outline:3px solid #547b58;outline-offset:4px;border-radius:20px}
+.gratitude-jar-caption{padding:7px 10px}
+.gratitude-open-lid{text-align:center;color:#ab8248;font-size:27px;letter-spacing:11px;margin:9px auto 18px}
+.gratitude-open-notes{max-height:min(52vh,480px);overflow:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,195px),1fr));gap:12px;padding:5px}
+.gratitude-paper-note{margin:0;padding:16px;background:#fff6e2;border:1px solid #dec8a9;border-radius:7px;box-shadow:0 3px 8px #5c493015;transform:rotate(-.5deg);overflow-wrap:anywhere}
+.gratitude-paper-note:nth-child(even){background:#f8e7e0;transform:rotate(.6deg)}
+.gratitude-paper-note p{white-space:pre-wrap;font:16px/1.55 Georgia,serif;color:#514c41}
+.gratitude-paper-note .btn{min-height:40px}
+@media(prefers-reduced-motion:reduce){.gratitude-jar-button img{transition:none}.gratitude-jar-button:hover img{transform:none}}
+body.motion-off .gratitude-jar-button img{transition:none}
+body.motion-off .gratitude-jar-button:hover img{transform:none}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1474,6 +1490,16 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       ${isRoom?renderRoom():renderGarden()}
     </div>`;
   }
+  function openGratitudeJar() {
+    const notes=[...state.gratitudeJar].reverse();
+    const inner=`<span class="eyebrow">Your gratitude jar</span><h2>Little things worth keeping</h2><p>Each note is a moment you chose to remember.</p>
+      <div class="gratitude-open-lid" aria-hidden="true">✧ ☾ ✧</div>
+      <div class="gratitude-open-notes">
+        ${notes.length?notes.map(note=>`<article class="gratitude-paper-note"><p>${esc(note.text)}</p><button type="button" class="btn btn-plain btn-small" data-action="remove-gratitude" data-id="${esc(note.id)}" aria-label="Remove this gratitude note">Remove</button></article>`).join(''):'<p class="gratitude-paper-note">Your jar awaits its first little moment of gratitude.</p>'}
+      </div>
+      <div class="form-actions"><button type="button" class="btn btn-primary" data-action="close-modal">Close the jar</button></div>`;
+    openModal(inner,'wide');
+  }
   function renderRoom() {
     return `<div class="cottage-layout"><div>
       <section class="card cottage-visual cottage-storybook"><div class="cottage-painted-room" aria-hidden="true"></div>${renderAnimatedYarrow('hearth')}<span class="visual-badge">♡ Your own little sanctuary</span><span class="cottage-pet-invite" aria-hidden="true">♡ Tap Yarrow to say hello</span>${decorOverlay()}</section>
@@ -1481,8 +1507,11 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       </div><div style="display:grid;gap:18px">
       <section class="card card-pad"><span class="eyebrow">The gratitude jar</span><h2 class="card-heading">Little things worth keeping</h2><p class="card-subtext">A pocket of goodness, with no streaks or daily obligation. Your notes stay on this device and are included in your app backup.</p>
         <form data-form="gratitude"><label for="gratitude-note">One thing you noticed or appreciated</label><textarea id="gratitude-note" name="gratitude" maxlength="280" rows="2" required placeholder="A warm cup, the sound of rain, a kind word…">${esc(gratitudeDraft)}</textarea><div class="form-actions"><button class="btn btn-primary btn-small" type="submit">${icon('plus')} Place in jar</button></div></form>
-        <p class="tiny-muted">${state.gratitudeJar.length} note${state.gratitudeJar.length===1?'':'s'} tucked away · Most recent 100 kept</p>
-        ${[...state.gratitudeJar].reverse().slice(0,5).map(note=>`<div class="entry-card" style="border-top:1px solid #b8b49b;padding:10px 0"><p>${esc(note.text)}</p><button type="button" class="btn btn-plain btn-small" data-action="remove-gratitude" data-id="${esc(note.id)}" aria-label="Remove gratitude note">Remove</button></div>`).join('')}
+        <button type="button" class="gratitude-jar-button" data-action="open-gratitude-jar" aria-label="Open gratitude jar and read your ${state.gratitudeJar.length} saved notes">
+          <img src="./assets/Jar.PNG" alt="" width="360" height="430" loading="lazy">
+          <span class="gratitude-jar-caption">✧ Tap the jar to open it ✧</span>
+        </button>
+        <p class="tiny-muted" style="text-align:center">${state.gratitudeJar.length} note${state.gratitudeJar.length===1?'':'s'} tucked away · Most recent 100 kept</p>
       </section>
       <section class="card card-pad"><span class="eyebrow">The seasonal reflection shelf</span><h2 class="card-heading">What is changing around you?</h2><p class="card-subtext">Notice a sign of the season, then set an intention that feels kind and achievable. You can return to this note whenever you wish.</p>
         <form data-form="seasonal-reflection"><label for="seasonal-note">Your seasonal thought</label><textarea id="seasonal-note" name="seasonal" maxlength="500" rows="3" placeholder="This season, I am noticing…">${esc(seasonalDraft===null?state.seasonalReflection:seasonalDraft)}</textarea><div class="form-actions"><button class="btn btn-secondary btn-small" type="submit">${icon('pen')} Save reflection</button></div></form><p class="tiny-muted">Modern symbolic reflection · no required beliefs or ritual objects</p>
@@ -1762,6 +1791,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         case 'yarrow-gift':yarrowWisdom();break;
         case 'outfit':outfit(id);break;
         case 'decor':decor(id);break;
+        case 'open-gratitude-jar':openGratitudeJar();break;
         case 'remove-gratitude':{
           if(!window.confirm('Remove this note from your gratitude jar?'))break;
           state.gratitudeJar=state.gratitudeJar.filter(note=>note.id!==id);
