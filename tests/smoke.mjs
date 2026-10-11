@@ -17,12 +17,14 @@ assert.ok(js.includes('storybookSvg(outfit)'),'Use the reference-derived painted
 assert.ok(js.includes('yr-book-lids'),'Preserve illustrated blink reaction');
 assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden story card should reuse exact same image');
 
-assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
-assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
+const embeddedRig=index.split('/* Editable in yarrow-cutout.js inside the full source archive */')[1]?.split('</script>')[0]?.trim();
+assert.equal(embeddedRig,js.trim(),'Embedded live rig must exactly match yarrow-cutout.js');
+const wardrobeCss=css.slice(css.indexOf('/* v2.4 development:'));
+assert.ok(wardrobeCss&&index.includes(wardrobeCss.trim()),'Embedded character animation CSS must match the current painted rig rules');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.4.0-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.0-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-beta2"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.4-wardrobe1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -66,7 +68,7 @@ new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
 assert.equal(ctx.window.YarrowCutout.version,'2.4.0-dev');
-const poses=['default','hat','flowers','scarf','satchel','cape'];
+const poses=['crescent','hat','flowers','scarf','satchel','cape','ribbon','star','beret','acorn'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
  assert.ok(markup.includes('yr-painted-head')&&markup.includes('yr-book-body')&&markup.includes('yr-painted-tail'),'Painted anatomy missing for '+outfit);
