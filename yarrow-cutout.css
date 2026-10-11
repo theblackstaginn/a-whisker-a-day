@@ -185,3 +185,6 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 .hearth-world .hearth-world-bottom{bottom:14px;flex-wrap:wrap}
 body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
 @media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}}
+
+.storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
+.storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}

@@ -29,3 +29,11 @@ Baseline npm test passed before editing. Development source tests and controller
 - Verify service-worker upgrade then offline launch, navigation and both assets without network.
 
 Known limitations: visual joint motion and mobile layout remain UNVERIFIED. Painted blink overlays and inherited wardrobe placement require browser inspection. PNG generation originals remain in the generating conversation; optimized reusable WebP sources are versioned here.
+
+## Follow-up static pose review
+
+Ran `node scripts/render-rig-review.cjs /tmp/whisker-rig-review.png` with Sharp. This renders authored SVG transforms at selected extrema, not CSS animation in a browser. Reviewed idle, head tilt, ears, left knead, tail extreme, closed blink, hat plus tilt, flowers plus tilt, and right paw offer.
+
+Fixed observed defects: replaced round eye blackout discs with closed-lid contours and creases; lowered floating hat/crown to the forehead and parented both to the moving head. Sampled anatomy extrema showed no obvious open joint gaps at the rendered review scale. This does not establish seamless motion between frames or phone rendering. Comforting mood now retains slower torso breathing and idle head movement on the new groups.
+
+All existing source/controller tests pass after corrections. Mobile browser, actual saved-progress upgrade, service-worker upgrade and CSS animation interpolation remain pending.
