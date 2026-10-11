@@ -681,6 +681,11 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 }
 .mobile-nav-link:focus-visible{outline:3px solid #47694c;outline-offset:-3px}
 
+/* Brief page reveal; skip for motion-sensitive users. */
+@keyframes whisker-view-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+#main.view-enter{animation:whisker-view-enter .22s ease-out both}
+@media(prefers-reduced-motion:reduce){#main.view-enter{animation:none!important}}
+body.motion-off #main.view-enter{animation:none!important}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1493,10 +1498,28 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   }
   function changeView(next) {
     if(!['hearth','rituals','grimoire','cottage','yarrow'].includes(next))return;
+    if(next===view){window.scrollTo({top:0,behavior:'auto'});return;}
+    // Preserve unsaved input when navigating away from a page.
+    if(view==='grimoire'){
+      const editor=document.getElementById('journal-text');
+      if(editor)journalDraft=editor.value;
+    }
+    if(view==='cottage'){
+      const gratitude=document.getElementById('gratitude-note');
+      const seasonal=document.getElementById('seasonal-note');
+      if(gratitude)gratitudeDraft=gratitude.value;
+      if(seasonal)seasonalDraft=seasonal.value;
+    }
     closeModal();
     view=next;
     render();
-    window.scrollTo({top:0,behavior:state.animation?'smooth':'auto'});
+    // An immediate reset avoids long scrolling behind a fixed mobile nav.
+    window.scrollTo({top:0,behavior:'instant'});
+    if(state.animation&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      main.classList.remove('view-enter');
+      void main.offsetWidth;
+      main.classList.add('view-enter');
+    }
   }
   function toggleRitual(id) {
     if(!state.rituals.some(r=>r.id===id))return;
