@@ -671,6 +671,16 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
  .yarrow-view .yarrow-portrait-wrap .outfit-note{bottom:9px}
 }
 
+/* Mobile refinement: comfortably sized bottom navigation and visible keyboard focus. */
+@media(max-width:700px){
+  .mobile-nav{gap:4px;padding:7px 8px calc(7px + env(safe-area-inset-bottom))}
+  .mobile-nav-link{min-height:52px;padding:7px 1px 6px;gap:4px;font-size:11px;line-height:1.2;touch-action:manipulation}
+  .mobile-nav-link .icon-svg{width:24px;height:24px;flex-shrink:0}
+  .mobile-nav-link.active{box-shadow:inset 0 0 0 1px #c3d0b9}
+  .main-area{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
+}
+.mobile-nav-link:focus-visible{outline:3px solid #47694c;outline-offset:-3px}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
