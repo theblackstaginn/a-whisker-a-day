@@ -29,10 +29,10 @@ for(const file of ['apothecary','yarrow-parts']){
 // should move with. The legacy root-level accessory overlays caused drift.
 function ancestorsOfClass(markup,target){
  const stack=[];
- for(const token of markup.matchAll(/<\\/?g\\b[^>]*>/g)){
+ for(const token of markup.matchAll(/<\/?g\b[^>]*>/g)){
    const tag=token[0];
    if(tag.startsWith('</')){stack.pop();continue;}
-   const classes=(tag.match(/class="([^"]+)"/)?.[1]||'').split(/\\s+/);
+   const classes=(tag.match(/class="([^"]+)"/)?.[1]||'').split(/\s+/);
    if(classes.includes(target))return stack;
    stack.push(classes.join(' '));
  }
