@@ -30,6 +30,28 @@ assert.ok(index.includes("grid-template-columns:repeat(2,minmax(0,1fr))"),'Phone
 assert.equal(manifest.display,'standalone');
 assert.ok(manifest.icons.some(i=>i.src==='./app-icon.svg'));
 assert.ok(index.includes('function exportBackup()') && index.includes('async function importBackup('));
+
+/* Optional witchy content must not replace saved user rituals or invent mandatory chores. */
+const libraryMatch=index.match(/const RITUAL_LIBRARY = (\[[^;]+\]);/);
+assert.ok(libraryMatch,'Optional ritual library missing');
+const library=JSON.parse(libraryMatch[1]);
+assert.equal(library.length,24,'Keep the curated 24-practice library intact');
+assert.equal(new Set(library.map(r=>r.id)).size,library.length,'Library IDs must be unique');
+for(const ritual of library){
+  assert.ok(ritual.id.startsWith('library-'),'Library IDs must be namespaced');
+  assert.ok(['Body','Mind','Home','Spirit'].includes(ritual.area),'Library area must be a valid filter');
+  assert.ok(ritual.title&&ritual.hint,'Every practice needs a readable title and instructions');
+}
+assert.ok(index.includes("merged.rituals = Array.isArray(raw.rituals)"),'Existing user rituals must remain authoritative');
+assert.ok(index.includes("case 'add-library-ritual'"),'Optional library add action must exist');
+assert.ok(index.includes("state.rituals.some(r=>r.id===id)"),'Block duplicate library additions');
+assert.ok(index.includes("state.rituals.push({...template})"),'Only opted-in practices join daily tasks');
+assert.ok(index.includes("save();render();toast('A new ritual"),'Library additions must persist');
+assert.ok(index.includes('const GRIMOIRE_LORE ='),'Grimoire field guide missing');
+assert.ok(index.includes('const HERB_LORE ='),'Herbal field guide missing');
+assert.ok(index.includes('A tiny cottage blessing'),'Cottage reflection missing');
+assert.ok(index.includes('Tiny woodland discoveries'),'Yarrow nature prompts missing');
+
 for(const label of ['renderHearth','renderRituals','renderGrimoire','renderCottage','renderYarrow']){
   assert.ok(index.includes('function '+label+'('),'Missing feature view: '+label);
 }
