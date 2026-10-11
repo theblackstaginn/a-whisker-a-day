@@ -943,7 +943,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
   function yarrowMomentButtons() {
     return `<div class="yarrow-moments" role="group" aria-label="Play with Yarrow">
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="blink" aria-label="Ask Yarrow for a slow blink"><span class="moment-icon" aria-hidden="true">♡</span> Slow blink</button>
-      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="stretch"><span class="moment-icon" aria-hidden="true">☀</span> Stretch</button>
+      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="tilt"><span class="moment-icon" aria-hidden="true">✧</span> Curious tilt</button>
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="walk"><span class="moment-icon" aria-hidden="true">❧</span> Explore</button>
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="knead"><span class="moment-icon" aria-hidden="true">✦</span> Make biscuits</button>
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="swish"><span class="moment-icon" aria-hidden="true">☾</span> Tail swish</button>
@@ -1303,7 +1303,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
           window.setTimeout(()=>{if(btn.isConnected)btn.setAttribute('aria-pressed','false');},1900);
           if(pose==='blink')toast('Yarrow gives you a little slow blink. ♡');
           if(pose==='knead')toast('Someone is making enchanted biscuits!');
-          if(pose==='stretch')toast('A luxurious familiar stretch.');
+          if(pose==='tilt')toast('Yarrow tilts her head to listen.');
           if(pose==='walk')toast('Yarrow takes a little curious step.');
           if(pose==='swish')toast('That tail has a mind of its own.');
           break;
@@ -1365,7 +1365,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
     }
   }
   init();
-  window.__whiskerVersion = '1.5.0';
+  window.__whiskerVersion = '1.5.1';
 })();
 
   </script>
