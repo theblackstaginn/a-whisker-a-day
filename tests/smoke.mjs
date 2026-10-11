@@ -22,8 +22,10 @@ assert.ok(index.includes(css),'Self-contained index must include current animati
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.4.0-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.0-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-offline1"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.4-beta2"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
+assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
+assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
 assert.ok(!index.includes('YARROW_FLUID_ART'),'Do not ship obsolete monolithic photo/mesh prototype');
 assert.ok(!index.includes('createYarrowCanvasMesh('),'Do not ship obsolete triangular mesh renderer');
 assert.ok(index.includes("if(firstAward)setYarrowPose('happy',1350)"),'Rituals should animate Yarrow');
