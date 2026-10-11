@@ -1,8 +1,15 @@
-# A Whisker a Day — Yarrow Paper-Cut Familiar v1.7
+# A Whisker a Day — Yarrow Jointed Familiar v1.8
 
 A real, installable self-care storybook app with daily rituals, a gentle Moon Mirror, a private journal, a herb garden and a little black cat familiar. 
 
-## This release
+## New in v1.8
+
+* Each front paw now has an independent shoulder, forearm and wrist/paw group for natural alternating kneading and jointed paw offers.
+* The tail has a separately animated, delayed curling tip.
+* Hats and flower crowns now follow the head when Yarrow tilts.
+* All saved progress, other self-care features and offline support remain intact.
+
+## Original cutout release
 
 * Replaces photo-switching and warping with an authored SVG cutout character inspired by earthy cottage storybooks and simple, expressive cutout animation.
 * Ears, eyes, face, torso, left front paw, right front paw, tail and moon charm have separately controlled animation. The character remains the same illustration in every state.

@@ -478,7 +478,7 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 </style>
 <style>
 /* Editable in yarrow-cutout.css inside the full source archive */
-/* Yarrow's hand-illustrated paper-cut animation, v1.7 */
+/* Yarrow's hand-illustrated paper-cut animation, v1.8 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -524,6 +524,51 @@ body.motion-off .fluid-yarrow .yarrow-mesh-canvas,body.motion-off .fluid-yarrow 
 .cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
+
+/* v1.8: independently articulated front paws, forearms, and tail tip. */
+.cutout-yarrow .yr-svg g{transform-box:view-box}
+.cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:none;animation:yr-stance-l 6.4s ease-in-out infinite}
+.cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:none;animation:yr-stance-r 6.9s ease-in-out infinite}
+.cutout-yarrow .yr-left-forearm{transform-origin:143px 393px;animation:yr-forearm-l 6.4s ease-in-out infinite}
+.cutout-yarrow .yr-right-forearm{transform-origin:222px 393px;animation:yr-forearm-r 6.9s ease-in-out infinite}
+.cutout-yarrow .yr-left-paw{transform-origin:143px 450px;animation:yr-paw-l 5.9s ease-in-out infinite}
+.cutout-yarrow .yr-right-paw{transform-origin:223px 451px;animation:yr-paw-r 6.8s ease-in-out infinite}
+.cutout-yarrow .yr-tail-tip{transform-origin:304px 410px;animation:yr-curl 4.6s ease-in-out infinite}
+@keyframes yr-stance-l{0%,100%{transform:rotate(0)}50%{transform:rotate(-.9deg)}}
+@keyframes yr-stance-r{0%,100%{transform:rotate(0)}50%{transform:rotate(.8deg)}}
+@keyframes yr-forearm-l{0%,100%{transform:rotate(0)}50%{transform:translateY(-1px) rotate(-1.3deg)}}
+@keyframes yr-forearm-r{0%,100%{transform:rotate(0)}50%{transform:translateY(-1px) rotate(1.2deg)}}
+@keyframes yr-paw-l{0%,100%{transform:rotate(0)}50%{transform:rotate(1.8deg)}}
+@keyframes yr-paw-r{0%,100%{transform:rotate(0)}50%{transform:rotate(-1.8deg)}}
+@keyframes yr-curl{0%,100%{transform:rotate(5deg)}38%{transform:rotate(-8deg)}68%{transform:rotate(10deg)}}
+@keyframes yr-knead-upper-l{0%,100%{transform:rotate(0)}42%{transform:rotate(-2deg)}}
+@keyframes yr-knead-upper-r{0%,100%{transform:rotate(0)}42%{transform:rotate(2deg)}}
+@keyframes yr-knead-fore-l{0%,100%{transform:translateY(0) rotate(0)}35%,53%{transform:translate(-2px,-15px) rotate(-6deg)}77%{transform:translateY(-2px)}}
+@keyframes yr-knead-fore-r{0%,100%{transform:translate(-1px,-15px) rotate(6deg)}36%,55%{transform:translateY(0) rotate(0)}80%{transform:translate(-1px,-12px) rotate(4deg)}}
+@keyframes yr-knead-paw-l{0%,100%{transform:rotate(0)}35%,53%{transform:rotate(-9deg)}77%{transform:rotate(2deg)}}
+@keyframes yr-knead-paw-r{0%,100%{transform:rotate(7deg)}36%,55%{transform:rotate(-2deg)}80%{transform:rotate(7deg)}}
+@keyframes yr-offer-upper-l{0%,100%{transform:rotate(0)}30%,76%{transform:rotate(-4deg)}}
+@keyframes yr-offer-upper-r{0%,100%{transform:rotate(0)}30%,76%{transform:rotate(4deg)}}
+@keyframes yr-offer-fore-l{0%,100%{transform:translateY(0) rotate(0)}30%,75%{transform:translate(-3px,-22px) rotate(-31deg)}}
+@keyframes yr-offer-fore-r{0%,100%{transform:translateY(0) rotate(0)}30%,75%{transform:translate(3px,-22px) rotate(31deg)}}
+@keyframes yr-offer-paw-l{0%,100%{transform:rotate(0)}30%,75%{transform:rotate(17deg)}}
+@keyframes yr-offer-paw-r{0%,100%{transform:rotate(0)}30%,75%{transform:rotate(-17deg)}}
+@keyframes yr-curl-big{0%,100%{transform:rotate(5deg)}38%{transform:rotate(-17deg)}75%{transform:rotate(13deg)}}
+.cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-upper-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-leg{animation:yr-knead-upper-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-left-forearm{animation:yr-knead-fore-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-forearm{animation:yr-knead-fore-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-left-paw{animation:yr-knead-paw-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-paw{animation:yr-knead-paw-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-leg{animation:yr-offer-upper-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-forearm{animation:yr-offer-fore-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-paw{animation:yr-offer-paw-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-upper-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-forearm{animation:yr-offer-fore-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-paw{animation:yr-offer-paw-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="swish"] .yr-tail-tip,.cutout-yarrow[data-pose="happy"] .yr-tail-tip{animation:yr-curl-big 1.3s ease-in-out 1}
+.cutout-yarrow[data-pose="purr"] .yr-left-paw,.cutout-yarrow[data-pose="purr"] .yr-right-paw{animation:yr-paw-l 1.3s ease-in-out 2}
+.cutout-yarrow.is-nighttime .yr-tail-tip{animation-duration:6.4s}
 
 </style>
   <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
@@ -574,7 +619,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
 /* Editable in yarrow-cutout.js inside the full source archive */
-/* Yarrow Paper-Cut Familiar • v1.7
+/* Yarrow Jointed Cutout Familiar • v1.8
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -600,9 +645,13 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
       </defs>
       <ellipse class="yr-floor" cx="180" cy="474" rx="125" ry="19" fill="#231a16" opacity=".24"/>
       <g class="yr-tail" transform-origin="270px 385px">
-        <path d="M247 378Q296 364 321 390Q342 409 322 432Q297 453 254 445Q276 427 267 410Q258 394 247 378Z" fill="#251d1a" stroke="#171310" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M283 394Q328 404 305 430" fill="none" stroke="#5d493c" stroke-width="7" stroke-linecap="round" opacity=".5"/>
-        ${detail('M275 407q7 10 18 13m-11-20q6 6 9 8')}
+        <path d="M247 378Q278 360 302 383Q318 400 311 421Q301 441 278 445L254 445Q276 427 267 410Q259 393 247 378Z" fill="#251d1a"/>
+        <path d="M248 378Q278 359 305 390M278 445L254 445" fill="none" stroke="#171310" stroke-width="5" stroke-linecap="round"/>
+        <g class="yr-tail-tip" transform-origin="304px 410px">
+          <path d="M296 385Q325 386 336 405Q348 422 325 437Q303 451 281 445Q301 428 306 410Q309 396 296 385Z" fill="#251d1a"/>
+          <path d="M303 386Q330 394 336 407Q342 423 324 437Q301 450 281 445" stroke="#171310" fill="none" stroke-width="5" stroke-linecap="round"/>
+          <path d="M306 394Q330 407 312 427" stroke="#6b5240" fill="none" stroke-width="6" stroke-linecap="round" opacity=".48"/>
+        </g>
       </g>
       <g class="yr-body" transform-origin="185px 436px">
         <path d="M142 283Q105 281 91 332Q70 393 104 445Q128 479 181 478Q253 485 277 444Q295 387 267 326Q248 282 223 282Z" fill="url(#yr-fur)" stroke="#171411" stroke-width="6"/>
@@ -618,16 +667,30 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
         <path d="M235 454q25-36 52-19 20 13 7 34-9 17-48 13Z"/>
       </g>
       <g class="yr-left-leg" transform-origin="149px 324px">
-        <path d="M148 326Q124 327 126 365L117 441Q115 463 139 469Q159 474 169 450L173 356Z" fill="#2a211d" stroke="#191511" stroke-width="5"/>
-        <path d="M123 438q14-10 36 0 19 8 10 25-8 13-37 12-22-2-22-18 0-9 13-19Z" fill="#352820" stroke="#17130f" stroke-width="4"/>
-        <path d="M132 452v16m16-15 1 16m-27-5q9 7 21 3" fill="none" stroke="#725542" stroke-width="3" stroke-linecap="round"/>
-        <path d="M146 342q-12 34-10 59" fill="none" stroke="#634535" stroke-width="4" opacity=".52"/>
+        <path d="M148 323Q125 320 122 349L123 410Q138 428 162 411L174 354Q176 333 148 323Z" fill="#29211c" stroke="#191511" stroke-width="4.5"/>
+        <path d="M143 340Q130 357 131 393" fill="none" stroke="#72513d" stroke-width="4" opacity=".47" stroke-linecap="round"/>
+        <g class="yr-left-forearm" transform-origin="143px 393px">
+          <path d="M127 380Q147 373 165 386L169 445Q172 468 141 473Q115 475 114 452L119 406Q119 388 127 380Z" fill="#2d221d"/>
+          <path d="M121 404Q118 427 115 446Q112 459 125 468M164 402L170 447" fill="none" stroke="#191511" stroke-width="4" stroke-linecap="round" opacity=".89"/>
+          <path d="M132 396Q125 412 125 426" fill="none" stroke="#76533f" stroke-width="3.5" opacity=".5" stroke-linecap="round"/>
+          <g class="yr-left-paw" transform-origin="143px 450px">
+            <path d="M122 437Q141 429 160 436Q176 448 169 463Q162 479 136 477Q108 476 110 457Q112 444 122 437Z" fill="#352820" stroke="#17130f" stroke-width="4"/>
+            <path d="M132 451v16m17-15v16m-27-5q9 7 20 3" fill="none" stroke="#785943" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </g>
       </g>
       <g class="yr-right-leg" transform-origin="214px 324px">
-        <path d="M210 321Q238 319 242 362L244 436Q253 469 224 471Q195 472 193 447L190 362Z" fill="#2b211d" stroke="#17130f" stroke-width="5"/>
-        <path d="M199 442q21-12 44-3 15 7 11 23-5 15-30 16-28 1-35-14-5-11 10-22Z" fill="#382a21" stroke="#17130f" stroke-width="4"/>
-        <path d="M210 453v17m16-18 1 17m14-9q-9 9-22 8" fill="none" stroke="#765843" stroke-width="3" stroke-linecap="round"/>
-        <path d="M217 338q12 28 10 57" fill="none" stroke="#74533c" stroke-width="4" opacity=".46"/>
+        <path d="M211 322Q238 317 242 351L242 412Q220 428 198 411L189 354Q187 332 211 322Z" fill="#2b211d" stroke="#191511" stroke-width="4.5"/>
+        <path d="M216 340Q231 359 230 394" fill="none" stroke="#76543e" stroke-width="4" opacity=".43" stroke-linecap="round"/>
+        <g class="yr-right-forearm" transform-origin="222px 393px">
+          <path d="M198 386Q217 374 239 382Q248 395 249 414L251 451Q250 471 225 473Q196 475 190 452L192 404Q193 392 198 386Z" fill="#30231d"/>
+          <path d="M195 407L191 447Q189 459 203 467M243 402L249 446" fill="none" stroke="#191511" stroke-width="4" stroke-linecap="round" opacity=".89"/>
+          <path d="M218 398Q232 415 232 430" fill="none" stroke="#76513d" stroke-width="3.5" opacity=".52" stroke-linecap="round"/>
+          <g class="yr-right-paw" transform-origin="223px 451px">
+            <path d="M199 439Q221 430 242 439Q257 448 253 463Q247 480 223 479Q194 479 189 461Q186 449 199 439Z" fill="#382a21" stroke="#17130f" stroke-width="4"/>
+            <path d="M210 452v17m16-18 1 17m14-9q-9 9-22 8" fill="none" stroke="#7d5b43" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </g>
       </g>
       <g class="yr-neck" aria-hidden="true">
         <path d="M128 259q50 28 113 0l13 46Q179 326 118 302Z" fill="#25201a" stroke="#171411" stroke-width="5"/>
@@ -676,8 +739,9 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
         <g fill="#a47a61" opacity=".7"><circle cx="122" cy="230" r="2"/><circle cx="127" cy="238" r="1.7"/><circle cx="116" cy="238" r="1.7"/><circle cx="237" cy="230" r="2"/><circle cx="244" cy="238" r="1.7"/><circle cx="231" cy="238" r="1.7"/></g>
         <path d="M129 151l8-7m18-3 4-9m32 5 6-10m24 19 8-7" stroke="#765445" stroke-width="3" stroke-linecap="round" opacity=".47"/>
         ${detail('M103 208l-9-8m9 26-6 4m159-22 9-8m-6 25 7 6')}
+        ${(["hat","flowers"].includes(outfit))?accessories(outfit):""}
       </g>
-      ${accessories(outfit)}
+      ${(!["hat","flowers"].includes(outfit))?accessories(outfit):""}
       <g class="yr-magic" opacity="0" stroke="#ffd889" stroke-linecap="round"><path d="M94 359v15m-7-8h15m192-23v16m-8-8h16" stroke-width="2.5"/></g>
     </svg>`;
   }
@@ -701,7 +765,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'1.7.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'1.8.0'});
 })();
 
 </script>

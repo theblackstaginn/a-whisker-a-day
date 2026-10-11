@@ -1,4 +1,4 @@
-/* Yarrow's hand-illustrated paper-cut animation, v1.7 */
+/* Yarrow's hand-illustrated paper-cut animation, v1.8 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -44,3 +44,48 @@
 .cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
+
+/* v1.8: independently articulated front paws, forearms, and tail tip. */
+.cutout-yarrow .yr-svg g{transform-box:view-box}
+.cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:none;animation:yr-stance-l 6.4s ease-in-out infinite}
+.cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:none;animation:yr-stance-r 6.9s ease-in-out infinite}
+.cutout-yarrow .yr-left-forearm{transform-origin:143px 393px;animation:yr-forearm-l 6.4s ease-in-out infinite}
+.cutout-yarrow .yr-right-forearm{transform-origin:222px 393px;animation:yr-forearm-r 6.9s ease-in-out infinite}
+.cutout-yarrow .yr-left-paw{transform-origin:143px 450px;animation:yr-paw-l 5.9s ease-in-out infinite}
+.cutout-yarrow .yr-right-paw{transform-origin:223px 451px;animation:yr-paw-r 6.8s ease-in-out infinite}
+.cutout-yarrow .yr-tail-tip{transform-origin:304px 410px;animation:yr-curl 4.6s ease-in-out infinite}
+@keyframes yr-stance-l{0%,100%{transform:rotate(0)}50%{transform:rotate(-.9deg)}}
+@keyframes yr-stance-r{0%,100%{transform:rotate(0)}50%{transform:rotate(.8deg)}}
+@keyframes yr-forearm-l{0%,100%{transform:rotate(0)}50%{transform:translateY(-1px) rotate(-1.3deg)}}
+@keyframes yr-forearm-r{0%,100%{transform:rotate(0)}50%{transform:translateY(-1px) rotate(1.2deg)}}
+@keyframes yr-paw-l{0%,100%{transform:rotate(0)}50%{transform:rotate(1.8deg)}}
+@keyframes yr-paw-r{0%,100%{transform:rotate(0)}50%{transform:rotate(-1.8deg)}}
+@keyframes yr-curl{0%,100%{transform:rotate(5deg)}38%{transform:rotate(-8deg)}68%{transform:rotate(10deg)}}
+@keyframes yr-knead-upper-l{0%,100%{transform:rotate(0)}42%{transform:rotate(-2deg)}}
+@keyframes yr-knead-upper-r{0%,100%{transform:rotate(0)}42%{transform:rotate(2deg)}}
+@keyframes yr-knead-fore-l{0%,100%{transform:translateY(0) rotate(0)}35%,53%{transform:translate(-2px,-15px) rotate(-6deg)}77%{transform:translateY(-2px)}}
+@keyframes yr-knead-fore-r{0%,100%{transform:translate(-1px,-15px) rotate(6deg)}36%,55%{transform:translateY(0) rotate(0)}80%{transform:translate(-1px,-12px) rotate(4deg)}}
+@keyframes yr-knead-paw-l{0%,100%{transform:rotate(0)}35%,53%{transform:rotate(-9deg)}77%{transform:rotate(2deg)}}
+@keyframes yr-knead-paw-r{0%,100%{transform:rotate(7deg)}36%,55%{transform:rotate(-2deg)}80%{transform:rotate(7deg)}}
+@keyframes yr-offer-upper-l{0%,100%{transform:rotate(0)}30%,76%{transform:rotate(-4deg)}}
+@keyframes yr-offer-upper-r{0%,100%{transform:rotate(0)}30%,76%{transform:rotate(4deg)}}
+@keyframes yr-offer-fore-l{0%,100%{transform:translateY(0) rotate(0)}30%,75%{transform:translate(-3px,-22px) rotate(-31deg)}}
+@keyframes yr-offer-fore-r{0%,100%{transform:translateY(0) rotate(0)}30%,75%{transform:translate(3px,-22px) rotate(31deg)}}
+@keyframes yr-offer-paw-l{0%,100%{transform:rotate(0)}30%,75%{transform:rotate(17deg)}}
+@keyframes yr-offer-paw-r{0%,100%{transform:rotate(0)}30%,75%{transform:rotate(-17deg)}}
+@keyframes yr-curl-big{0%,100%{transform:rotate(5deg)}38%{transform:rotate(-17deg)}75%{transform:rotate(13deg)}}
+.cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-upper-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-leg{animation:yr-knead-upper-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-left-forearm{animation:yr-knead-fore-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-forearm{animation:yr-knead-fore-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-left-paw{animation:yr-knead-paw-l .76s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-paw{animation:yr-knead-paw-r .76s ease-in-out 4}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-leg{animation:yr-offer-upper-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-forearm{animation:yr-offer-fore-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-paw{animation:yr-offer-paw-l 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-upper-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-forearm{animation:yr-offer-fore-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-paw{animation:yr-offer-paw-r 2s ease-in-out 1}
+.cutout-yarrow[data-pose="swish"] .yr-tail-tip,.cutout-yarrow[data-pose="happy"] .yr-tail-tip{animation:yr-curl-big 1.3s ease-in-out 1}
+.cutout-yarrow[data-pose="purr"] .yr-left-paw,.cutout-yarrow[data-pose="purr"] .yr-right-paw{animation:yr-paw-l 1.3s ease-in-out 2}
+.cutout-yarrow.is-nighttime .yr-tail-tip{animation-duration:6.4s}
