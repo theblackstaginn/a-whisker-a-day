@@ -743,6 +743,17 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .shop-item [data-action="reward-moment"]{margin-top:7px;min-height:40px;white-space:normal}
 .reward-moment-steps{padding-left:23px;margin:20px 0;color:#425c48;font:16px/1.65 Georgia,serif}
 .reward-moment-steps li{margin:0 0 12px;padding-left:3px}
+/* New Cottage comforts: visible keepsakes without covering Yarrow's face. */
+.cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}
+.cottage-storybook .decor-overlay.pillow{right:13%;bottom:12%}
+.cottage-storybook .decor-overlay.clock{right:12%;top:17%}
+.cottage-storybook .decor-overlay.flowershelf{left:12%;top:28%}
+.cottage-storybook .decor-overlay.basket{left:23%;bottom:7%}
+.cottage-storybook .decor-overlay.mushroom{right:6%;bottom:7%}
+.cottage-storybook .decor-overlay.candles{left:5%;top:47%}
+.cottage-storybook .decor-overlay.quilt{right:25%;bottom:4%}
+.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:clamp(23px,3.3vw,38px);z-index:4;text-shadow:0 3px 5px #30211677;pointer-events:none}
+@media(max-width:700px){.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:24px}}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1116,7 +1127,15 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     { id: 'lantern', name: 'Brass lantern', emoji: '🏮', price: 15, hint: 'A warm glow' },
     { id: 'rug', name: 'Woven rug', emoji: '🧶', price: 17, hint: 'For cozy little paws' },
     { id: 'crystals', name: 'River stones', emoji: '🪨', price: 12, hint: 'Collected with care' },
-    { id: 'books', name: 'Old herbals', emoji: '📚', price: 18, hint: 'Pages of plant lore' }
+    { id: 'books', name: 'Old herbals', emoji: '📚', price: 18, hint: 'Pages of plant lore' },
+    { id: 'teapot', name: 'Copper teapot', emoji: '🫖', price: 16, hint: 'For unhurried moments' },
+    { id: 'pillow', name: 'Moss-green cushion', emoji: '🛋️', price: 13, hint: 'A soft place to settle' },
+    { id: 'clock', name: 'Moon clock', emoji: '🕰️', price: 21, hint: 'Time to rest, too' },
+    { id: 'flowershelf', name: 'Pressed flower frame', emoji: '🖼️', price: 19, hint: 'A little beauty kept' },
+    { id: 'basket', name: 'Gathering basket', emoji: '🧺', price: 14, hint: 'For gentle discoveries' },
+    { id: 'mushroom', name: 'Mushroom ornament', emoji: '🍄', price: 11, hint: 'A woodland visitor' },
+    { id: 'candles', name: 'Faux candle lantern', emoji: '🕯️', price: 18, hint: 'Cozy, without a flame' },
+    { id: 'quilt', name: 'Patchwork quilt', emoji: '🪡', price: 23, hint: 'Made with little kindnesses' }
   ];
   const PLANTS = [
     { id: 'lavender', name: 'Lavender', emoji: '🪻', cost: 6, stem: '#668560', leaf: '#779467', bloom: '#9d82ab' },
@@ -1700,6 +1719,14 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     hat:{title:'A playful intention',lead:'A little witchy make-believe.',steps:['Invent a kind spell name for today.','Give it one achievable action, like drinking water.','Remember: playfulness is enough; no task is required.']},
     satchel:{title:'Woodland field notes',lead:'An observation you can make anywhere.',steps:['Look for a tree, a cloud, a patch of moss, or a picture of one.','Notice its textures, shapes or colors.','Leave plants and wildlife undisturbed.']},
     cape:{title:'The quiet woodland walk',lead:'An imaginary or real mini-adventure.',steps:['Picture a safe path through a peaceful woodland.','Notice three sounds around you right now.','Take a tiny pause whenever you need one.']},
+    teapot:{title:'Tea-time permission',lead:'You do not have to earn a pause.',steps:['Choose a drink you enjoy, or imagine one.','Notice its temperature, color or scent.','Give yourself permission to rest for a moment.']},
+    pillow:{title:'A softer landing',lead:'A gentle posture check.',steps:['Notice how your shoulders and jaw feel.','Shift into a more comfortable position if you can.','Remember that comfort is worth making room for.']},
+    clock:{title:'Time belongs to you',lead:'A minute of quiet without a deadline.',steps:['Notice one sound around you.','Think of one activity you can slow down.','There is no countdown to complete.']},
+    flowershelf:{title:'A flower remembered',lead:'A little noticing practice.',steps:['Recall a flower you have seen or loved.','Picture its colors and shapes.','Leave wild flowers for pollinators whenever possible.']},
+    basket:{title:'Gather the good',lead:'Collect moments, not objects.',steps:['Think of one lovely thing you noticed today.','Name something kind someone did, including yourself.','Carry the memory with you.']},
+    mushroom:{title:'A woodland curiosity',lead:'Look without touching.',steps:['Imagine fungi helping a fallen log return to the soil.','Notice how many living things share one place.','Never eat unidentified wild mushrooms.']},
+    candles:{title:'A flameless glow',lead:'A quiet moment of warmth.',steps:['Notice a safe source of gentle light.','Unclench your hands and settle comfortably.','Imagine a little warmth surrounding your thoughts.']},
+    quilt:{title:'Stitches of kindness',lead:'Small things make a whole.',steps:['Recall one small thing you handled today.','Imagine each kind act as a patch in a quilt.','Leave room for unfinished pieces.']},
     crescent:{title:'A moonlit check-in',lead:'There is no wrong way to feel.',steps:['Name your mood in a single word.','Let it exist without needing to change it.','Consider one kind thing you need today.']}
   };
   function rewardMoment(id) {
