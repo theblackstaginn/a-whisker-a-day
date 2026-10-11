@@ -1,42 +1,37 @@
-# A Whisker a Day - The Living Familiar (v1.4)
+# A Whisker a Day — v1.5 Seamless Motion
 
-An installable, entirely client-side self-care storybook app with Yarrow, a black cat familiar.
+A self-contained, installable, browser-based, hedge-witch-apothecary self-care app featuring Yarrow, a warm-hearted black cat familiar.
 
-## What changed in v1.4
+## What changed
 
-- Yarrow is now **one canonical illustrated cat** broken into aligned transparent layers.
-- The head, ears, eyelids, tail, chest, two paws, and brass charm move independently with CSS/SVG transforms.
-- There are **no whole-character photo crossfades** in the new animation system.
-- A gentle idle loop, blinking, ear flicks, tail swishes, kneading, stretch, short approach, and tap-to-purr interactions are available.
-- Reduced-motion preferences and the app's motion toggle are respected.
-- The previously used eight-pose atlas is retired from the production CSS.
-- All existing ritual, check-in, journaling, garden, reward and outfit features stay intact.
-- Saved progress uses the existing `a-whisker-a-day.v1` key; no data migration.
+- Replaced cut-apart cat layers and CSS pose swaps with **one continuously deformed master painting** drawn on an HTML canvas.
+- Breathing, eyelids, head movement, ears, tail, paws, body bow/stretch, curious shifts, and purr interactions now morph over connected geometry. No visible cutout boundaries between body pieces.
+- Motion is clock-driven using smooth easing, with no abrupt reset of body-part animations.
+- Adaptive canvas rendering aims for smooth performance, rather than forced 24 FPS. Pauses when hidden and respects `prefers-reduced-motion` and the app's motion switch.
+- Preserved existing daily rituals, Moon Mirror check-ins, journal, garden, decorations, wardrobe options, and device-local save data.
+
+**Important distinction:** This is the seamless motion foundation, **not** yet the final frame-by-frame hand-drawn anime performance. The current illustrated sitting master can bend, stretch, and shift, but convincingly transitioning to walking or full standing poses will require newly illustrated matching key poses and hand-tuned in-between frames. The older full-pose art was inconsistent and is deliberately no longer crossfaded.
 
 ## Files
 
-- `index.html`: complete self-contained app (artwork embedded; works without asset paths for main UI).
-- `manifest.webmanifest`, `app-icon.svg`, `sw.js`: installable app and offline cache.
-- `rig/yarrow-master.png`: canonical source illustration. All layer images share the exact 362 x 543 coordinate system; they are intentionally not cropped independently.
-- `rig/*.webp` / `rig/*.png`: transparent editable layer exports.
-- `rig/make_layers.py`: script to reproduce the aligned PNG/WebP layers from the source pose sheet.
-- `rig/living_familiar.css`, `rig/living_familiar.js.txt`, `rig/living_state.js.txt`: motion-system sources.
-- `build.py`: reproducible build based on the prior working v1.3 index.
-- `tests/`: browser regression scripts and preview captures.
+- `index.html` — app, code, and embedded scene art; no build step needed
+- `manifest.webmanifest` — PWA metadata
+- `app-icon.svg` — home-screen icon
+- `sw.js` — network-first offline service worker cache (v1.5)
+- `source/yarrow-master.webp` — master Yarrow art used for continuous character animation
+- `source/yarrow-eyelids.webp` — localized eyelid overlay for real blinks
+- `source/fluid_character.js` — readable animation controller source
+- `source/fluid_character.css` — character rendering CSS
+- `source/build.py` — reproducible build from the prior v1.4 snapshot
 
-## Run and install
+## Local-first privacy
 
-Upload `index.html`, `manifest.webmanifest`, `app-icon.svg`, and `sw.js` to the **root** of your existing GitHub Pages repository, or open the hosted app at
-https://theblackstaginn.github.io/a-whisker-a-day/
+User progress remains saved under `a-whisker-a-day.v1` in localStorage. This release does not migrate, clear, or replace saved progress. Journal entries are not uploaded. Download backups from Settings before making major changes, switching devices, or changing domains.
 
-On iPhone, open the live URL in Safari, then choose Share > Add to Home Screen.
+## Install on iPhone
 
-## Privacy and backups
+Open https://theblackstaginn.github.io/a-whisker-a-day/ in Safari, press Share, then Add to Home Screen. If using ChatGPT's in-app browser, open the site in Safari first. If the old visual remains cached, refresh or close and reopen the app.
 
-All ritual progress, journals and preferences stay in your browser's local storage and are not sent to an application server. Back up your data periodically in the app's Settings; browser resets can delete local storage. There are no mandatory accounts or subscriptions.
+## Next production pass
 
-## Quality notes
-
-This is a **first layered puppet rig**, not a Live2D-quality skeletal deformation system. Big moves (such as a full-body arch) use restrained squash, translation, and independently animated paws rather than hand-drawn in-betweens. The important improvement is that she stays one recognizable character at all times.
-
-Tested with headless Chromium at mobile widths, including rendering, independent transforms, ritual completion, journaling, mood UI, garden, and wardrobe navigation. Native iOS Safari review is still needed.
+Hand-draw consistent animated key poses for Yarrow, especially true four-legged stretch, walk, turn, and settle; add controlled in-between frames so these changes read as genuine 2D manga animation without a photo swap.
