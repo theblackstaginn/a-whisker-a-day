@@ -860,6 +860,10 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     if(outfit==='scarf')return `<g class="yr-extra"><path d="M130 276Q181 296 252 272L253 299Q194 321 135 299Z" fill="#a96447" stroke="#e4b78a" stroke-width="4"/><path d="M227 298q18 51 3 91l-18-6 2-83Z" fill="#b46a4a" stroke="#edbd86" stroke-width="3"/><path d="M228 316l-4 57" stroke="#edbc83" stroke-width="3"/></g>`;
     if(outfit==='satchel')return `<g class="yr-extra"><path d="M130 308Q189 336 267 428" fill="none" stroke="#b49c62" stroke-width="7"/><path d="M255 419q22-9 52 0l-2 57-52-4Z" fill="#7c693d" stroke="#d9bb77" stroke-width="4"/><path d="M255 426q29-12 52 0l-9 19-43-3Z" fill="#9d8454" stroke="#d9bb77" stroke-width="2"/></g>`;
     if(outfit==='cape')return `<g class="yr-extra"><path d="M131 300Q85 347 79 437Q184 516 277 454Q275 337 238 297Z" fill="#475d46" stroke="#afbc91" stroke-width="5" opacity=".86"/><path d="M102 434Q185 477 258 449" stroke="#a7b791" stroke-width="3" fill="none"/></g>`;
+    if(outfit==='ribbon')return `<g class="yr-extra" aria-hidden="true"><path d="M138 289Q192 309 247 290" stroke="#77947a" stroke-width="10" fill="none"/><path d="M193 294q-24-24-32-1q9 16 32 4q28-23 39-3q-8 19-39 5Z" fill="#a2bba1" stroke="#668766" stroke-width="3"/><circle cx="194" cy="298" r="8" fill="#d5bd83"/></g>`;
+    if(outfit==='star')return `<g class="yr-extra" aria-hidden="true"><path d="M140 293Q194 311 250 288" fill="none" stroke="#596d7b" stroke-width="10"/><path d="M196 292l5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1Z" fill="#e2cb91" stroke="#a1854e" stroke-width="3"/></g>`;
+    if(outfit==='beret')return `<g class="yr-extra" aria-hidden="true"><path d="M124 139Q129 83 198 78Q270 69 284 129Q216 159 124 139Z" fill="#946d7e" stroke="#4f3948" stroke-width="5"/><path d="M129 139Q203 153 275 128" fill="none" stroke="#d2a3b1" stroke-width="7"/><circle cx="206" cy="78" r="8" fill="#b7919e"/></g>`;
+    if(outfit==='acorn')return `<g class="yr-extra" aria-hidden="true"><path d="M135 295Q194 315 248 289" fill="none" stroke="#8e764d" stroke-width="8"/><path d="M203 301q17 6 15 24q-2 18-16 22q-17-9-15-25q1-15 16-21Z" fill="#b78a53" stroke="#6d5033" stroke-width="3"/><path d="M186 316q14-14 33 0l-2 10q-15-9-29 0Z" fill="#73583e"/><path d="M202 301v-8" stroke="#73583e" stroke-width="3"/></g>`;
     return '';
   }
   // Deterministic illustration details: no per-frame noise, cutout or image switching.
@@ -1120,7 +1124,11 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     { id: 'scarf', name: 'Autumn scarf', emoji: '🧣', price: 14, hint: 'A little extra warmth' },
     { id: 'hat', name: 'Witch hat', emoji: '🧙', price: 22, hint: 'For official witchy business' },
     { id: 'satchel', name: 'Herb satchel', emoji: '🌿', price: 18, hint: 'Full of little discoveries' },
-    { id: 'cape', name: 'Mossy cloak', emoji: '🍃', price: 20, hint: 'Made for woodland walks' }
+    { id: 'cape', name: 'Mossy cloak', emoji: '🍃', price: 20, hint: 'Made for woodland walks' },
+    { id: 'ribbon', name: 'Sage ribbon', emoji: '🎀', price: 12, hint: 'A gentle little bow' },
+    { id: 'star', name: 'Starlight collar', emoji: '⭐', price: 19, hint: 'A tiny golden star' },
+    { id: 'beret', name: 'Rosewood beret', emoji: '🎨', price: 21, hint: 'For an artistic familiar' },
+    { id: 'acorn', name: 'Acorn pendant', emoji: '🌰', price: 16, hint: 'A woodland keepsake' }
   ];
   const DECOR = [
     { id: 'fern', name: 'Window fern', emoji: '🪴', price: 0, hint: 'A leafy beginning' },
@@ -1727,6 +1735,10 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     mushroom:{title:'A woodland curiosity',lead:'Look without touching.',steps:['Imagine fungi helping a fallen log return to the soil.','Notice how many living things share one place.','Never eat unidentified wild mushrooms.']},
     candles:{title:'A flameless glow',lead:'A quiet moment of warmth.',steps:['Notice a safe source of gentle light.','Unclench your hands and settle comfortably.','Imagine a little warmth surrounding your thoughts.']},
     quilt:{title:'Stitches of kindness',lead:'Small things make a whole.',steps:['Recall one small thing you handled today.','Imagine each kind act as a patch in a quilt.','Leave room for unfinished pieces.']},
+    ribbon:{title:'A ribbon of kindness',lead:'Tie a kind thought to this moment.',steps:['Notice something you did with care.','Give it credit, however small it felt.','Let that be enough.']},
+    star:{title:'A little guiding star',lead:'A moment to find direction.',steps:['Imagine a warm star above the Cottage.','Name one thing that matters to you today.','Choose to move gently toward it, or simply rest.']},
+    beret:{title:'A splash of imagination',lead:'Creative play belongs here.',steps:['Notice a color you love.','Imagine painting a tiny scene using that color.','Enjoy the idea without needing to make anything.']},
+    acorn:{title:'Small beginnings',lead:'Every tree started somewhere.',steps:['Picture an acorn resting safely in the soil.','Name one small thing you would like to nurture.','There is no deadline for growth.']},
     crescent:{title:'A moonlit check-in',lead:'There is no wrong way to feel.',steps:['Name your mood in a single word.','Let it exist without needing to change it.','Consider one kind thing you need today.']}
   };
   function rewardMoment(id) {
