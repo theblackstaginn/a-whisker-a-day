@@ -1,0 +1,49 @@
+
+/* Editable in yarrow-cutout.css inside the full source archive */
+/* Yarrow's hand-illustrated paper-cut animation, v1.7 */
+.yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
+.cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
+.cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
+.cutout-yarrow .yr-head{transform-origin:181px 267px;animation:yr-look 7.3s ease-in-out infinite}
+.cutout-yarrow .yr-tail{transform-origin:270px 385px;animation:yr-sway 4.6s ease-in-out infinite}
+.cutout-yarrow .yr-ear-left{transform-origin:113px 151px;animation:yr-ear-l 11s ease-in-out infinite}
+.cutout-yarrow .yr-ear-right{transform-origin:241px 153px;animation:yr-ear-r 13s ease-in-out infinite}
+.cutout-yarrow .yr-eye-set{transform-origin:182px 202px;animation:yr-auto-blink 7.4s ease-in-out infinite}
+.cutout-yarrow .yr-charm{transform-origin:178px 303px;animation:yr-charm 4.8s ease-in-out infinite}
+.cutout-yarrow .yr-left-leg{transform-origin:149px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
+.cutout-yarrow .yr-right-leg{transform-origin:214px 324px;transition:transform .55s cubic-bezier(.22,.8,.24,1)}
+.cutout-yarrow .yr-svg g{transform-box:view-box;will-change:auto}
+@keyframes yr-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.015,1.01)}}
+@keyframes yr-look{0%,37%,100%{transform:rotate(0deg)}43%,55%{transform:rotate(2deg)}69%{transform:rotate(-1.8deg)}}
+@keyframes yr-sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(8deg)}}
+@keyframes yr-ear-l{0%,32%,40%,100%{transform:rotate(0)}35%{transform:rotate(-8deg)}37%{transform:rotate(4deg)}}
+@keyframes yr-ear-r{0%,67%,75%,100%{transform:rotate(0)}70%{transform:rotate(9deg)}72%{transform:rotate(-4deg)}}
+@keyframes yr-auto-blink{0%,44%,46%,100%{transform:scaleY(1)}45%{transform:scaleY(.07)}}
+@keyframes yr-blink-now{0%,30%,72%,100%{transform:scaleY(1)}47%,55%{transform:scaleY(.055)}}
+@keyframes yr-charm{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+@keyframes yr-happy{0%,100%{transform:translateY(0)}45%{transform:translateY(-9px)}}
+@keyframes yr-purr{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(3px) rotate(-4deg)}}
+@keyframes yr-tilt{0%,100%{transform:rotate(0)}35%,70%{transform:rotate(-11deg)}}
+@keyframes yr-offer-left{0%,100%{transform:rotate(0)}30%,78%{transform:translate(-3px,-68px) rotate(-18deg) scaleY(.80)}}
+@keyframes yr-offer-right{0%,100%{transform:rotate(0)}30%,78%{transform:translate(3px,-68px) rotate(18deg) scaleY(.80)}}
+@keyframes yr-knead-left{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px)}70%{transform:translateY(-3px)}}
+@keyframes yr-knead-right{0%,100%{transform:translateY(-14px)}40%{transform:translateY(0)}70%{transform:translateY(-11px)}}
+@keyframes yr-big-swish{0%,100%{transform:rotate(-5deg)}40%{transform:rotate(18deg)}70%{transform:rotate(-13deg)}}
+@keyframes yr-sparkles{0%,100%{opacity:0;transform:scale(.7)}45%{opacity:1;transform:scale(1.15)}}
+.cutout-yarrow[data-pose="blink"] .yr-eye-set{animation:yr-blink-now .85s ease-in-out 1}
+.cutout-yarrow[data-pose="tilt"] .yr-head{animation:yr-tilt 1.4s ease-in-out 1}
+.cutout-yarrow[data-pose="purr"] .yr-head{animation:yr-purr .7s ease-in-out 3}
+.cutout-yarrow[data-pose="purr"] .yr-eye-set{animation:yr-blink-now 1.2s ease-in-out 2}
+.cutout-yarrow[data-pose="purr"] .yr-body{animation:yr-breathe 1.9s ease-in-out infinite}
+.cutout-yarrow[data-pose="swish"] .yr-tail{animation:yr-big-swish 1.3s ease-in-out 1}
+.cutout-yarrow[data-pose="knead"] .yr-left-leg{animation:yr-knead-left .7s ease-in-out 4}
+.cutout-yarrow[data-pose="knead"] .yr-right-leg{animation:yr-knead-right .7s ease-in-out 4}
+.cutout-yarrow[data-pose="offer"][data-side="left"] .yr-left-leg{animation:yr-offer-left 1.9s ease-in-out 1}
+.cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-right 1.9s ease-in-out 1}
+.cutout-yarrow[data-pose="happy"] .yr-head{animation:yr-happy 1.1s ease-in-out 1}
+.cutout-yarrow[data-pose="happy"] .yr-magic,.cutout-yarrow[data-pose="purr"] .yr-magic{animation:yr-sparkles 1.4s ease-in-out infinite}
+.cutout-yarrow.is-nighttime .yr-eye-set{animation-duration:9.3s}
+.cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
+@media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
+body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
+
