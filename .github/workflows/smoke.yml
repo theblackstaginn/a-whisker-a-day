@@ -1,0 +1,23 @@
+name: Whisker release checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Static app and Yarrow checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out app
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify app source and character rig
+        run: npm test
