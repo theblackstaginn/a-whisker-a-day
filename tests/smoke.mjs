@@ -44,11 +44,11 @@ assert.equal(ctx.window.YarrowCutout.version,'2.2.0');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
- assert.ok(markup.includes('yr-tail-tip')&&markup.includes('yr-left-forearm')&&markup.includes('yr-right-paw'),'Jointed pieces missing for '+outfit);
- assert.ok(markup.includes('yr-lid-left')&&markup.includes('yr-lid-right')&&markup.includes('yr-gaze'),'Expressive eye groups missing for '+outfit);
+ assert.ok(markup.includes('yr-book-silhouette')&&markup.includes('yr-book-body')&&markup.includes('yr-book-head'),'Original painted familiar layers missing for '+outfit);
+ assert.ok(markup.includes('yr-book-lids')&&markup.includes('yr-book-magic'),'Original painted familiar expression layers missing for '+outfit);
  const opens=(markup.match(/<g(?:\s|>)/g)||[]).length;
  const closes=(markup.match(/<\/g>/g)||[]).length;
  assert.equal(opens,closes,'Unbalanced SVG groups for '+outfit);
 }
-assert.ok(css.includes('yr-lid-on-demand') && css.includes('translateY(-72px)'), 'Natural eyelids should return to an open-eyed rest state');
-console.log('A Whisker a Day v2.2: syntax, eyelids, embedded source, user data, offline and animation checks passed.');
+assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
+console.log('A Whisker a Day v2.2: original painterly art, expressions, embedded source, privacy, offline and animation checks passed.');
