@@ -785,6 +785,21 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .ritual-library-feature>.shop-grid{position:relative;z-index:1;margin-top:22px;padding-top:18px;border-top:1px solid #c9b99899}
 @media(max-width:700px){.ritual-library-feature{padding:24px 19px!important}.ritual-library-header{flex-direction:column;align-items:stretch;gap:18px}.ritual-library-open{width:100%;justify-content:center;white-space:normal}.ritual-library-glow{font-size:38px;right:10px;top:12px}.ritual-library-copy .card-heading{font-size:29px}}
 
+/* Each optional practice gets a bespoke subject pictogram in a soft illustrated vignette. */
+.ritual-library-feature .shop-grid .ritual-illustrated-card{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 12px 15px;min-height:275px;background:linear-gradient(165deg,#fffbf0,#f2e9d7);border:1px solid #d7c7a9;border-radius:18px}
+.ritual-illustrated-card .ritual-card-art{width:100%;height:102px;display:grid;place-items:center;position:relative;margin-bottom:9px;border-radius:12px;background:radial-gradient(ellipse at 50% 67%,#f5e4bf 0%,#f7efdca6 45%,transparent 76%)}
+.ritual-illustrated-card .ritual-card-art-halo{position:absolute;width:100px;height:76px;border:1px solid #b9a57b66;border-radius:50%;transform:rotate(-12deg);background:#fffaf04d}
+.ritual-illustrated-card .ritual-card-art-glyph{font-size:57px;line-height:1;filter:drop-shadow(0 5px 4px #735a3429);position:relative}
+.ritual-illustrated-card .ritual-card-art-spark{position:absolute;right:20%;top:8px;color:#bd9658;font-size:17px}
+.ritual-illustrated-card.ritual-art-mind .ritual-card-art{background:radial-gradient(ellipse,#e0e7df,#f9f2e1 69%,transparent 78%)}
+.ritual-illustrated-card.ritual-art-spirit .ritual-card-art{background:radial-gradient(ellipse,#e6dfed,#faf0df 69%,transparent 78%)}
+.ritual-illustrated-card.ritual-art-home .ritual-card-art{background:radial-gradient(ellipse,#eedcca,#fbf1dd 69%,transparent 78%)}
+.ritual-illustrated-card .eyebrow{margin-bottom:7px}
+.ritual-illustrated-card strong{font:500 19px/1.24 Fraunces,Georgia,serif;color:#354d3e}
+.ritual-illustrated-card small{font-size:12px;line-height:1.5!important;color:#737969;margin:9px 0 14px;flex:1}
+.ritual-illustrated-card .btn{width:100%;min-height:44px;white-space:normal}
+@media(max-width:700px){.ritual-illustrated-card .ritual-card-art{height:82px}.ritual-illustrated-card .ritual-card-art-glyph{font-size:47px}.ritual-illustrated-card .ritual-card-art-halo{width:82px;height:63px}.ritual-illustrated-card strong{font-size:17px}.ritual-illustrated-card small{font-size:11px}.ritual-library-feature .shop-grid .ritual-illustrated-card{padding:11px 9px 12px;min-height:275px}}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1505,6 +1520,14 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       </div>
     </div>`;
   }
+  const RITUAL_ART = {
+    'library-tea':'🫖','library-threshold':'🚪','library-stone':'🪨','library-sky':'☁️',
+    'library-hands':'🤲','library-altar':'🕯️','library-window':'🪟','library-release':'✉️',
+    'library-season':'🍂','library-feet':'🌱','library-kindspace':'🛋️','library-moon':'🌙',
+    'library-gratitude':'💌','library-birdsong':'🐦','library-sleep':'🌌','library-scent':'🌸',
+    'library-boundaries':'🛡️','library-sweep':'🧹','library-waterbowl':'🪴','library-dawn':'🌅',
+    'library-rest':'🛏️','library-compass':'🧭','library-table':'🍎','library-thanks':'🌿'
+  };
   function renderRituals() {
     const done = todayDone().length, total = state.rituals.length;
     const tasks = filter==='All'?state.rituals:state.rituals.filter(r=>r.area===filter);
@@ -1518,7 +1541,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         <div><span class="ritual-name">${esc(r.title)}</span><span class="ritual-hint">${esc(r.hint||r.area)} · ${esc(r.area)}</span></div>
         <div class="ritual-meta"><span class="ritual-reward">${isDone(r.id)?'✓ Tended':'+4 ✿'}</span><button type="button" class="del-icon" data-action="delete-ritual" data-id="${esc(r.id)}" aria-label="Remove ${esc(r.title)}" title="Remove ritual">${icon('trash')}</button></div>
       </div>`).join(''):'<div class="card empty-state">No rituals in this little corner yet. Try another category, or add your own.</div>'}</div>
-      <section class="card card-pad ritual-library-feature" style="margin-top:20px"><div class="ritual-library-glow" aria-hidden="true">☾ <span>✦</span> ❧</div><div class="ritual-library-header"><div class="ritual-library-copy"><span class="eyebrow">✧ A hedge-witch's little cupboard</span><h2 class="card-heading">The little <em>ritual cupboard</em></h2><p class="card-subtext">Twenty-four gentle ways to tend your day. Pick what feels good—nothing here is another chore, and your rituals stay yours until you choose to add one.</p><div class="ritual-library-promise">✿ Optional discoveries <span aria-hidden="true">·</span> ♡ Your own pace</div></div><button type="button" class="btn btn-primary ritual-library-open" data-action="toggle-library" aria-expanded="${ritualLibraryOpen}"><span aria-hidden="true">${ritualLibraryOpen?'☾':'✧'}</span> ${ritualLibraryOpen?'Close cupboard':'Explore 24 practices'} <span aria-hidden="true">→</span></button></div>${ritualLibraryOpen?`<div class="shop-grid">${RITUAL_LIBRARY.map(r=>`<article class="shop-item"><span class="eyebrow">${esc(r.area)}</span><strong>${esc(r.title)}</strong><small style="line-height:1.5">${esc(r.hint)}</small><button type="button" class="btn btn-primary btn-small" data-action="add-library-ritual" data-id="${esc(r.id)}" ${state.rituals.some(x=>x.id===r.id)?'disabled':''}>${state.rituals.some(x=>x.id===r.id)?'Already in your rituals':'+ Add to my rituals'}</button></article>`).join('')}</div>` : ''}</section>
+      <section class="card card-pad ritual-library-feature" style="margin-top:20px"><div class="ritual-library-glow" aria-hidden="true">☾ <span>✦</span> ❧</div><div class="ritual-library-header"><div class="ritual-library-copy"><span class="eyebrow">✧ A hedge-witch's little cupboard</span><h2 class="card-heading">The little <em>ritual cupboard</em></h2><p class="card-subtext">Twenty-four gentle ways to tend your day. Pick what feels good—nothing here is another chore, and your rituals stay yours until you choose to add one.</p><div class="ritual-library-promise">✿ Optional discoveries <span aria-hidden="true">·</span> ♡ Your own pace</div></div><button type="button" class="btn btn-primary ritual-library-open" data-action="toggle-library" aria-expanded="${ritualLibraryOpen}"><span aria-hidden="true">${ritualLibraryOpen?'☾':'✧'}</span> ${ritualLibraryOpen?'Close cupboard':'Explore 24 practices'} <span aria-hidden="true">→</span></button></div>${ritualLibraryOpen?`<div class="shop-grid">${RITUAL_LIBRARY.map(r=>`<article class="shop-item ritual-illustrated-card ritual-art-${esc(r.area.toLowerCase())}"><div class="ritual-card-art" aria-hidden="true"><span class="ritual-card-art-halo"></span><span class="ritual-card-art-glyph">${RITUAL_ART[r.id]||"✧"}</span><span class="ritual-card-art-spark">✦</span></div><span class="eyebrow">${esc(r.area)}</span><strong>${esc(r.title)}</strong><small style="line-height:1.5">${esc(r.hint)}</small><button type="button" class="btn btn-primary btn-small" data-action="add-library-ritual" data-id="${esc(r.id)}" ${state.rituals.some(x=>x.id===r.id)?'disabled':''}>${state.rituals.some(x=>x.id===r.id)?'Already in your rituals':'+ Add to my rituals'}</button></article>`).join('')}</div>` : ''}</section>
       <div class="ritual-footer"><p class="tiny-muted">✧ New day, fresh page. Unfinished rituals never count against you.</p><button type="button" class="btn btn-secondary" data-action="add-ritual">${icon('plus')} Make your own ritual</button></div>
     </div>`;
   }
