@@ -168,31 +168,29 @@
   /* v2.3: One continuous original painting. No disconnected head/body
      masks or traced silhouette. The soft image vignette is purely visual. */
   const STORYBOOK_BLEND_MASK='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAACMCAAAAADdUTHRAAAB3klEQVR42u3a22obMRAG4NFKWrsmaZzi9v3fr6Ykzq4Oc+yF5UBvVXI3P4iFBX0MP7u6EsAXJUAIMaac17zmnFOMywxjKkJMSIRMLGKWIKTj6en5+/nl/PLy/HQ65BlZsJXtdnt/e3+/feylsyWAmI9Pr5fLr5+Xy4/z8+kwA3Pbb29/rtff10M0IQJYvqpjhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGH/0kaTwMzsHsmmLHR4HN7ur9UFWEiQkwQJ1xGJGIWUR10AgAzFSbE3mqORlNXWHsptbaOJKJmD1iFCVvd1xQU1wnYpNdt20vriHyXE4DZcHMMgjVPwVj37bbtpSGJ6OhYlanVNS0mvR7S1DVhamX/uG2lduIxsZkJYy8xGGM9rjOwKWEt+7bttSOJmkECABXqcQkmWL8dcgwTEytTa6WUvTRk0dGxCsUlmFA7rmuag4UQW6u1NmSxR8fCCCbU13VNcZmBTYQIO/Z+r+LxVQQwZWw5pRjDFKwizERERI8qDBTAlCmmGJcY5mBTFRFhEb7/fAEghLCEZSQEmIJBzXTEBgwBwghMjft5ij3OMTAY44WxIPzHQWljgcFX5i9BboHlWCToGQAAAABJRU5ErkJggg==';
-  const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
-    <defs>
-      <mask id="yr-book-vignette" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" style="mask-type:luminance">
-        <image href="${STORYBOOK_BLEND_MASK}" x="0" y="0" width="440" height="700" preserveAspectRatio="none"/>
-      </mask>
-    </defs>
+  // Atlas parts share one painted source; nested SVG viewports select anatomy.
+  const part=(name, box, x,y,w,h)=>`<svg class="yr-part ${name}" x="${x}" y="${y}" width="${w}" height="${h}" viewBox="${box}" preserveAspectRatio="none" overflow="hidden"><image href="./assets/hearth-v24/yarrow-parts.webp" width="1536" height="1024"/></svg>`;
+  const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+    <ellipse cx="223" cy="616" rx="146" ry="17" fill="#1d2118" opacity=".22"/>
+    <g class="yr-painted-tail">${part('tail','1045 500 491 510',280,374,157,238)}</g>
     <g class="yr-book-body">
-      <image href="${STORYBOOK_ART}" width="440" height="700" mask="url(#yr-book-vignette)" preserveAspectRatio="none"/>
-      <g class="yr-book-head">
-        <g class="yr-book-lids" opacity="0" aria-hidden="true">
-          <path d="M111 212Q115 187 136 184Q155 182 165 203Q171 231 149 243Q125 249 112 224Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
-          <path d="M216 229Q216 211 235 207Q259 200 269 223Q278 245 262 263Q242 274 221 254Z" fill="#271b17" stroke="#493326" stroke-width="2.2"/>
-          <path d="M119 223Q140 231 160 219M222 241Q245 250 266 236" fill="none" stroke="#775443" stroke-width="2.4" opacity=".7" stroke-linecap="round"/>
-        </g>
-      </g>
-    ${outfit==='flowers'?'<g class="yr-book-flowers" aria-hidden="true"><path d="M149 116Q214 98 283 123" stroke="#728155" stroke-width="5" fill="none"/><g fill="#f6df9e"><circle cx="169" cy="107" r="7"/><circle cx="205" cy="103" r="6"/><circle cx="249" cy="111" r="7"/></g><g fill="#ad8041"><circle cx="169" cy="107" r="2"/><circle cx="205" cy="103" r="2"/><circle cx="249" cy="111" r="2"/></g></g>':''}
-    ${outfit==='hat'?'<g class="yr-book-hat" aria-hidden="true"><path d="M120 139Q183 27 247 11Q241 95 317 141Q216 155 120 139Z" fill="#445844" stroke="#283b2e" stroke-width="6"/><path d="M128 127Q218 145 298 124L309 148Q215 165 114 145Z" fill="#344c3b" stroke="#d1b47e" stroke-width="5"/></g>':''}
+      <g class="yr-painted-torso">${part('torso','0 480 560 520',55,312,300,310)}</g>
+      <g class="yr-painted-paw-left">${part('paw-left','560 500 245 500',119,410,101,210)}</g>
+      <g class="yr-painted-paw-right">${part('paw-right','805 500 225 500',221,410,94,210)}</g>
+    </g>
+    <g class="yr-painted-head">
+      <g class="yr-painted-ear-left">${part('ear-left','575 20 380 460',92,86,124,196)}</g>
+      <g class="yr-painted-ear-right">${part('ear-right','1120 20 416 460',231,82,134,198)}</g>
+      ${part('head','0 0 560 480',48,145,331,232)}
+      <svg x="48" y="145" width="331" height="232" viewBox="0 0 560 480" preserveAspectRatio="none" overflow="hidden"><g class="yr-book-lids" fill="#17130f"><path d="M141 239Q149 201 188 199Q226 197 249 240L255 271Q230 309 190 298Q153 292 141 259Z" fill="#221b15"/><path d="M328 241Q344 198 380 199Q422 200 430 245L430 272Q400 306 365 298Q335 290 328 263Z" fill="#211a14"/><g fill="none" stroke-linecap="round"><path d="M151 246Q191 278 240 252M338 252Q379 280 420 248" stroke="#0c0b09" stroke-width="8"/><path d="M155 256Q194 284 237 263M340 263Q380 285 417 259" stroke="#6c5038" stroke-width="2.5"/><path d="M155 220l12 6m6-14 12 8m14-9 12 10m11 1 9 11M342 226l11-9m4 5 12-12m13 8 11-9m6 15 12-7" stroke="#59402c" opacity=".5" stroke-width="2"/></g></g></svg>
+    ${outfit==='flowers'?'<g class="yr-book-flowers" transform="translate(0 95)" aria-hidden="true"><path d="M149 116Q214 98 283 123" stroke="#728155" stroke-width="5" fill="none"/><g fill="#f6df9e"><circle cx="169" cy="107" r="7"/><circle cx="205" cy="103" r="6"/><circle cx="249" cy="111" r="7"/></g><g fill="#ad8041"><circle cx="169" cy="107" r="2"/><circle cx="205" cy="103" r="2"/><circle cx="249" cy="111" r="2"/></g></g>':''}
+    ${outfit==='hat'?'<g class="yr-book-hat" transform="translate(0 95)" aria-hidden="true"><path d="M120 139Q183 27 247 11Q241 95 317 141Q216 155 120 139Z" fill="#445844" stroke="#283b2e" stroke-width="6"/><path d="M128 127Q218 145 298 124L309 148Q215 165 114 145Z" fill="#344c3b" stroke="#d1b47e" stroke-width="5"/></g>':''}
+    </g>
     ${outfit==='scarf'?'<path aria-hidden="true" d="M282 339Q305 376 300 447L277 447Q278 393 260 361Z" fill="#9e654b" stroke="#dbb28d" stroke-width="4" opacity=".9"/>':''}
     ${outfit==='satchel'?'<g aria-hidden="true"><path d="M125 368Q221 394 298 575" fill="none" stroke="#bca16e" stroke-width="6" opacity=".8"/><path d="M289 554q23-11 47 3l-5 61-53-4Z" fill="#746440" stroke="#c1a56e" stroke-width="4"/></g>':''}
     ${outfit==='cape'?'<g aria-hidden="true" opacity=".75"><path d="M72 372Q38 491 50 571Q76 607 117 620Q87 527 126 371Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/><path d="M308 364Q336 436 343 542L307 569Q320 483 279 376Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/></g>':''}
-    </g>
-    <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3" fill="none" stroke-linecap="round">
-      <path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/>
-    </g>
+
+    <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3"><path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/></g>
   </svg>`;
   function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
@@ -214,5 +212,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.3.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.0-dev'});
 })();

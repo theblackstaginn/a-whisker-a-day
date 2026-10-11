@@ -152,3 +152,39 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 @media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}.storybook-yarrow .yr-book-lids{opacity:0!important}}
 body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
 body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
+
+/* v2.4 development: independently transformed painted anatomy. */
+.storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
+.storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
+.storybook-yarrow .yr-painted-ear-left{transform-origin:171px 255px;animation:yr-painted-ear 11s ease-in-out infinite}
+.storybook-yarrow .yr-painted-ear-right{transform-origin:272px 255px;animation:yr-painted-ear 13s 3s ease-in-out infinite reverse}
+.storybook-yarrow .yr-painted-tail{transform-origin:302px 577px;animation:yr-painted-tail 5s ease-in-out infinite}
+.storybook-yarrow .yr-painted-torso{transform-origin:220px 612px;animation:yr-book-breathe 6s ease-in-out infinite}
+.storybook-yarrow[data-pose="tilt"] .yr-painted-head{animation:yr-painted-tilt 1.4s ease-in-out}
+.storybook-yarrow[data-pose="purr"] .yr-painted-head{animation:yr-painted-nuzzle .75s ease-in-out 3}
+.storybook-yarrow[data-pose="knead"] .yr-painted-paw-left{animation:yr-painted-knead .9s ease-in-out 3}
+.storybook-yarrow[data-pose="knead"] .yr-painted-paw-right{animation:yr-painted-knead .9s -.45s ease-in-out 3}
+.storybook-yarrow[data-pose="offer"][data-side="left"] .yr-painted-paw-left,
+.storybook-yarrow[data-pose="offer"][data-side="right"] .yr-painted-paw-right{animation:yr-painted-offer 1.4s ease-in-out}
+.storybook-yarrow[data-pose="swish"] .yr-painted-tail{animation:yr-painted-swish 1.3s ease-in-out}
+.storybook-yarrow[data-pose="happy"] .yr-painted-ear-left,
+.storybook-yarrow[data-pose="happy"] .yr-painted-ear-right{animation:yr-painted-ear 1.3s ease-in-out}
+@keyframes yr-painted-attention{0%,35%,70%,100%{transform:rotate(0)}50%,58%{transform:rotate(-1deg)}}
+@keyframes yr-painted-ear{0%,82%,94%,100%{transform:rotate(0)}86%{transform:rotate(-4deg)}90%{transform:rotate(2deg)}}
+@keyframes yr-painted-tail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes yr-painted-tilt{0%,100%{transform:rotate(0)}40%,65%{transform:rotate(-4deg)}}
+@keyframes yr-painted-nuzzle{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(1px,2px) rotate(-1.5deg)}}
+@keyframes yr-painted-knead{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes yr-painted-offer{0%,100%{transform:translateY(0)}40%,70%{transform:translateY(-11px)}}
+@keyframes yr-painted-swish{0%,100%{transform:rotate(0)}35%{transform:rotate(-6deg)}70%{transform:rotate(4deg)}}
+.hearth-world{aspect-ratio:2/3;min-height:0;max-width:560px;margin:10px auto 22px}
+.hearth-world .living-room{background-image:url('./assets/hearth-v24/apothecary.webp');background-position:center;transform:none;filter:none}
+.hearth-world .yarrow-perch,.hearth-world .hearth-flames{display:none}
+.yarrow-puppet.storybook-yarrow.hearth-character{width:78%;height:76%;left:50%;bottom:15%;filter:none}
+.hearth-world .hearth-stage-label{top:12px;left:12px;padding:8px 10px}
+.hearth-world .hearth-world-bottom{bottom:14px;flex-wrap:wrap}
+body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}}
+
+.storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
+.storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}
