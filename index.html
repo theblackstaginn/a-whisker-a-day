@@ -657,6 +657,20 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 .cottage-storybook .decor-overlay{z-index:4}
 @media(max-width:520px){.cottage-visual.cottage-storybook{height:clamp(335px,79vw,435px)}.cottage-storybook .storybook-yarrow.hearth-character{width:64%;height:87%;bottom:-8%}.cottage-painted-room{background-position:center center,center 53%}}
 
+/* Calm, compact familiar portrait: keep the whole animated rig visible on phones. */
+.yarrow-view .familiar-portrait{min-height:0;display:block;padding:12px;background:#e4e2cd}
+.yarrow-view .familiar-portrait:before,.yarrow-view .familiar-portrait:after{display:none}
+.yarrow-view .yarrow-portrait-wrap{min-height:0;height:clamp(345px,65vw,440px);background:radial-gradient(ellipse at 50% 42%,#f6eed9 5%,#d5dfc8 78%);border:1px solid #d1c9aa;border-radius:18px}
+.yarrow-view .yarrow-portrait-wrap:before{font-size:34px;top:12px;right:16px;opacity:.22}
+.yarrow-view .yarrow-puppet.profile-character{width:min(72%,260px);height:88%;max-width:none;max-height:none;margin:0 auto}
+.yarrow-view .yarrow-portrait-wrap .outfit-note{bottom:12px;left:50%;right:auto;transform:translateX(-50%);white-space:nowrap;font-size:12px;padding:7px 11px;max-width:90%;text-align:center}
+@media(max-width:600px){
+ .yarrow-view .familiar-portrait{padding:9px}
+ .yarrow-view .yarrow-portrait-wrap{height:clamp(310px,85vw,390px)}
+ .yarrow-view .yarrow-puppet.profile-character{width:min(68%,245px);height:86%}
+ .yarrow-view .yarrow-portrait-wrap .outfit-note{bottom:9px}
+}
+
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
