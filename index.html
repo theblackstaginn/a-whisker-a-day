@@ -737,6 +737,12 @@ body.motion-off .garden-plot:active{transform:none}
 body.motion-off .gratitude-jar-button img{transition:none}
 body.motion-off .gratitude-jar-button:hover img{transform:none}
 
+/* Gift activities appear only once their corresponding gift is owned. */
+.reward-outfit-activities{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.reward-outfit-activities .btn{white-space:normal;text-align:left;min-height:44px}
+.shop-item [data-action="reward-moment"]{margin-top:7px;min-height:40px;white-space:normal}
+.reward-moment-steps{padding-left:23px;margin:20px 0;color:#425c48;font:16px/1.65 Georgia,serif}
+.reward-moment-steps li{margin:0 0 12px;padding-left:3px}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1516,7 +1522,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       <section class="card card-pad"><span class="eyebrow">The seasonal reflection shelf</span><h2 class="card-heading">What is changing around you?</h2><p class="card-subtext">Notice a sign of the season, then set an intention that feels kind and achievable. You can return to this note whenever you wish.</p>
         <form data-form="seasonal-reflection"><label for="seasonal-note">Your seasonal thought</label><textarea id="seasonal-note" name="seasonal" maxlength="500" rows="3" placeholder="This season, I am noticing…">${esc(seasonalDraft===null?state.seasonalReflection:seasonalDraft)}</textarea><div class="form-actions"><button class="btn btn-secondary btn-small" type="submit">${icon('pen')} Save reflection</button></div></form><p class="tiny-muted">Modern symbolic reflection · no required beliefs or ritual objects</p>
       </section></div><section class="card card-pad"><span class="eyebrow">A quiet corner of your own</span><h2 class="card-heading">A tiny cottage blessing</h2><p class="card-subtext">Choose one familiar object—a pebble, cup, leaf fallen naturally, or cherished photograph. Place it where you'll see it, notice three details, and name one thing you are grateful for. No candle, purchase or special belief is needed.</p><p class="tiny-muted">Modern reflective practice · candle-free · take only what nature can spare.</p></section><section class="card card-pad"><div class="row-space"><h2 class="card-heading">Cottage comforts</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Spend petals from your rituals to gather lovely little things.</p><div class="shop-grid">
-      ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id);return `<div class="shop-item"><span class="shop-emoji" aria-hidden="true">${d.emoji}</span><strong>${d.name}</strong><small>${d.hint}</small><button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':'Place in room'):d.price===0?'Free':`${d.price} petals`}</button></div>`}).join('')}
+      ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id);return `<div class="shop-item"><span class="shop-emoji" aria-hidden="true">${d.emoji}</span><strong>${d.name}</strong><small>${d.hint}</small><button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':'Place in room'):d.price===0?'Free':`${d.price} petals`}</button>${owned?`<button type="button" class="btn btn-secondary btn-small" data-action="reward-moment" data-id="${d.id}">✧ Enjoy gift</button>`:''}</div>`}).join('')}
       </div></section></div>`;
   }
   function plantDrawing(p, growth) {
@@ -1544,7 +1550,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     return `<div class="view yarrow-view">
       ${pageTitle('A companion for all seasons','Meet <em>Yarrow</em>','A velvety little familiar with golden eyes, a crescent charm, and more love than she can fit in her tiny paws.')}
       <div class="yarrow-layout"><div><section class="card familiar-portrait"><div class="yarrow-portrait-wrap">${renderAnimatedYarrow('profile')}<span class="outfit-note">${OUTFITS.find(o=>o.id===state.outfit)?.emoji||'☾'} Wearing: ${esc(OUTFITS.find(o=>o.id===state.outfit)?.name||'Moon charm')}</span></div></section><div class="card yarrow-copy" style="margin-top:15px"><div class="row-space"><h2>Yarrow ♡</h2><span class="pill">${esc(stageName())}</span></div><p>Gentle, curious, ever so slightly mischievous. She loves warm windowsills, dried lavender, quiet company, and being exactly where you are.</p><div class="familiar-actions"><button class="btn btn-primary" type="button" data-action="pet-yarrow">${icon('heart')} Pet Yarrow</button><button class="btn btn-secondary" type="button" data-action="yarrow-gift">${icon('spark')} Ask for a little wisdom</button></div><div class="friendship-line"><div class="row-space"><span class="tiny-muted">Friendship grows with kindness</span><span class="tiny-muted">${state.friendship} little moments</span></div><div class="progress-track" style="margin-top:6px"><div class="progress-fill" style="width:${progress}%"></div></div></div></div><section class="card story-portrait"><img src="./assets/yarrow-storybook.webp" alt="A hand-painted storybook portrait of Yarrow among wildflowers and a little teacup" loading="lazy"><div><span class="eyebrow">In the old herb garden</span><h3>Always by your side</h3><p>“I liked you before you crossed anything off your list.”</p></div></section></div>
-      <div style="display:grid;gap:18px"><section class="card card-pad"><div class="row-space"><h2 class="card-heading">A familiar’s wardrobe</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Handmade trinkets for the tiniest apothecary assistant.</p><div class="outfit-grid">${OUTFITS.map(o=>{const owned=state.outfitsOwned.includes(o.id),selected=state.outfit===o.id;return `<button type="button" class="outfit-option ${selected?'selected':''}" data-action="outfit" data-id="${o.id}" ${!owned&&state.petals<o.price?'disabled':''}><span class="outfit-emoji" aria-hidden="true">${o.emoji}</span><strong>${o.name}</strong><small>${selected?'Wearing now':owned?'Try on':`${o.price} petals`}</small></button>`}).join('')}</div></section>
+      <div style="display:grid;gap:18px"><section class="card card-pad"><div class="row-space"><h2 class="card-heading">A familiar’s wardrobe</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Handmade trinkets for the tiniest apothecary assistant.</p><div class="outfit-grid">${OUTFITS.map(o=>{const owned=state.outfitsOwned.includes(o.id),selected=state.outfit===o.id;return `<button type="button" class="outfit-option ${selected?'selected':''}" data-action="outfit" data-id="${o.id}" ${!owned&&state.petals<o.price?'disabled':''}><span class="outfit-emoji" aria-hidden="true">${o.emoji}</span><strong>${o.name}</strong><small>${selected?'Wearing now':owned?'Try on':`${o.price} petals`}</small></button>`}).join('')}</div><div class="reward-outfit-activities">${OUTFITS.filter(o=>state.outfitsOwned.includes(o.id)).map(o=>`<button type="button" class="btn btn-secondary btn-small" data-action="reward-moment" data-id="${o.id}">${o.emoji} ${esc(o.name)} activity</button>`).join('')}</div><p class="tiny-muted">Every owned outfit brings a gentle optional moment. Outfit changes still work as before.</p></section>
       <section class="card card-pad"><span class="eyebrow">Yarrow's field notes</span><h2 class="card-heading">Tiny woodland discoveries</h2><p class="card-subtext">Notice a moss-covered stone without moving it. Listen for one bird call. Watch how light crosses the room. These are nature-connection invitations, not tasks to complete.</p><p class="tiny-muted">Look gently, leave wildlife undisturbed, and come back whenever you like. ♡</p></section><section class="card chapter-card"><p class="eyebrow">The story of a familiar</p><h2 class="card-heading">Yarrow’s Storybook</h2><p>The little chapters she shares as your friendship unfolds.</p>${CHAPTERS.map((ch,i)=>{const unlocked=state.friendship>=ch.need;return `<button type="button" class="btn ${unlocked?'btn-secondary':'btn-plain'}" style="display:flex;width:100%;justify-content:space-between;text-align:left;margin-top:7px;white-space:normal" data-action="chapter" data-index="${i}" ${unlocked?'':'disabled'}><span>Chapter ${i+1}: ${esc(ch.title)}</span><span>${unlocked?icon('book'):icon('lock')}</span></button>`}).join('')}</section></div></div>
     </div>`;
   }
@@ -1682,6 +1688,26 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     }
     state.outfit=id;save();render();
   }
+  /* Reward companions are optional mini-activities, not power-ups or required care. */
+  const REWARD_MOMENTS = {
+    lantern:{title:'A lantern-lit pause',lead:'Find one gentle point of light.',steps:['Notice one light or warm color nearby.','Relax your shoulders as you breathe naturally.','Name one thing you can leave until tomorrow.']},
+    rug:{title:'A soft place to land',lead:'A tiny grounding moment with Yarrow.',steps:['Feel the ground supporting your feet or body.','Notice three things you can see.','Let your next breath happen without forcing it.']},
+    crystals:{title:'A river-stone reflection',lead:'No special stone is needed.',steps:['Picture a smooth stone resting in a stream.','Name something you can let pass without carrying.','Notice one small thing that feels steady.']},
+    books:{title:'A page from the old herbals',lead:'A little plant-learning invitation.',steps:['Rosemary is a fragrant evergreen herb in the mint family.','Look at a photograph or a safe, familiar plant; notice the leaf shape.','Enjoy observing. Do not taste or forage unidentified plants.']},
+    fern:{title:'A moment of green',lead:'Look for small signs of growth.',steps:['Notice the shape or pattern of a leaf, real or pictured.','Consider what helps living things thrive.','Choose one small kind thing you can offer yourself.']},
+    flowers:{title:'Wildflower appreciation',lead:'A gentle way to notice beauty.',steps:['Imagine or observe a wildflower without picking it.','Look for its shape, color and tiny details.','Thank yourself for noticing something lovely.']},
+    scarf:{title:'A little warmth',lead:'Comfort counts as care.',steps:['Check whether you are physically comfortable.','Adjust a layer, a blanket, or your posture if helpful.','Name one comfort you can welcome today.']},
+    hat:{title:'A playful intention',lead:'A little witchy make-believe.',steps:['Invent a kind spell name for today.','Give it one achievable action, like drinking water.','Remember: playfulness is enough; no task is required.']},
+    satchel:{title:'Woodland field notes',lead:'An observation you can make anywhere.',steps:['Look for a tree, a cloud, a patch of moss, or a picture of one.','Notice its textures, shapes or colors.','Leave plants and wildlife undisturbed.']},
+    cape:{title:'The quiet woodland walk',lead:'An imaginary or real mini-adventure.',steps:['Picture a safe path through a peaceful woodland.','Notice three sounds around you right now.','Take a tiny pause whenever you need one.']},
+    crescent:{title:'A moonlit check-in',lead:'There is no wrong way to feel.',steps:['Name your mood in a single word.','Let it exist without needing to change it.','Consider one kind thing you need today.']}
+  };
+  function rewardMoment(id) {
+    const item=REWARD_MOMENTS[id];
+    const owned=state.decorOwned.includes(id)||state.outfitsOwned.includes(id);
+    if(!item||!owned)return;
+    openModal(`<span class="eyebrow">A little gift with purpose</span><h2>${esc(item.title)}</h2><p>${esc(item.lead)}</p><ol class="reward-moment-steps">${item.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol><p class="tiny-muted">Always optional. No timer, streak, or additional petals required.</p><div class="form-actions"><button class="btn btn-primary" type="button" data-action="close-modal">Keep this moment ♡</button></div>`,'narrow');
+  }
   function decor(id) {
     const d=DECOR.find(i=>i.id===id);if(!d)return;
     if(!state.decorOwned.includes(id)){
@@ -1791,6 +1817,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         case 'yarrow-gift':yarrowWisdom();break;
         case 'outfit':outfit(id);break;
         case 'decor':decor(id);break;
+        case 'reward-moment':rewardMoment(id);break;
         case 'open-gratitude-jar':openGratitudeJar();break;
         case 'remove-gratitude':{
           if(!window.confirm('Remove this note from your gratitude jar?'))break;
