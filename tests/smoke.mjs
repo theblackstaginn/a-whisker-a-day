@@ -10,12 +10,19 @@ const css=read('yarrow-cutout.css');
 const js=read('yarrow-cutout.js');
 const sw=read('sw.js');
 const manifest=JSON.parse(read('manifest.webmanifest'));
+const storybook=fs.readFileSync(path.join(root,'assets/yarrow-storybook.webp'));
+assert.equal(storybook.toString('ascii',0,4),'RIFF','Original Yarrow portrait must be a real WebP');
+assert.ok(storybook.length>50000,'Full painted Yarrow asset should be present');
+assert.ok(js.includes('storybookSvg(outfit)'),'Use the original painted character in every scene');
+assert.ok(js.includes('yr-book-lids'),'Preserve illustrated blink reaction');
+assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden story card should reuse exact same image');
+
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.1.0'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.1.0'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.1"),'Bump offline cache with each release');
+assert.ok(index.includes("window.__whiskerVersion = '2.2.0'"),'Keep release metadata current');
+assert.ok(js.includes("version:'2.2.0'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.2"),'Bump offline cache with each release');
 assert.ok(!index.includes('YARROW_FLUID_ART'),'Do not ship obsolete monolithic photo/mesh prototype');
 assert.ok(!index.includes('createYarrowCanvasMesh('),'Do not ship obsolete triangular mesh renderer');
 assert.ok(index.includes("if(firstAward)setYarrowPose('happy',1350)"),'Rituals should animate Yarrow');
@@ -33,7 +40,7 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.1.0');
+assert.equal(ctx.window.YarrowCutout.version,'2.2.0');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
@@ -44,4 +51,4 @@ for(const outfit of poses){
  assert.equal(opens,closes,'Unbalanced SVG groups for '+outfit);
 }
 assert.ok(css.includes('yr-lid-on-demand') && css.includes('translateY(-72px)'), 'Natural eyelids should return to an open-eyed rest state');
-console.log('A Whisker a Day v2.1: syntax, eyelids, embedded source, user data, offline and animation checks passed.');
+console.log('A Whisker a Day v2.2: syntax, eyelids, embedded source, user data, offline and animation checks passed.');
