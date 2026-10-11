@@ -754,6 +754,14 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .cottage-storybook .decor-overlay.quilt{right:25%;bottom:4%}
 .cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:clamp(23px,3.3vw,38px);z-index:4;text-shadow:0 3px 5px #30211677;pointer-events:none}
 @media(max-width:700px){.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:24px}}
+/* Beta tester polish: browse larger collections without cramped controls. */
+.yarrow-view .outfit-grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:11px}
+.yarrow-view .outfit-option{min-height:116px;touch-action:manipulation}
+.yarrow-view .outfit-option:focus-visible,.cottage-view .shop-item button:focus-visible{outline:3px solid #47694c;outline-offset:3px}
+.cottage-view .shop-grid{grid-template-columns:repeat(auto-fit,minmax(137px,1fr));gap:12px}
+.cottage-view .shop-item{min-width:0}
+.cottage-view .shop-item .btn{width:100%;min-height:42px}
+@media(max-width:420px){.yarrow-view .outfit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cottage-view .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 9s ease-in-out infinite}
@@ -1861,7 +1869,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         case 'remove-gratitude':{
           if(!window.confirm('Remove this note from your gratitude jar?'))break;
           state.gratitudeJar=state.gratitudeJar.filter(note=>note.id!==id);
-          save();render();toast('The note has been removed.');break;
+          save();render();if(modalRoot.innerHTML)openGratitudeJar();toast('The note has been removed.');break;
         }
         case 'garden-plot':gardenPlot(i);break;
         case 'plant':plant(i,id);break;
