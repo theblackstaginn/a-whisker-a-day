@@ -195,3 +195,8 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 
 .storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
 .storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}
+
+/* Painted wardrobe follows Yarrow's animated anatomy; only the loose scarf
+   end flexes slightly, tucked beneath its neck knot. Motion-off still wins. */
+.storybook-yarrow .yr-worn-scarf-tail{transform-origin:266px 362px;animation:yr-worn-fabric 6.4s ease-in-out infinite}
+@keyframes yr-worn-fabric{0%,100%{transform:rotate(0)}50%{transform:rotate(1.3deg)}}
