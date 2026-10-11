@@ -1,3 +1,5 @@
+> Development branch: v2.4 Hearth integration is awaiting mobile animation and offline-upgrade QA. Main remains v2.3. See [verification status](docs/hearth-v24-development.md).
+
 # A Whisker a Day — v2.3
 
 **A little everyday magic.** A private, installable self-care storybook featuring Yarrow, a velvety black cat familiar with amber eyes, a sage ribbon and brass crescent charm.
