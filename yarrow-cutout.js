@@ -1,4 +1,4 @@
-/* Yarrow Inked Storybook Familiar • v1.9
+/* Yarrow Inked Storybook Familiar • v2.0
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
 */
@@ -165,5 +165,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'1.9.0'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.0.0'});
 })();

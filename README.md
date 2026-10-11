@@ -1,36 +1,38 @@
-# A Whisker a Day — Yarrow Inked Storybook Familiar v1.9
+# A Whisker a Day — v2.0
 
-A real, installable self-care storybook app with daily rituals, a gentle Moon Mirror, a private journal, a herb garden and a little black cat familiar. 
+**A little everyday magic.** A private, installable self-care storybook featuring Yarrow, a velvety black cat familiar with amber eyes, a sage ribbon and brass crescent charm.
 
-## New in v1.9
+## Included
 
-* Refinement toward the existing *In the Old Herb Garden* pen-and-watercolor style: tufted silhouette, fine etched fur, painted ear detail and textured sage ribbon.
-* Keeps the v1.8 independent limb and tail animations. No whole-body picture switching.
-* This is still a custom SVG cutout, not the original painted image remastered into separate layers. Full hand-painted animation will require a clean layered illustration.
+- **The Hearth:** living cozy apothecary scenes, daily ritual progress, Yarrow's interactive animations and companion messages.
+- **Rituals:** daily checklists, custom habits, one-time daily rewards, petals and friendship.
+- **Moon Mirror:** optional mood check-ins with gentle reflections.
+- **Grimoire:** private journaling with editing, deleting and optional prompts.
+- **Cottage & herb garden:** garden growth through rituals, collectible plants and decorations.
+- **Yarrow:** friendship, outfits, short story chapters, independently animated ears, head, front arms, paws, tail-tip, eyes, collar charm and purrs.
+- **Preferences and portability:** optional sound/motion, time-of-day light settings, export and restore backups.
 
-## Earlier v1.8 improvements
+## v2.0 finish pass
 
-* Each front paw now has an independent shoulder, forearm and wrist/paw group for natural alternating kneading and jointed paw offers.
-* The tail has a separately animated, delayed curling tip.
-* Hats and flower crowns now follow the head when Yarrow tilts.
-* All saved progress, other self-care features and offline support remain intact.
+- Retired the old inlined full-body photo/triangular mesh prototype; the single jointed SVG is now the supported Yarrow implementation. This makes the HTML significantly lighter without changing ritual, journal or garden logic.
+- Yarrow celebrates the **first** completion of each daily ritual with a happy animation.
+- All five interaction buttons are visible in a phone-friendly grid rather than partially hidden in horizontal scrolling.
+- Synchronized the in-app version, editable rig sources and offline cache.
+- Added basic share metadata and a dependency-free source smoke-test (`npm test`) for future edits.
+- Softened the inked fur detail while retaining our warm herb-garden storybook style.
 
-## Original cutout release
+## Important artwork limitation
 
-* Replaces photo-switching and warping with an authored SVG cutout character inspired by earthy cottage storybooks and simple, expressive cutout animation.
-* Ears, eyes, face, torso, left front paw, right front paw, tail and moon charm have separately controlled animation. The character remains the same illustration in every state.
-* Includes soft idle breathing, blinking, tail swishing, curious head tilt, purring, alternating paw offers, and kneading. Reduced-motion users keep a static character and normal app functionality.
-* The main `index.html` is self-contained for deployment and offline reliability. The editable CSS and JS are included as separate source files.
-* Rest of app (rituals, mood check-ins, Grimoire, friendship, cottage and garden, petal rewards, storage and export) remains intact. Local storage key is unchanged: `a-whisker-a-day.v1`.
+This is a hand-built **2D paper-cut animation** using the same character art for every movement. It is *not* hand-drawn full-frame anime. Full standing, running or rolling poses would need additional purpose-drawn artwork; they're deliberately not simulated through body-distorting warps.
 
-## Deploy
+## Run and install
 
-Place `index.html`, `sw.js`, `app-icon.svg`, `manifest.webmanifest` in a GitHub Pages repository root. Choose **Deploy from a branch**, `main`, `/(root)` in Settings → Pages. The self-contained index does not require the separate `yarrow-cutout` files.
+**GitHub Pages**: publish the `main` branch from `/(root)`. This self-contained `index.html` is ready for static hosting.
 
-## Reality check
+**iPhone**: Safari → Share → Add to Home Screen. **Android**: use your browser's Install / Add to Home Screen command. After installation, visit once online so the shell can cache.
 
-This is deliberately an *illustrated cutout animation*, not full hand-drawn anime, 3D rigging, or automatically generated intermediate frames. Full-body locomotion or a convincing long stretch will require new key drawings, and are not claimed in this release.
+To verify local source files on Windows or macOS, use `npm test` (Node 18+; no `npm install` required).
 
-## Privacy
+## Privacy and backup
 
-Journal and progress data stay in the browser on that device. Export a backup from settings before clearing local data or moving devices. No account required.
+Your journal, mood check-ins and progress stay on that device, in browser storage under **`a-whisker-a-day.v1`**. The storage key intentionally has **not** changed, so existing progress survives this upgrade. Download a JSON backup from Settings before clearing browser storage or moving phones. There is no account, tracking or paid subscription.

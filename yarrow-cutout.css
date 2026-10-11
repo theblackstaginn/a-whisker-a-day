@@ -1,4 +1,4 @@
-/* Yarrow's hand-illustrated paper-cut animation, v1.9 */
+/* Yarrow's hand-illustrated paper-cut animation, v2.0 */
 .yarrow-puppet.cutout-yarrow{filter:drop-shadow(0 13px 12px #241a1266);contain:layout style;overflow:visible}
 .cutout-yarrow .yr-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;touch-action:manipulation;user-select:none}
 .cutout-yarrow .yr-body{transform-origin:185px 436px;animation:yr-breathe 4.8s ease-in-out infinite}
@@ -93,3 +93,6 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 /* Hand-inked herb garden character finish. Each part remains independently animated. */
 .cutout-yarrow .yr-ink-detail{pointer-events:none}
 .cutout-yarrow .yr-svg{image-rendering:auto}
+
+/* Finish pass: soften fine fur hatching without losing pen-and-watercolor character. */
+.cutout-yarrow .yr-ink-detail{opacity:.72}
