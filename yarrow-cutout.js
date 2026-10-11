@@ -171,12 +171,22 @@
   // Atlas parts share one painted source; nested SVG viewports select anatomy.
   const part=(name, box, x,y,w,h)=>`<svg class="yr-part ${name}" x="${x}" y="${y}" width="${w}" height="${h}" viewBox="${box}" preserveAspectRatio="none" overflow="hidden"><image href="./assets/hearth-v24/yarrow-parts.webp" width="1536" height="1024"/></svg>`;
   const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+    <!-- Feather the shoulders over the already painted torso, without changing joint motion. -->
+    <defs>
+      <linearGradient id="yr-shoulder-fade" gradientUnits="userSpaceOnUse" x1="0" y1="417" x2="0" y2="456">
+        <stop offset="0" stop-color="black"/>
+        <stop offset="1" stop-color="white"/>
+      </linearGradient>
+      <mask id="yr-paw-shoulder-mask" maskUnits="userSpaceOnUse" x="105" y="385" width="230" height="255">
+        <rect x="105" y="385" width="230" height="255" fill="url(#yr-shoulder-fade)"/>
+      </mask>
+    </defs>
     <ellipse cx="223" cy="616" rx="146" ry="17" fill="#1d2118" opacity=".22"/>
     <g class="yr-painted-tail">${part('tail','1045 500 491 510',280,374,157,238)}</g>
     <g class="yr-book-body">
       <g class="yr-painted-torso">${part('torso','0 480 560 520',55,312,300,310)}</g>
-      <g class="yr-painted-paw-left">${part('paw-left','560 500 245 500',119,410,101,210)}</g>
-      <g class="yr-painted-paw-right">${part('paw-right','805 500 225 500',221,410,94,210)}</g>
+      <g class="yr-painted-paw-left" mask="url(#yr-paw-shoulder-mask)">${part('paw-left','560 500 245 500',119,410,101,210)}</g>
+      <g class="yr-painted-paw-right" mask="url(#yr-paw-shoulder-mask)">${part('paw-right','805 500 225 500',221,410,94,210)}</g>
     </g>
     <g class="yr-painted-head">
       <g class="yr-painted-ear-left">${part('ear-left','575 20 380 460',92,86,124,196)}</g>
