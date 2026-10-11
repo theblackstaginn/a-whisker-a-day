@@ -309,8 +309,7 @@
     <ellipse cx="223" cy="616" rx="146" ry="17" fill="#1d2118" opacity=".22"/>
     <g class="yr-painted-tail">${part('tail','1045 500 491 510',280,374,157,238)}</g>
     <g class="yr-book-body">
-      <g class="yr-painted-torso">${wardrobeCloak(outfit)}${part('torso','0 480 560 520',55,312,300,310)}</g>
-      ${wardrobeBodywear(outfit)}
+      <g class="yr-painted-torso">${wardrobeCloak(outfit)}${part('torso','0 480 560 520',55,312,300,310)}${wardrobeBodywear(outfit)}</g>
       <g class="yr-painted-paw-left" mask="url(#yr-paw-shoulder-mask)">${part('paw-left','560 500 245 500',119,410,101,210)}</g>
       <g class="yr-painted-paw-right" mask="url(#yr-paw-shoulder-mask)">${part('paw-right','805 500 225 500',221,410,94,210)}</g>
     </g>
