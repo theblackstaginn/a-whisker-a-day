@@ -1278,7 +1278,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   function startYarrowLife(){
     if(yarrowIdleTimer)return;
     yarrowIdleTimer=window.setInterval(()=>{
-      if(document.hidden||!yarrowCanAnimate()||(view!=='hearth'&&view!=='yarrow'))return;
+      if(document.hidden||!yarrowCanAnimate()||(view!=='hearth'&&view!=='yarrow'&&view!=='cottage'))return;
       const scene=yarrowSceneController;if(!scene||!scene.ready||scene.action!=='idle')return;
       const poses=['blink','tilt','swish','blink','blink','knead'];
       const pose=poses[Math.floor(Math.random()*poses.length)];
