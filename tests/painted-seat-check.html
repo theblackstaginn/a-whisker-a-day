@@ -10,7 +10,16 @@
  const frame=document.getElementById('preview');
  function error(msg){throw Error(msg);}
  try{
-   await new Promise((resolve,reject)=>{frame.addEventListener('load',resolve,{once:true});frame.addEventListener('error',()=>reject(Error('Preview failed to load')),{once:true});setTimeout(()=>reject(Error('Preview timed out')),8000);});
+   // A cached iframe can finish loading BEFORE a later load listener is
+   // registered. Poll the actual painted DOM instead of relying on an event.
+   await new Promise((resolve,reject)=>{
+     let tries=0;
+     const id=setInterval(()=>{
+       if(frame.contentDocument?.querySelector('.storybook-yarrow')){
+         clearInterval(id);resolve();
+       }else if(++tries>35){clearInterval(id);reject(Error('Preview renderer did not initialize'));}
+     },80);
+   });
    const doc=frame.contentDocument;
    const puppet=doc.querySelector('.storybook-yarrow');
    if(!puppet)error('Seated master missing');
