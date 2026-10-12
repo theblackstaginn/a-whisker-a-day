@@ -131,6 +131,7 @@ function face(){
  img('0 0 560 480',-165,-116,330,233)+
  '<g data-part="lids" class="ym-lids"><path d="M-76-9Q-53-24-28-7L-31 14Q-54 26-73 11Z" fill="#231b17"/><path d="M37-8Q60-23 84-5L81 15Q60 27 39 10Z" fill="#211914"/><path d="M-71 4Q-53 12-32 4M40 4Q61 12 81 3" stroke="#9b714e" fill="none" stroke-width="2"/></g></g>'+
  '<g data-part="profile-face" opacity="0">'+
+ '<g class="ym-profile-ears"><path d="M-78-75Q-92-133-60-181Q-22-168-15-108Z" fill="#241a17" stroke="#110f0e" stroke-width="6"/><path d="M-68-112Q-68-146-53-161Q-32-148-28-118Z" fill="#97654b" stroke="#473026" stroke-width="4"/><path d="M-11-93Q0-155 51-187Q65-124 41-90Z" fill="#291e19" stroke="#14100f" stroke-width="6"/><path d="M4-104Q13-145 42-168Q49-133 36-104Z" fill="#a16d55" stroke="#624230" stroke-width="3"/><path d="M12-117q15-19 24-26M-58-128l8-15" fill="none" stroke="#d7a07e" stroke-width="3" opacity=".55"/></g>'+
  '<path d="M-95-60Q-89-100-45-110Q-5-137 35-92Q76-89 85-46Q87-20 114-12Q130-4 108 10Q97 44 66 61Q27 99-23 76Q-71 83-100 32Q-121-17-95-60Z" fill="url(#ym-fur)" stroke="#1b1512" stroke-width="5"/>'+
  '<path d="M79-4q18-9 32 3l-16 13Z" fill="#8a6251" stroke="#2c211b" stroke-width="2"/>'+
  '<path d="M94 13Q85 33 67 36" fill="none" stroke="#ba8c6a" stroke-width="3"/>'+
@@ -138,6 +139,7 @@ function face(){
  '<ellipse cx="51" cy="-33" rx="9" ry="22" fill="#1d1713"/><circle cx="37" cy="-46" r="7" fill="#ffeebd"/>'+
  '<path d="M69 13q33-9 69-4M66 24q41 5 73 23M65 35q28 25 40 42" stroke="#c9a27b" stroke-width="2" fill="none" stroke-linecap="round"/>'+
  '<path d="M-97-17q-15 37 1 60m15-109q-22 44-21 64" stroke="#ae855c" opacity=".26" stroke-width="3" fill="none"/>'+
+ '<path d="M-79-51l11 8m-18 6 9 8m-15 6 11 10m-9 11 12 5m-4 22 15 4m-15 18 12 9m12 22 13 4M-22-88l9 12m8-6 6 10m10-6 8 12m48 20 12 9m-9 24 12 8m-18 17 10 10m-19 20 8 10" stroke="#b08b67" stroke-width="3" opacity=".3" fill="none" stroke-linecap="round"/>'+
  '<g data-part="profile-lid" opacity="0"><path d="M19-34Q45-58 69-34Q54-12 20-33Z" fill="#211814"/><path d="M25-30Q45-25 65-33" stroke="#8b674a" stroke-width="2" fill="none"/></g>'+
  '</g>';
 }
