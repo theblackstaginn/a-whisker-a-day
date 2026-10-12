@@ -1,9 +1,9 @@
 {
   "name": "a-whisker-a-day",
-  "version": "2.4.0-dev",
+  "version": "3.0.0-rig-lab",
   "private": true,
   "description": "Offline-first storybook self-care with Yarrow",
   "scripts": {
-    "test": "node tests/smoke.mjs && node tests/hearth-rig.mjs"
+    "test": "node tests/smoke.mjs && node tests/hearth-rig.mjs && node tests/manga-rig.mjs"
   }
 }
