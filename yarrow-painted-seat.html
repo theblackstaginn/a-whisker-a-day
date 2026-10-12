@@ -45,6 +45,8 @@
 window.addEventListener('DOMContentLoaded',()=>{
  const stage=document.getElementById('stage');
  const wardrobe=document.getElementById('outfit');
+ const requestedOutfit=new URL(location.href).searchParams.get('outfit');
+ if(requestedOutfit&&Array.from(wardrobe.options).some(o=>o.value===requestedOutfit))wardrobe.value=requestedOutfit;
  const still=document.getElementById('motion-off');
  const durations={tilt:1400,blink:800,purr:2200,knead:2790,swish:1350};
  let activeTimer=0;
