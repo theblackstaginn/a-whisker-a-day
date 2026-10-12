@@ -32,7 +32,7 @@ const ctx={
 };
 vm.runInNewContext(src,ctx,{timeout:3000});
 const rig=win.YarrowMangaRig, puppet=win.YarrowCutout;
-assert.equal(rig.version,'3.0.0-rig-lab');
+assert.equal(rig.version,'3.0.1-head-visibility');
 assert.equal(puppet.version,rig.version);
 for(const name of ['sit','crouch','stand','stretch','turn']){
  const p=rig.masterPoses[name];
@@ -97,6 +97,7 @@ assert.notEqual(stretchTorso,upright,'Stretch needs distinct body geometry');
 assert.equal(scene.pose('turn',3600),true);
 frame(5600);
 assert.ok(Number(val('profile-face','opacity'))>.5,'True profile geometry must show on turn');
+assert.equal(val('profile-face','visibility'),'visible','Profile head must never be hidden during the turn');
 motionOff=true;
 frame(5800);
 assert.equal(rafs.size,0,'Motion off must pause expensive rendering');
