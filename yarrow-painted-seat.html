@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded',()=>{
        const group=svg.querySelector('.yr-painted-'+part);
        if(!group||!group.getBBox||group.getBBox().width<1)throw Error('Missing painted part: '+part);
      }
-     if(svg.querySelectorAll('image[href*="yarrow-parts.webp"]').length!==6)throw Error('Original painted head, ears, torso, paws and tail not all connected');
+     if(svg.querySelectorAll('image[href*="yarrow-parts.webp"]').length!==7)throw Error('Original painted head, ears, torso, paws and tail not all connected');
      document.querySelector('[data-action="blink"]').click();
      if(puppet.dataset.pose!=='blink')throw Error('Blink control did not work');
      wardrobe.value='hat';wardrobe.dispatchEvent(new Event('change',{bubbles:true}));
@@ -100,7 +100,7 @@ window.addEventListener('DOMContentLoaded',()=>{
      if(!document.body.classList.contains('motion-off')||puppet.dataset.pose!=='idle')throw Error('Motion-off setting did not restore seated idle');
      still.checked=false;still.dispatchEvent(new Event('change',{bubbles:true}));
      status.dataset.qa='pass';
-     status.textContent='PASS: seven painted anatomical groups, original six-part texture, blink, wardrobe and reduced motion';
+     status.textContent='PASS: seven painted anatomical groups, original seven-sample painted atlas, blink, wardrobe and reduced motion';
    }catch(err){status.dataset.qa='fail';status.textContent='FAIL: '+err.message;}
  }
 });
