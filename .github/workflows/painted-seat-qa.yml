@@ -1,0 +1,29 @@
+name: Yarrow painted seated-master visual QA
+on:
+  push:
+    branches:
+      - feat/yarrow-painted-seated-master-20261012
+  pull_request:
+    paths:
+      - 'yarrow-painted-seat.*'
+      - 'tests/painted-seat-check.html'
+      - 'scripts/verify-painted-seat.cjs'
+permissions:
+  contents: read
+jobs:
+  render-and-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check actual painted master in Chrome
+        run: node scripts/verify-painted-seat.cjs
+      - name: Keep rendered iPhone-sized screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yarrow-painted-seat-visual
+          path: artifacts/painted-seat-iphone.png
+          if-no-files-found: ignore
