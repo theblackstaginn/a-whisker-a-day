@@ -204,6 +204,17 @@ function paint(puppet,p,now=0,action='idle',phase=0,offerSide='right'){
  const root=puppet.querySelector('.ym-svg');if(!root)return;
  const el=(id)=>root.querySelector('[data-part="'+id+'"]');
  const attr=(id,k,v)=>{const n=el(id);if(n)n.setAttribute(k,v);};
+ // Safari must not lose Yarrow's head when an old stylesheet still forces
+ // an opacity value: SVG presentation attributes lose to CSS selectors.
+ // Apply a live inline declaration with priority, and keep both layers in
+ // the DOM so every animation frame has a face rather than an empty swap.
+ const faceOpacity=(id,value)=>{
+   const n=el(id);if(!n)return;
+   const amount=clamp(value).toFixed(3);
+   n.setAttribute('opacity',amount);
+   if(n.style&&typeof n.style.setProperty==='function')n.style.setProperty('opacity',amount,'important');
+   n.setAttribute('visibility',Number(amount)>.001?'visible':'hidden');
+ };
  const time=now*.001,sway=Math.sin(time*1.4),breath=Math.sin(time*1.25);
  const state=clone(p),living=action==='idle';
  if(living){state.shoulder[1]-=breath*1.5;state.neck[1]-=breath*1.5;state.head[1]-=breath*.7;state.tail[3][0]+=sway*4;state.tail[4][0]+=sway*7;}
@@ -234,8 +245,12 @@ function paint(puppet,p,now=0,action='idle',phase=0,offerSide='right'){
  }
  for(let i=0;i<4;i++)attr(i===0?'tail-base':i===3?'tail-tip':'tail-'+i,'d','M'+xy(state.tail[i])+'Q'+xy([(state.tail[i][0]+state.tail[i+1][0])/2+4,(state.tail[i][1]+state.tail[i+1][1])/2-6])+' '+xy(state.tail[i+1]));
  const head=state.head;attr('head','transform','translate('+xy(head)+') rotate('+(state.tilt+Math.sin(time*1.8)*.6).toFixed(2)+')');
- attr('front-face','opacity',(1-clamp(state.side*1.22)).toFixed(3));
- attr('profile-face','opacity',clamp((state.side-.15)/.85).toFixed(3));
+ // At least one opaque head layer must remain visible throughout turns.
+ // At transition midpoint both independently drawn orientations overlap.
+ const sideways=clamp(state.side);
+ const profileFade=clamp((sideways-.12)/.64);
+ faceOpacity('front-face',1-profileFade);
+ faceOpacity('profile-face',profileFade);
  const earl=[lerp(-73,-25,state.side),lerp(-86,-102,state.side)];
  const earr=[lerp(69,18,state.side),lerp(-86,-116,state.side)];
  attr('ear-left','transform','translate('+xy(earl)+') rotate('+(Math.sin(time*1.3)*2.5).toFixed(2)+') translate(73 86)');
@@ -288,6 +303,6 @@ function mount(puppet){
  if(!reduce()&&window.requestAnimationFrame){raf=window.requestAnimationFrame(tick);}else paint(puppet,P.sit,0);
  return scene;
 }
-window.YarrowMangaRig=Object.freeze({masterPoses:P,poseTimelines:RUNS,sample,blend,makeSvg,paint,version:'3.0.0-rig-lab'});
+window.YarrowMangaRig=Object.freeze({masterPoses:P,poseTimelines:RUNS,sample,blend,makeSvg,paint,version:'3.0.1-head-visibility'});
 window.YarrowCutout=Object.freeze({render,mount,version:'3.0.0-rig-lab'});
 })();
