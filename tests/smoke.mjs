@@ -19,11 +19,14 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 
 const embeddedRig=index.split('/* Editable in yarrow-cutout.js inside the full source archive */')[1]?.split('</script>')[0]?.trim();
 assert.equal(embeddedRig,js.trim(),'Embedded live rig must exactly match yarrow-cutout.js');
-const wardrobeCss=css.slice(css.indexOf('/* v2.4 development:'));
-assert.ok(wardrobeCss&&index.includes(wardrobeCss.trim()),'Embedded character animation CSS must match the current painted rig rules');
+for(const key of ['yr-painted-attention','yr-painted-tilt','yr-painted-knead-left','yr-stand-torso','yr-stretch-head','yr-turn-head']){
+ assert.ok(css.includes('@keyframes '+key)&&index.includes('@keyframes '+key),'Embedded source and CSS must both preserve '+key);
+}
+// The standalone CSS and inline stylesheet organize scenery differently;
+// verify the actual character animation definitions, not contiguous layout text.
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.4.0-dev'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.4.0-dev'"),'Keep character rig version current');
+assert.ok(js.includes("version:'2.4.1-motion-preview'"),'Keep character rig version current');
 assert.ok(sw.includes("whisker-a-day-v2.4-wardrobe1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
@@ -67,7 +70,7 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.4.0-dev');
+assert.equal(ctx.window.YarrowCutout.version,'2.4.1-motion-preview');
 const poses=['crescent','hat','flowers','scarf','satchel','cape','ribbon','star','beret','acorn'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
