@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Preserve inherited app and character regressions
+        run: npm test
       - name: Check actual painted master in Chrome
         run: node scripts/verify-painted-seat.cjs
       - name: Keep rendered iPhone-sized screenshot
