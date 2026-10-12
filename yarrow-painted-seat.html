@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eee2ce">
+<meta name="robots" content="noindex,nofollow">
+<title>Yarrow's Painted Seated Master · A Whisker a Day</title>
+<link rel="stylesheet" href="./yarrow-painted-seat.css?v=seat1">
+<script defer src="./yarrow-cutout.js?v=seat1"></script>
+</head>
+<body>
+<main>
+<div class="flag">A Whisker a Day · Painted Character Atelier · Development Only</div>
+<h1>Yarrow, just as herself <span aria-hidden="true">☾</span></h1>
+<p>Our first step is to make her <em>look right</em> sitting quietly. No blocky robot limbs, distorted torso or false side-view.</p>
+<div id="stage" class="stage" aria-label="Yarrow in her warm herbal apothecary"></div>
+<div class="controls" role="group" aria-label="Yarrow's small gestures">
+<button type="button" data-action="tilt">Listen</button>
+<button type="button" data-action="blink">Slow blink</button>
+<button type="button" data-action="purr">Pet Yarrow</button>
+<button type="button" data-action="knead">Make biscuits</button>
+<button type="button" data-action="swish">Tail swish</button>
+</div>
+<div class="wardrobe">
+<label for="outfit">Wardrobe</label>
+<select id="outfit">
+<option value="default">Signature ribbon</option>
+<option value="flowers">Flower crown</option>
+<option value="hat">Witch's hat</option>
+<option value="beret">Beret</option>
+<option value="scarf">Scarf</option>
+<option value="satchel">Satchel</option>
+<option value="cape">Cape</option>
+<option value="ribbon">Extra ribbon</option>
+<option value="star">Star charm</option>
+<option value="acorn">Acorn charm</option>
+</select>
+</div>
+<label><input id="motion-off" type="checkbox"> Keep her still</label>
+<p class="caption">The same black-furred, amber-eyed Yarrow from the original painted atlas, with her sage ribbon and brass crescent. This isolated art test never reads or writes your app progress. Standing and side-turn poses are intentionally withheld until the seated master looks right. Artwork uses linked painted layers, not visible armature geometry.</p>
+</main>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+ const stage=document.getElementById('stage');
+ const wardrobe=document.getElementById('outfit');
+ const still=document.getElementById('motion-off');
+ const durations={tilt:1400,blink:800,purr:2200,knead:2790,swish:1350};
+ let activeTimer=0;
+ function draw(){
+   clearTimeout(activeTimer);
+   if(!window.YarrowCutout)throw Error('Painted character renderer did not load');
+   stage.innerHTML=window.YarrowCutout.render({place:'hearth',outfit:wardrobe.value});
+ }
+ function play(name){
+   const puppet=stage.querySelector('.yarrow-puppet');
+   if(!puppet||still.checked)return;
+   clearTimeout(activeTimer);
+   puppet.dataset.pose='idle';
+   void puppet.offsetWidth;
+   puppet.dataset.pose=name;
+   activeTimer=setTimeout(()=>{if(puppet.isConnected)puppet.dataset.pose='idle'},durations[name]||1400);
+ }
+ for(const control of document.querySelectorAll('[data-action]')){
+   control.addEventListener('click',()=>play(control.dataset.action));
+ }
+ stage.addEventListener('click',event=>{
+   if(event.target.closest('.yarrow-puppet'))play('purr');
+ });
+ wardrobe.addEventListener('change',draw);
+ still.addEventListener('change',()=>{
+   document.body.classList.toggle('motion-off',still.checked);
+   clearTimeout(activeTimer);
+   const puppet=stage.querySelector('.yarrow-puppet');
+   if(puppet)puppet.dataset.pose='idle';
+ });
+ draw();
+});
+</script>
+</body>
+</html>
