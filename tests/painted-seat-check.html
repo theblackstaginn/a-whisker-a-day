@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><title>Painted Yarrow real-browser checks</title>
+<style>body{font:14px system-ui;background:#eee2ce;color:#3b3027;margin:12px}iframe{width:440px;height:760px;display:block;border:0}output{display:block;padding:10px;margin:8px;background:#fff6e6}</style>
+<output id="result" data-qa="pending">Waiting for artwork...</output>
+<iframe id="preview" title="Painted seated Yarrow" src="../yarrow-painted-seat.html"></iframe>
+<script>
+(async()=>{
+ const output=document.getElementById('result');
+ const frame=document.getElementById('preview');
+ function error(msg){throw Error(msg);}
+ try{
+   // A cached iframe can finish loading BEFORE a later load listener is
+   // registered. Poll the actual painted DOM instead of relying on an event.
+   await new Promise((resolve,reject)=>{
+     let tries=0;
+     const id=setInterval(()=>{
+       if(frame.contentDocument?.querySelector('.storybook-yarrow')){
+         clearInterval(id);resolve();
+       }else if(++tries>35){clearInterval(id);reject(Error('Preview renderer did not initialize'));}
+     },80);
+   });
+   const doc=frame.contentDocument;
+   const puppet=doc.querySelector('.storybook-yarrow');
+   if(!puppet)error('Seated master missing');
+   const svg=puppet.querySelector('.yr-storybook-svg');
+   if(!svg)error('Painted SVG missing');
+   for(const name of ['head','ear-left','ear-right','torso','paw-left','paw-right','tail']){
+      const part=svg.querySelector('.yr-painted-'+name);
+      if(!part)error(name+' artwork layer missing');
+      if(part.getBBox().width<5||part.getBBox().height<5)error(name+' layer has no visible geometry');
+   }
+   const atlas=await fetch('../assets/hearth-v24/yarrow-parts.webp');
+   if(!atlas.ok||Number(atlas.headers.get('content-length')||0)<100000)error('Painted anatomy atlas missing');
+   const check=new Image();
+   check.src='../assets/hearth-v24/yarrow-parts.webp';
+   await check.decode();
+   if(check.naturalWidth!==1536||check.naturalHeight!==1024)error('Unexpected painted atlas size');
+   const stage=doc.querySelector('#stage').getBoundingClientRect();
+   const face=svg.querySelector('.yr-painted-head').getBoundingClientRect();
+   if(face.width<80||face.height<75)error('Yarrow head visually too small');
+   if(face.top>=stage.bottom||face.bottom<=stage.top)error('Yarrow head outside visible scene');
+   const button=doc.querySelector('[data-action="blink"]');button.click();
+   if(puppet.dataset.pose!=='blink')error('Blink action did not respond');
+   const costume=doc.getElementById('outfit');costume.value='hat';costume.dispatchEvent(new Event('change',{bubbles:true}));
+   if(!doc.querySelector('.yr-worn-hat'))error('Hat not attached to painted head');
+   const still=doc.getElementById('motion-off');still.checked=true;still.dispatchEvent(new Event('change',{bubbles:true}));
+   if(!doc.body.classList.contains('motion-off'))error('Reduced movement setting not applied');
+   if(doc.querySelector('.yarrow-puppet').dataset.pose!=='idle')error('Resting pose not restored');
+   output.dataset.qa='pass';
+   output.textContent='PASS: painted Yarrow atlas decoded; seven anatomy layers have geometry; face is in frame; blink, outfit anchoring and motion-off work.';
+ }catch(ex){output.dataset.qa='fail';output.textContent='FAIL: '+ex.message;}
+})();
+</script>
+</html>

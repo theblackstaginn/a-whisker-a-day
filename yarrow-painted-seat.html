@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eee2ce">
+<meta name="robots" content="noindex,nofollow">
+<title>Yarrow's Painted Seated Master · A Whisker a Day</title>
+<link rel="stylesheet" href="./yarrow-painted-seat.css?v=seat1">
+<script defer src="./yarrow-cutout.js?v=seat1"></script>
+</head>
+<body>
+<main>
+<div class="flag">A Whisker a Day · Painted Character Atelier · Development Only</div>
+<h1>Yarrow, just as herself <span aria-hidden="true">☾</span></h1>
+<p>Our first step is to make her <em>look right</em> sitting quietly. No blocky robot limbs, distorted torso or false side-view.</p>
+<div id="stage" class="stage" aria-label="Yarrow in her warm herbal apothecary"></div>
+<output id="qa-result" data-qa="pending" hidden>Character review check waiting...</output>
+<div class="controls" role="group" aria-label="Yarrow's small gestures">
+<button type="button" data-action="tilt">Listen</button>
+<button type="button" data-action="blink">Slow blink</button>
+<button type="button" data-action="purr">Pet Yarrow</button>
+<button type="button" data-action="knead">Make biscuits</button>
+<button type="button" data-action="swish">Tail swish</button>
+</div>
+<div class="wardrobe">
+<label for="outfit">Wardrobe</label>
+<select id="outfit">
+<option value="default">Signature ribbon</option>
+<option value="flowers">Flower crown</option>
+<option value="hat">Witch's hat</option>
+<option value="beret">Beret</option>
+<option value="scarf">Scarf</option>
+<option value="satchel">Satchel</option>
+<option value="cape">Cape</option>
+<option value="ribbon">Extra ribbon</option>
+<option value="star">Star charm</option>
+<option value="acorn">Acorn charm</option>
+</select>
+</div>
+<label><input id="motion-off" type="checkbox"> Keep her still</label>
+<p class="caption">The same black-furred, amber-eyed Yarrow from the original painted atlas, with her sage ribbon and brass crescent. This isolated art test never reads or writes your app progress. Standing and side-turn poses are intentionally withheld until the seated master looks right. Artwork uses linked painted layers, not visible armature geometry.</p>
+</main>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+ const stage=document.getElementById('stage');
+ const wardrobe=document.getElementById('outfit');
+ const requestedOutfit=new URL(location.href).searchParams.get('outfit');
+ if(requestedOutfit&&Array.from(wardrobe.options).some(o=>o.value===requestedOutfit))wardrobe.value=requestedOutfit;
+ const still=document.getElementById('motion-off');
+ const durations={tilt:1400,blink:800,purr:2200,knead:2790,swish:1350};
+ let activeTimer=0;
+ function draw(){
+   clearTimeout(activeTimer);
+   if(!window.YarrowCutout)throw Error('Painted character renderer did not load');
+   stage.innerHTML=window.YarrowCutout.render({place:'hearth',outfit:wardrobe.value});
+ }
+ function play(name){
+   const puppet=stage.querySelector('.yarrow-puppet');
+   if(!puppet||still.checked)return;
+   clearTimeout(activeTimer);
+   puppet.dataset.pose='idle';
+   void puppet.offsetWidth;
+   puppet.dataset.pose=name;
+   activeTimer=setTimeout(()=>{if(puppet.isConnected)puppet.dataset.pose='idle'},durations[name]||1400);
+ }
+ for(const control of document.querySelectorAll('[data-action]')){
+   control.addEventListener('click',()=>play(control.dataset.action));
+ }
+ stage.addEventListener('click',event=>{
+   if(event.target.closest('.yarrow-puppet'))play('purr');
+ });
+ wardrobe.addEventListener('change',draw);
+ still.addEventListener('change',()=>{
+   document.body.classList.toggle('motion-off',still.checked);
+   clearTimeout(activeTimer);
+   const puppet=stage.querySelector('.yarrow-puppet');
+   if(puppet)puppet.dataset.pose='idle';
+ });
+ draw();
+ // QA runs on the actual standalone preview, never inside a race-prone iframe.
+ // It only checks the visible SVG and tap controls; no app storage is accessed.
+ if(new URL(location.href).searchParams.get('qa')==='1'){
+   const status=document.getElementById('qa-result');
+   try{
+     let puppet=stage.querySelector('.storybook-yarrow');
+     const svg=puppet?.querySelector('.yr-storybook-svg');
+     if(!svg)throw Error('Painted familiar SVG absent');
+     const parts=['head','ear-left','ear-right','torso','paw-left','paw-right','tail'];
+     for(const part of parts){
+       const group=svg.querySelector('.yr-painted-'+part);
+       if(!group||!group.getBBox||group.getBBox().width<1)throw Error('Missing painted part: '+part);
+     }
+     if(svg.querySelectorAll('image[href*="yarrow-parts.webp"]').length!==7)throw Error('Original painted head, ears, torso, paws and tail not all connected');
+     document.querySelector('[data-action="blink"]').click();
+     if(puppet.dataset.pose!=='blink')throw Error('Blink control did not work');
+     wardrobe.value='hat';wardrobe.dispatchEvent(new Event('change',{bubbles:true}));
+     if(!stage.querySelector('.yr-worn-hat'))throw Error('Headwear not attached to painted head');
+     wardrobe.value='default';wardrobe.dispatchEvent(new Event('change',{bubbles:true}));
+     still.checked=true;still.dispatchEvent(new Event('change',{bubbles:true}));
+     puppet=stage.querySelector('.storybook-yarrow');
+     if(!document.body.classList.contains('motion-off')||puppet.dataset.pose!=='idle')throw Error('Motion-off setting did not restore seated idle');
+     still.checked=false;still.dispatchEvent(new Event('change',{bubbles:true}));
+     status.dataset.qa='pass';
+     status.textContent='PASS: seven painted anatomical groups, original seven-sample painted atlas, blink, wardrobe and reduced motion';
+   }catch(err){status.dataset.qa='fail';status.textContent='FAIL: '+err.message;}
+ }
+});
+</script>
+</body>
+</html>
