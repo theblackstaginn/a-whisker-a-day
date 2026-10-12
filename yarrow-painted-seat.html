@@ -15,6 +15,7 @@
 <h1>Yarrow, just as herself <span aria-hidden="true">☾</span></h1>
 <p>Our first step is to make her <em>look right</em> sitting quietly. No blocky robot limbs, distorted torso or false side-view.</p>
 <div id="stage" class="stage" aria-label="Yarrow in her warm herbal apothecary"></div>
+<output id="qa-result" data-qa="pending" hidden>Character review check waiting...</output>
 <div class="controls" role="group" aria-label="Yarrow's small gestures">
 <button type="button" data-action="tilt">Listen</button>
 <button type="button" data-action="blink">Slow blink</button>
@@ -75,6 +76,33 @@ window.addEventListener('DOMContentLoaded',()=>{
    if(puppet)puppet.dataset.pose='idle';
  });
  draw();
+ // QA runs on the actual standalone preview, never inside a race-prone iframe.
+ // It only checks the visible SVG and tap controls; no app storage is accessed.
+ if(new URL(location.href).searchParams.get('qa')==='1'){
+   const status=document.getElementById('qa-result');
+   try{
+     let puppet=stage.querySelector('.storybook-yarrow');
+     const svg=puppet?.querySelector('.yr-storybook-svg');
+     if(!svg)throw Error('Painted familiar SVG absent');
+     const parts=['head','ear-left','ear-right','torso','paw-left','paw-right','tail'];
+     for(const part of parts){
+       const group=svg.querySelector('.yr-painted-'+part);
+       if(!group||!group.getBBox||group.getBBox().width<1)throw Error('Missing painted part: '+part);
+     }
+     if(svg.querySelectorAll('image[href*="yarrow-parts.webp"]').length!==6)throw Error('Original painted head, ears, torso, paws and tail not all connected');
+     document.querySelector('[data-action="blink"]').click();
+     if(puppet.dataset.pose!=='blink')throw Error('Blink control did not work');
+     wardrobe.value='hat';wardrobe.dispatchEvent(new Event('change',{bubbles:true}));
+     if(!stage.querySelector('.yr-worn-hat'))throw Error('Headwear not attached to painted head');
+     wardrobe.value='default';wardrobe.dispatchEvent(new Event('change',{bubbles:true}));
+     still.checked=true;still.dispatchEvent(new Event('change',{bubbles:true}));
+     puppet=stage.querySelector('.storybook-yarrow');
+     if(!document.body.classList.contains('motion-off')||puppet.dataset.pose!=='idle')throw Error('Motion-off setting did not restore seated idle');
+     still.checked=false;still.dispatchEvent(new Event('change',{bubbles:true}));
+     status.dataset.qa='pass';
+     status.textContent='PASS: seven painted anatomical groups, original six-part texture, blink, wardrobe and reduced motion';
+   }catch(err){status.dataset.qa='fail';status.textContent='FAIL: '+err.message;}
+ }
 });
 </script>
 </body>
