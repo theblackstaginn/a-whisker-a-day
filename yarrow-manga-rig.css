@@ -11,8 +11,8 @@
 .manga-yarrow .ym-svg [data-part="collar"],.manga-yarrow .ym-svg [data-part="charm"]{pointer-events:none}
 .manga-yarrow .ym-svg .ym-worn{filter:drop-shadow(0 2px 2px #18120f4d)}
 .manga-yarrow:focus-visible{outline:3px solid #b5a66a;outline-offset:4px}
-.manga-yarrow .ym-svg [data-part="lids"]{opacity:0}
-.manga-yarrow .ym-svg [data-part="profile-face"]{opacity:0}
-.manga-yarrow .ym-svg [data-part="glints"]{opacity:0}
+/* Facial layers are initially hidden in SVG markup, then driven by JS. Never pin
+   opacity in CSS: a CSS declaration overrides SVG opacity presentation attributes,
+   making the side-facing head (and blinking/glints) permanently invisible. */
 @media(prefers-reduced-motion:reduce){.manga-yarrow .ym-svg *{animation:none!important;transition:none!important}}
 body.motion-off .manga-yarrow .ym-svg *{animation:none!important;transition:none!important}
