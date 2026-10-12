@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yarrow rig browser visibility test</title>
+<link rel="stylesheet" href="../yarrow-manga-rig.css">
+<style>
+body{margin:0;padding:15px;background:#eaddbf;color:#2c2219;font:16px system-ui,sans-serif}
+.wrap{display:flex;gap:12px;flex-wrap:wrap}
+.stage{background:#d7c8a5;width:440px;height:700px;border:2px solid #927a50}
+.stage button{display:block;width:440px;height:700px;margin:0;padding:0;background:none;border:0}
+.stage .ym-svg{width:100%;height:100%}
+output{display:block;margin:8px 0;padding:9px;background:#fff7e4}
+</style>
+<script defer src="../yarrow-manga-rig.js"></script>
+</head>
+<body>
+<h1>Real browser visibility check</h1>
+<output id="qa-status">Pending browser test</output>
+<div class="wrap"><div><h2>Seated, front</h2><div class="stage" id="front"></div></div><div><h2>Sideways, profile</h2><div class="stage" id="side"></div></div></div>
+<script>
+window.addEventListener('load',async()=>{
+ const out=document.getElementById('qa-status');
+ try{
+  const rig=window.YarrowMangaRig;
+  if(!rig||!window.YarrowCutout)throw Error('Animation library did not load');
+  const info=[];
+  const builds=[['front','sit'],['side','turn']];
+  for(const [id,pose] of builds){
+   const stage=document.getElementById(id);
+   stage.innerHTML=window.YarrowCutout.render();
+   const puppet=stage.querySelector('button');
+   rig.paint(puppet,rig.masterPoses[pose],1000,pose,.7,'right');
+   const svg=puppet.querySelector('.ym-svg'),head=svg.querySelector('[data-part="head"]');
+   const face=svg.querySelector('[data-part="'+(id==='front'?'front-face':'profile-face')+'"]');
+   const hidden=svg.querySelector('[data-part="'+(id==='front'?'profile-face':'front-face')+'"]');
+   const styles=getComputedStyle(face),other=getComputedStyle(hidden);
+   const rect=head.getBoundingClientRect(),stageRect=stage.getBoundingClientRect();
+   const artBBox=face.getBBox();
+   const inFrame=rect.left<stageRect.right&&rect.right>stageRect.left&&rect.top<stageRect.bottom&&rect.bottom>stageRect.top;
+   if(+styles.opacity<.98||styles.visibility!=='visible')throw Error(id+' face hidden, computed '+styles.opacity+'/'+styles.visibility);
+   if(+other.opacity>.02)throw Error(id+' opposite face wrongly visible: '+other.opacity);
+   if(!inFrame||rect.width<50||rect.height<50||artBBox.width<50||artBBox.height<50)throw Error(id+' head geometry invisible or outside stage');
+   if(face.style.getPropertyPriority('opacity')!=='important')throw Error(id+' face missing inline-priority Safari override');
+   info.push(id+':head='+(rect.width|0)+'x'+(rect.height|0)+',faceOpacity='+styles.opacity);
+  }
+  const asset=await fetch('../assets/hearth-v24/yarrow-parts.webp');
+  if(!asset.ok||(await asset.blob()).size<50000)throw Error('Original painted atlas could not load');
+  out.setAttribute('data-result','pass');
+  out.textContent='PASS: '+info.join('; ')+'; painted atlas available';
+ }catch(err){out.setAttribute('data-result','fail');out.textContent='FAIL: '+err.message;}
+});
+</script>
+</body>
+</html>
