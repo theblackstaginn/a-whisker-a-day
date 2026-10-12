@@ -65,6 +65,11 @@ assert.ok(index.indexOf('yarrow-manga-rig.js')>index.indexOf('/* Editable in yar
 assert.ok(index.indexOf('yarrow-manga-rig.js')<index.indexOf('const STORAGE_KEY ='));
 assert.ok(css.includes('.manga-yarrow .ym-svg'),'Experimental styling scoped to new renderer');
 assert.ok(css.includes('prefers-reduced-motion')&&css.includes('body.motion-off'),'Accessibility controls retained');
+for(const layer of ['lids','profile-face','glints']){
+ assert.ok(!css.includes('[data-part="'+layer+'"]{opacity:0}'),
+  'Do not force SVG animation layer '+layer+' permanently invisible through CSS');
+}
+assert.ok(index.includes('rig-headfix2'),'iPhone preview stylesheet must invalidate the previous broken CSS cache');
 assert.ok(!src.includes('localStorage'),'Rig cannot touch journal or saved progress');
 const livePuppet={isConnected:true,dataset:{pose:'idle'},querySelector(selector){return selector==='.ym-svg'?fakeRoot:null;},offsetWidth:1};
 const scene=puppet.mount(livePuppet);
