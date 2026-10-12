@@ -1,6 +1,6 @@
 {
   "name": "a-whisker-a-day",
-  "version": "3.0.0-rig-lab",
+  "version": "3.0.1-head-visibility",
   "private": true,
   "description": "Offline-first storybook self-care with Yarrow",
   "scripts": {
