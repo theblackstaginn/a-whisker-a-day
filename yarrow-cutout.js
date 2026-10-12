@@ -326,15 +326,20 @@
   </svg>`;
   function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>${place==='hearth'?'<span class="yr-motion-controls" role="group" aria-label="Yarrow movement"><button type="button" data-yarrow-motion="stand" aria-label="Yarrow stand up">Stand</button><button type="button" data-yarrow-motion="stretch" aria-label="Yarrow stretch">Stretch</button><button type="button" data-yarrow-motion="turn" aria-label="Yarrow turn sideways">Turn sideways</button></span>':''}`;
   }
   function mount(puppet){
     if(!puppet)return null;
     let timeout=0;
     let offerSide='right';
-    const scene={ready:true,action:'idle',offerSide,dispose(){clearTimeout(timeout);},pose(name,duration=1400){
+    const durationByPose={stand:2900,stretch:3400,turn:3200};
+    const controls=puppet.parentElement?.querySelectorAll?.('[data-yarrow-motion]')||[];
+    const listeners=[];
+    for(const button of controls){const handler=()=>scene.pose(button.dataset.yarrowMotion,durationByPose[button.dataset.yarrowMotion]);button.addEventListener('click',handler);listeners.push([button,handler]);}
+    const scene={ready:true,action:'idle',offerSide,dispose(){clearTimeout(timeout);for(const [button,handler] of listeners)button.removeEventListener('click',handler);},pose(name,duration=1400){
       if(!puppet.isConnected)return false;
       clearTimeout(timeout);
+      if(duration===1400 && durationByPose[name])duration=durationByPose[name];
       if(name==='offer') {offerSide=offerSide==='right'?'left':'right';scene.offerSide=offerSide;puppet.dataset.side=offerSide;}
       // Restart repeat taps without requiring a full app render.
       if(puppet.dataset.pose===name){puppet.dataset.pose='idle';void puppet.offsetWidth;}
@@ -344,5 +349,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.0-dev'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.1-motion-preview'});
 })();
