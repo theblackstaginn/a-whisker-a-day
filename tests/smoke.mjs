@@ -27,7 +27,7 @@ for(const key of ['yr-painted-attention','yr-painted-tilt','yr-painted-knead-lef
 // The standalone CSS contains scene/layout styles relocated within the inline HTML stylesheet;
 // compare the character motion definitions rather than requiring one contiguous block.
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '3.0.0-rig-lab'"),'Keep release metadata current');
+assert.ok(index.includes("window.__whiskerVersion = '3.0.1-head-visibility'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-motion-preview'"),'Keep character rig version current');
 assert.ok(sw.includes("whisker-a-day-v3-manga-riglab1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
@@ -80,7 +80,7 @@ const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
 assert.equal(ctx.window.YarrowCutout.version,'2.4.1-motion-preview');
 vm.runInNewContext(manga,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'3.0.0-rig-lab');
+assert.equal(ctx.window.YarrowCutout.version,'3.0.1-head-visibility');
 const poses=['crescent','hat','flowers','scarf','satchel','cape','ribbon','star','beret','acorn'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowMangaRig.makeSvg(outfit);
