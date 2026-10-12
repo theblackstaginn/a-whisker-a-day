@@ -68,7 +68,7 @@ for(const label of ['renderHearth','renderRituals','renderGrimoire','renderCotta
 const scripts=[...index.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(x=>x[1]);
 assert.equal(scripts.filter(Boolean).length,2,'Expected original embedded rig and app entry scripts');
 assert.ok(index.includes('src="./yarrow-manga-rig.js?v=rig-lab1"'),'Load experimental rig before app entry');
-assert.ok(index.includes('href="./yarrow-manga-rig.css?v=rig-lab1"'),'Load experimental rig styles');
+assert.ok(index.includes('href="./yarrow-manga-rig.css?v=rig-headfix2"'),'Load experimental rig styles');
 assert.ok(sw.includes("'./yarrow-manga-rig.js'") && sw.includes("'./yarrow-manga-rig.css'"),'Offline install must cache rig sources');
 assert.ok(!manga.includes('localStorage') && !manga.includes('STORAGE_KEY'),'Rig must not access or migrate user progress');
 assert.ok(mangaCss.includes('manga-yarrow'),'Experimental styles must stay scoped');
