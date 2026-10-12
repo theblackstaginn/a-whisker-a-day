@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e9dcc4">
+<title>Yarrow's Animation Atelier — Development Only</title>
+<link rel="stylesheet" href="./yarrow-manga-rig.css?v=rig-lab1">
+<style>
+:root{color-scheme:light;font-family:Georgia,serif;color:#352d25;background:#efe7d8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 0,#fff5dc,#ece0cb 68%);padding:18px 12px 45px}
+main{max-width:670px;margin:auto;text-align:center}h1{font-size:clamp(24px,5vw,37px);font-weight:normal;margin:10px 0}p{line-height:1.5;margin:7px 0 16px}
+.flag{font:700 11px system-ui,sans-serif;letter-spacing:.12em;color:#6f6247;text-transform:uppercase}
+.stage{position:relative;margin:auto;width:min(100%,440px);aspect-ratio:2/3;border-radius:23px;overflow:hidden;border:7px solid #b6a280;box-shadow:0 8px 28px #3e2c1b49;isolation:isolate;background:#d0bc8d url('./assets/hearth-v24/apothecary.webp') center/cover no-repeat}
+.stage .yarrow-puppet{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);width:82%;height:78%;background:transparent;border:0;padding:0;cursor:pointer;filter:none;touch-action:manipulation}
+.stage .yarrow-puppet .yarrow-touch-glint{pointer-events:none}.stage .ym-svg{width:100%;height:100%}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:17px 0}
+.controls button,.controls select{border-radius:25px;min-height:45px;padding:10px 17px;background:#fdf5e4;border:1px solid #9b855f;color:#3c3327;font:600 14px system-ui,sans-serif;cursor:pointer}
+.controls button:focus-visible,.controls select:focus-visible,.stage button:focus-visible{outline:3px solid #a46d2d;outline-offset:3px}
+.controls button:active{background:#d2c5a9}
+.options{margin:16px auto;display:flex;flex-wrap:wrap;gap:13px;justify-content:center;align-items:center}
+.options label{font:13px system-ui,sans-serif}select{padding:9px;border-radius:9px;border:1px solid #a29175;background:#fdf8e9}
+.note{font:13px/1.5 system-ui,sans-serif;text-align:left;max-width:440px;margin:14px auto;color:#665841}
+footer{font:12px/1.5 system-ui,sans-serif;color:#7c6e55;margin:14px auto}
+@media(max-width:360px){.controls button{padding:9px 13px;font-size:12px}}
+</style>
+<script defer src="./yarrow-manga-rig.js?v=rig-lab1"></script>
+</head>
+<body>
+<main>
+<div class="flag">Feature branch only • no saved app data affected</div>
+<h1>Yarrow's Animation Atelier <span aria-hidden="true">☾</span></h1>
+<p>Try the joint-driven sitting, standing, stretching, and sideways master poses.</p>
+<div class="stage" id="stage" aria-label="Yarrow in her apothecary home"></div>
+<div class="controls yr-motion-controls" role="group" aria-label="Animation poses">
+<button type="button" data-yarrow-motion="stand">Stand</button>
+<button type="button" data-yarrow-motion="stretch">Stretch</button>
+<button type="button" data-yarrow-motion="turn">Turn sideways</button>
+<button type="button" data-yarrow-motion="tilt">Head tilt</button>
+<button type="button" data-yarrow-motion="knead">Knead</button>
+<button type="button" data-yarrow-motion="swish">Tail swish</button>
+</div>
+<div class="options">
+<label for="wardrobe">Wardrobe <select id="wardrobe">
+<option value="default">Signature ribbon</option>
+<option value="hat">Witch's hat</option><option value="flowers">Flower crown</option>
+<option value="beret">Beret</option><option value="scarf">Scarf</option>
+<option value="satchel">Satchel</option><option value="cape">Cape</option>
+<option value="ribbon">Extra ribbon</option><option value="star">Star charm</option><option value="acorn">Acorn charm</option>
+</select></label>
+<label><input id="motionoff" type="checkbox"> Reduce movement</label>
+</div>
+<p class="note">This is the first engineered rig, not the final painted-character approval. The frontal features use the original Yarrow anatomy atlas; side-facing artwork and fur transitions still need visual review. Tap Yarrow to purr. No journaling, purchases or account data is used on this test page.</p>
+<footer>Separate development branch • designed for iPhone Safari testing • the released app remains unchanged</footer>
+</main>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+ const stage=document.getElementById('stage'),wardrobe=document.getElementById('wardrobe');
+ const motionOff=document.getElementById('motionoff');
+ let scene;
+ function show(){
+   scene?.dispose();
+   stage.innerHTML=window.YarrowCutout.render({outfit:wardrobe.value});
+   scene=window.YarrowCutout.mount(stage.querySelector('.yarrow-puppet'));
+ }
+ wardrobe.addEventListener('change',show);
+ motionOff.addEventListener('change',()=>{document.body.classList.toggle('motion-off',motionOff.checked);show();});
+ stage.addEventListener('click',event=>{if(event.target.closest('.yarrow-puppet'))scene?.pose('purr');});
+ show();
+});
+</script>
+</body></html>
