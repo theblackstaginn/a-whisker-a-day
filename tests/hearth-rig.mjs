@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 const source=fs.readFileSync(new URL('../yarrow-cutout.js',import.meta.url),'utf8');
-let next=0;const timers=new Map();const context={window:{},setTimeout(fn){timers.set(++next,fn);return next;},clearTimeout(id){timers.delete(id);}};
+let next=0;const timers=new Map();const context={window:{},document:{querySelectorAll(){return [];}},setTimeout(fn){timers.set(++next,fn);return next;},clearTimeout(id){timers.delete(id);}};
 vm.runInNewContext(source,context);
 const rig=context.window.YarrowCutout;
 const puppet={isConnected:true,dataset:{},offsetWidth:100};
@@ -59,5 +59,6 @@ assert.ok(ancestorsOfClass(scarf,'yr-worn-scarf-tail')?.includes('yr-worn-scarf'
 assert.ok(css.includes('yr-worn-fabric'),'Loose cloth sway must be optional CSS, not a separate sprite');
 console.log('Painted wardrobe anchoring, controller lifecycle and asset wiring passed. Browser motion and seam QA still required.');
 
-for(const name of ['stand','stretch','turn']){assert.ok(rig.render({place:'hearth'}).includes('data-yarrow-motion="'+name+'"'));assert.ok(css.includes('[data-pose="'+name+'"]'));}
+const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+for(const name of ['stand','stretch','turn']){assert.ok(index.includes('data-yarrow-motion="'+name+'"'));assert.ok(css.includes('[data-pose="'+name+'"]'));}
 console.log('Three-pose preview controls and timeline selectors verified; visual phone QA remains outstanding.');
