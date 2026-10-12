@@ -37,8 +37,8 @@ function chrome(args){
  const output=path.join(root,'artifacts');
  fs.mkdirSync(output,{recursive:true});
  try{
-    const check=await chrome([...flags,'--window-size=950,950','--dump-dom','http://127.0.0.1:'+port+'/tests/painted-seat-check.html']);
-    const status=check.stdout.match(/<output[^>]*id="result"[^>]*>[\s\S]*?<\/output>/)?.[0]||'No browser QA output';
+    const check=await chrome([...flags,'--window-size=950,950','--dump-dom','http://127.0.0.1:'+port+'/yarrow-painted-seat.html?qa=1']);
+    const status=check.stdout.match(/<output[^>]*id="qa-result"[^>]*>[\s\S]*?<\/output>/)?.[0]||'No browser QA output';
     if(check.code!==0||!status.includes('data-qa="pass"'))throw Error('Painted seated browser check failed: '+status.replace(/<[^>]*>/g,' ')+check.stderr.slice(-400));
     console.log('REAL CHROME ART QA: '+status.replace(/<[^>]*>/g,' ').trim());
     const capture=await chrome([...flags,'--window-size=390,1000','--screenshot='+path.join(output,'painted-seat-iphone.png'),'http://127.0.0.1:'+port+'/yarrow-painted-seat.html']);
