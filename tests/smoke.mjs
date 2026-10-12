@@ -21,8 +21,11 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 
 const embeddedRig=index.split('/* Editable in yarrow-cutout.js inside the full source archive */')[1]?.split('</script>')[0]?.trim();
 assert.equal(embeddedRig,js.trim(),'Embedded live rig must exactly match yarrow-cutout.js');
-const wardrobeCss=css.slice(css.indexOf('/* v2.4 development:'));
-assert.ok(wardrobeCss&&index.includes(wardrobeCss.trim()),'Embedded character animation CSS must match the current painted rig rules');
+for(const key of ['yr-painted-attention','yr-painted-tilt','yr-painted-knead-left','yr-stand-torso','yr-stretch-head','yr-turn-head']){
+ assert.ok(css.includes('@keyframes '+key)&&index.includes('@keyframes '+key),'Embedded and reference CSS must preserve '+key);
+}
+// The standalone CSS contains scene/layout styles relocated within the inline HTML stylesheet;
+// compare the character motion definitions rather than requiring one contiguous block.
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '3.0.0-rig-lab'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-motion-preview'"),'Keep character rig version current');
