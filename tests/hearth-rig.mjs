@@ -7,7 +7,7 @@ vm.runInNewContext(source,context);
 const rig=context.window.YarrowCutout;
 const puppet={isConnected:true,dataset:{},offsetWidth:100};
 const controller=rig.mount(puppet);
-for(const action of ['blink','tilt','purr','knead','swish','happy']){
+for(const action of ['blink','tilt','purr','knead','swish','happy','stand','stretch','turn']){
  assert.equal(controller.pose(action,1400),true);assert.equal(puppet.dataset.pose,action);assert.equal(timers.size,1);
  controller.pose(action,1400);assert.equal(timers.size,1,'Repeat taps replace the pending reset');
  const fn=[...timers.values()][0];timers.clear();fn();assert.equal(puppet.dataset.pose,'idle');
@@ -58,3 +58,6 @@ const scarf=rig.render({outfit:'scarf'});
 assert.ok(ancestorsOfClass(scarf,'yr-worn-scarf-tail')?.includes('yr-worn-scarf'),'Scarf tail remains attached beneath scarf knot');
 assert.ok(css.includes('yr-worn-fabric'),'Loose cloth sway must be optional CSS, not a separate sprite');
 console.log('Painted wardrobe anchoring, controller lifecycle and asset wiring passed. Browser motion and seam QA still required.');
+
+for(const name of ['stand','stretch','turn']){assert.ok(rig.render({place:'hearth'}).includes('data-yarrow-motion="'+name+'"'));assert.ok(css.includes('[data-pose="'+name+'"]'));}
+console.log('Three-pose preview controls and timeline selectors verified; visual phone QA remains outstanding.');
