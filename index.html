@@ -887,6 +887,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 
 </style>
   <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
+<link rel="stylesheet" href="./yarrow-manga-rig.css?v=rig-lab1">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -1289,6 +1290,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 })();
 
 </script>
+<script src="./yarrow-manga-rig.js?v=rig-lab1"></script>
 <script>
 /*
  * A Whisker a Day — a cozy, offline-first storybook self-care app.
@@ -2183,11 +2185,11 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
     bindEvents();render();startYarrowLife();setupPullToRefresh();
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=wardrobe1',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=rig-lab1',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
-  window.__whiskerVersion = '2.4.0-dev';
+  window.__whiskerVersion = '3.0.0-rig-lab';
 })();
 
   </script>
