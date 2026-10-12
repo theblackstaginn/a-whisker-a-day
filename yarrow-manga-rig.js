@@ -39,7 +39,7 @@ const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 const ease=t=>{t=clamp(t);return t*t*(3-2*t);};
 const lerp=(a,b,t)=>a+(b-a)*t;
 function blend(a,b,t){
- const walk=(x,y)=>Array.isArray(x)?x.map((v,i)=>walk(v,y[i])):typeof x==='number'?lerp(x,y,t):x;
+ const walk=(x,y)=>Array.isArray(x)?x.map((v,i)=>walk(v,y[i])):(x&&typeof x==='object')?Object.fromEntries(Object.keys(x).map(k=>[k,walk(x[k],y[k])])):typeof x==='number'?lerp(x,y,t):x;
  return walk(a,b);
 }
 const clone=o=>JSON.parse(JSON.stringify(o));
