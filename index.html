@@ -834,6 +834,8 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 
 /* Yarrow three-pose motion preview: all transformations apply to existing painted limbs,
    so her current approved image and attached wardrobe stay unchanged. */
+.yr-motion-lab{position:relative!important;display:block!important;clear:both;width:100%;margin:16px auto 20px;padding:12px;border:1px solid #b2a17a;border-radius:16px;background:#f5ecd9;color:#3e4434;text-align:center;box-sizing:border-box;z-index:6}
+.yr-motion-lab>strong{display:block;font-size:13px;letter-spacing:.04em;margin-bottom:9px}
 .yr-motion-controls{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;position:relative;z-index:5;margin:0 auto 8px}
 .yr-motion-controls button{font:inherit;font-size:12px;line-height:1.2;padding:9px 11px;border-radius:999px;border:1px solid #a18b69;background:#ede0c3;color:#40352b;min-height:38px;cursor:pointer}
 .yr-motion-controls button:focus-visible{outline:3px solid #695c3e;outline-offset:2px}
@@ -1645,7 +1647,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
         <div class="hearth-world-bottom"><span>✧ A little magic lives here</span><span class="yarrow-invite">♡ Tap Yarrow to pet her</span></div>
       </section>
       ${yarrowMomentButtons()}
-      <span class="yr-motion-controls" role="group" aria-label="Yarrow movement"><button type="button" data-yarrow-motion="stand" aria-label="Yarrow stand up">Stand</button><button type="button" data-yarrow-motion="stretch" aria-label="Yarrow stretch">Stretch</button><button type="button" data-yarrow-motion="turn" aria-label="Yarrow turn sideways">Turn sideways</button></span>
+      <section class="yr-motion-lab" aria-label="Yarrow animation preview"><strong>Yarrow’s movement test</strong><div class="yr-motion-controls" role="group" aria-label="Yarrow movement"><button type="button" data-yarrow-motion="stand">Stand</button><button type="button" data-yarrow-motion="stretch">Stretch</button><button type="button" data-yarrow-motion="turn">Turn sideways</button></div></section>
       <div class="storybook-feature-grid">
         <section class="card storybook-feature today-feature" aria-label="Today's little magic, featuring Yarrow">
           <div class="story-art hero-photo" aria-hidden="true"></div>
