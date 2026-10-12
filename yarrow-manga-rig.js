@@ -142,7 +142,7 @@ function face(){
  '</g>';
 }
 function makeSvg(outfit){
- return '<svg class="ym-svg" viewBox="0 0 440 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'+
+ let markup='<svg class="ym-svg" viewBox="0 0 440 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'+
  '<defs><linearGradient id="ym-fur" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#3b2c23"/><stop offset=".48" stop-color="#241c19"/><stop offset="1" stop-color="#171412"/></linearGradient>'+
  '<radialGradient id="ym-eye"><stop stop-color="#fff1ae"/><stop offset=".48" stop-color="#f4b83c"/><stop offset="1" stop-color="#bd7624"/></radialGradient>'+
  '<linearGradient id="ym-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2b6"/><stop offset=".5" stop-color="#efc35d"/><stop offset="1" stop-color="#99702e"/></linearGradient>'+
@@ -162,6 +162,36 @@ function makeSvg(outfit){
  '<g data-part="head">'+face()+headwear(outfit)+'</g>'+
  '<g data-part="glints" opacity="0" stroke="#f6d38a" stroke-width="3"><path d="M94 398v17m-8-9h16M353 396v17m-8-9h16"/></g>'+
  '</svg>';
+ // An authored static seated image ships in the markup itself. Reduced-motion
+ // viewers and first paints never see an empty rig waiting for animation ticks.
+ const p=P.sit;
+ function bake(id,key,value){
+   const match='data-part="'+id+'"';
+   if(!markup.includes(match))throw Error('Missing rig layer: '+id);
+   markup=markup.replace(match,match+' '+key+'="'+value+'"');
+ }
+ bake('torso','d',furBody(p));
+ bake('ruff','d',ruff(p));
+ bake('fur-texture','d',furMarks(p));
+ bake('head','transform','translate('+xy(p.head)+')');
+ bake('collar','transform','translate('+xy(p.neck)+')');
+ bake('neck-ornament','transform','translate('+xy(p.neck)+')');
+ bake('charm','transform','translate('+xy(move(p.neck,0,22))+')');
+ bake('body-ornament','transform','translate('+xy([p.hip[0]*.4+p.shoulder[0]*.6,p.hip[1]*.4+p.shoulder[1]*.6])+')');
+ for(const id of ['fl','fr','hl','hr']){
+   const [a,b,c]=p[id],hind=id[0]==='h';
+   bake(id+'-top','d',bone(a,b,hind?27:22,hind?22:18));
+   bake(id+'-bottom','d',bone(b,c,hind?22:18,hind?15:13));
+   bake(id+'-joint','cx',b[0]);
+   bake(id+'-joint','cy',b[1]);
+   bake(id+'-paw','transform','translate('+xy(c)+')');
+   bake(id+'-shine','d','M'+xy(move(a,6,-2))+'Q'+xy(move(b,-1,-5))+' '+xy(move(c,-5,-12)));
+ }
+ for(let i=0;i<4;i++){
+   const id=i===0?'tail-base':i===3?'tail-tip':'tail-'+i;
+   bake(id,'d','M'+xy(p.tail[i])+'Q'+xy([(p.tail[i][0]+p.tail[i+1][0])/2+4,(p.tail[i][1]+p.tail[i+1][1])/2-6])+' '+xy(p.tail[i+1]));
+ }
+ return markup;
 }
 function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
  const name=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
