@@ -304,5 +304,5 @@ function mount(puppet){
  return scene;
 }
 window.YarrowMangaRig=Object.freeze({masterPoses:P,poseTimelines:RUNS,sample,blend,makeSvg,paint,version:'3.0.1-head-visibility'});
-window.YarrowCutout=Object.freeze({render,mount,version:'3.0.0-rig-lab'});
+window.YarrowCutout=Object.freeze({render,mount,version:'3.0.1-head-visibility'});
 })();
