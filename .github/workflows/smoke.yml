@@ -21,3 +21,12 @@ jobs:
           node-version: '22'
       - name: Verify app source and character rig
         run: npm test
+      - name: Verify front and side head rendering in Chrome
+        run: node scripts/verify-head-browser.cjs
+      - name: Preserve browser comparison image
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yarrow-head-visibility
+          path: artifacts/yarrow-head-visibility.png
+          if-no-files-found: ignore

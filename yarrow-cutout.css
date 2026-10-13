@@ -195,3 +195,42 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 
 .storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
 .storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}
+
+/* Painted wardrobe follows Yarrow's animated anatomy; only the loose scarf
+   end flexes slightly, tucked beneath its neck knot. Motion-off still wins. */
+.storybook-yarrow .yr-worn-scarf-tail{transform-origin:266px 362px;animation:yr-worn-fabric 6.4s ease-in-out infinite}
+@keyframes yr-worn-fabric{0%,100%{transform:rotate(0)}50%{transform:rotate(1.3deg)}}
+
+/* Yarrow three-pose motion preview: all transformations apply to existing painted limbs,
+   so her current approved image and attached wardrobe stay unchanged. */
+.yr-motion-controls{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;position:relative;z-index:5;margin:0 auto 8px}
+.yr-motion-controls button{font:inherit;font-size:12px;line-height:1.2;padding:9px 11px;border-radius:999px;border:1px solid #a18b69;background:#ede0c3;color:#40352b;min-height:38px;cursor:pointer}
+.yr-motion-controls button:focus-visible{outline:3px solid #695c3e;outline-offset:2px}
+.storybook-yarrow[data-pose="stand"] .yr-painted-torso{animation:yr-stand-torso 2.9s ease-in-out both}
+.storybook-yarrow[data-pose="stand"] .yr-painted-head{animation:yr-stand-head 2.9s ease-in-out both}
+.storybook-yarrow[data-pose="stand"] .yr-painted-paw-left,
+.storybook-yarrow[data-pose="stand"] .yr-painted-paw-right{animation:yr-stand-paws 2.9s ease-in-out both}
+.storybook-yarrow[data-pose="stretch"] .yr-painted-torso{animation:yr-stretch-torso 3.4s cubic-bezier(.4,0,.2,1) both}
+.storybook-yarrow[data-pose="stretch"] .yr-painted-head{animation:yr-stretch-head 3.4s ease-in-out both}
+.storybook-yarrow[data-pose="stretch"] .yr-painted-paw-left{animation:yr-stretch-left 3.4s ease-in-out both}
+.storybook-yarrow[data-pose="stretch"] .yr-painted-paw-right{animation:yr-stretch-right 3.4s ease-in-out both}
+.storybook-yarrow[data-pose="turn"] .yr-painted-torso{animation:yr-turn-torso 3.2s ease-in-out both}
+.storybook-yarrow[data-pose="turn"] .yr-painted-head{animation:yr-turn-head 3.2s ease-in-out both}
+.storybook-yarrow[data-pose="turn"] .yr-painted-paw-left{animation:yr-turn-left 3.2s ease-in-out both}
+.storybook-yarrow[data-pose="turn"] .yr-painted-paw-right{animation:yr-turn-right 3.2s ease-in-out both}
+.storybook-yarrow[data-pose="turn"] .yr-painted-tail{animation:yr-turn-tail 3.2s ease-in-out both}
+@keyframes yr-stand-torso{0%,100%{transform:translateY(0) scale(1)}20%{transform:translateY(7px) scale(1.03,.98)}45%,75%{transform:translateY(-26px) scale(.97,1.085)}}
+@keyframes yr-stand-head{0%,100%{transform:translateY(0)}20%{transform:translateY(5px) rotate(-2deg)}45%,75%{transform:translateY(-30px) rotate(2deg)}}
+@keyframes yr-stand-paws{0%,100%{transform:translateY(0)}20%{transform:translateY(4px)}45%,75%{transform:translateY(-11px) rotate(2deg)}}
+@keyframes yr-stretch-torso{0%,100%{transform:translateY(0) scale(1)}23%{transform:translateY(7px) scale(1.02,.97)}48%,75%{transform:translateY(-11px) scale(1.05,1.025)}}
+@keyframes yr-stretch-head{0%,100%{transform:translate(0,0) rotate(0)}24%{transform:translate(0,6px) rotate(-3deg)}50%,75%{transform:translate(-7px,-17px) rotate(-7deg)}}
+@keyframes yr-stretch-left{0%,100%{transform:translate(0,0) rotate(0)}50%,75%{transform:translate(-10px,-16px) rotate(-9deg)}}
+@keyframes yr-stretch-right{0%,100%{transform:translate(0,0) rotate(0)}50%,75%{transform:translate(10px,-16px) rotate(9deg)}}
+@keyframes yr-turn-torso{0%,100%{transform:scaleX(1)}35%,75%{transform:translateX(9px) scaleX(.73) skewY(-2deg)}}
+@keyframes yr-turn-head{0%,100%{transform:translateX(0) scaleX(1)}35%,75%{transform:translateX(21px) scaleX(.69) rotate(3deg)}}
+@keyframes yr-turn-left{0%,100%{transform:translateX(0)}35%,75%{transform:translateX(17px) scaleX(.82)}}
+@keyframes yr-turn-right{0%,100%{transform:translateX(0)}35%,75%{transform:translateX(-8px) scaleX(.72)}}
+@keyframes yr-turn-tail{0%,100%{transform:rotate(0)}35%,75%{transform:translateX(-18px) rotate(-10deg)}}
+@media(prefers-reduced-motion:reduce){.storybook-yarrow[data-pose="stand"] .yr-storybook-svg *,
+.storybook-yarrow[data-pose="stretch"] .yr-storybook-svg *,
+.storybook-yarrow[data-pose="turn"] .yr-storybook-svg *{animation:none!important}}

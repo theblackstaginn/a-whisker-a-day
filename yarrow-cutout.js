@@ -174,6 +174,127 @@
   const STORYBOOK_BLEND_MASK='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAACMCAAAAADdUTHRAAAB3klEQVR42u3a22obMRAG4NFKWrsmaZzi9v3fr6Ykzq4Oc+yF5UBvVXI3P4iFBX0MP7u6EsAXJUAIMaac17zmnFOMywxjKkJMSIRMLGKWIKTj6en5+/nl/PLy/HQ65BlZsJXtdnt/e3+/feylsyWAmI9Pr5fLr5+Xy4/z8+kwA3Pbb29/rtff10M0IQJYvqpjhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGH/0kaTwMzsHsmmLHR4HN7ur9UFWEiQkwQJ1xGJGIWUR10AgAzFSbE3mqORlNXWHsptbaOJKJmD1iFCVvd1xQU1wnYpNdt20vriHyXE4DZcHMMgjVPwVj37bbtpSGJ6OhYlanVNS0mvR7S1DVhamX/uG2lduIxsZkJYy8xGGM9rjOwKWEt+7bttSOJmkECABXqcQkmWL8dcgwTEytTa6WUvTRk0dGxCsUlmFA7rmuag4UQW6u1NmSxR8fCCCbU13VNcZmBTYQIO/Z+r+LxVQQwZWw5pRjDFKwizERERI8qDBTAlCmmGJcY5mBTFRFhEb7/fAEghLCEZSQEmIJBzXTEBgwBwghMjft5ij3OMTAY44WxIPzHQWljgcFX5i9BboHlWCToGQAAAABJRU5ErkJggg==';
   // Atlas parts share one painted source; nested SVG viewports select anatomy.
   const part=(name, box, x,y,w,h)=>`<svg class="yr-part ${name}" x="${x}" y="${y}" width="${w}" height="${h}" viewBox="${box}" preserveAspectRatio="none" overflow="hidden"><image href="./assets/hearth-v24/yarrow-parts.webp" width="1536" height="1024"/></svg>`;
+
+  // Wearable art shares painted rig coordinates (440 x 700). Back fabric rides
+  // the torso, neckwear and headwear ride the head, and paws remain in front.
+  function wardrobeCloak(outfit) {
+    if(outfit!=='cape')return '';
+    return [
+      '<g class="yr-worn-cape" aria-hidden="true">',
+      '<path d="M151 346Q112 353 92 415Q68 484 53 567Q81 608 132 619Q112 570 132 491Q149 423 170 377Z" fill="#415b48" stroke="#263a31" stroke-width="5"/>',
+      '<path d="M276 348Q307 355 327 419Q353 502 338 568Q317 600 290 616Q312 551 291 476Q279 425 260 374Z" fill="#49634c" stroke="#293d32" stroke-width="5"/>',
+      '<path d="M121 377Q95 441 79 547Q100 575 119 583M297 384Q327 471 321 552" fill="none" stroke="#a6b68a" stroke-width="4" opacity=".65"/>',
+      '<path d="M102 441Q88 480 86 514M313 455Q325 504 320 528" fill="none" stroke="#b4bc91" stroke-width="2" opacity=".48"/>',
+      '</g>'
+    ].join('');
+  }
+  function wardrobeBodywear(outfit) {
+    if(outfit==='satchel')return [
+      '<g class="yr-worn-satchel" aria-hidden="true">',
+      '<path d="M146 357Q210 402 291 561" stroke="#403224" stroke-width="13" fill="none" stroke-linecap="round"/>',
+      '<path d="M146 357Q210 402 291 561" stroke="#b49768" stroke-width="8" fill="none" stroke-linecap="round"/>',
+      '<path d="M158 369Q220 417 278 536" stroke="#ead0a1" stroke-width="1.5" fill="none" opacity=".67"/>',
+      '<g class="yr-worn-satchel-bag">',
+      '<path d="M281 550Q300 542 335 554L339 610Q315 628 279 613Z" fill="#735d3c" stroke="#473825" stroke-width="4"/>',
+      '<path d="M284 555Q308 544 334 557L333 583Q314 601 282 585Z" fill="#998054" stroke="#d7b984" stroke-width="3"/>',
+      '<path d="M289 560Q306 552 329 562M287 602Q308 611 333 602" stroke="#d9bc86" stroke-width="2" fill="none" opacity=".65"/>',
+      '<path d="M283 584Q303 592 333 582" fill="none" stroke="#4c3a29" stroke-width="3"/>',
+      '<circle cx="310" cy="586" r="5" fill="#d2b371" stroke="#6c5131" stroke-width="2"/>',
+      '<path d="M307 585q4-5 7-1-1 6-7 1Z" fill="#647753"/>',
+      '</g></g>'
+    ].join('');
+    if(outfit==='cape')return [
+      '<g class="yr-worn-cape-clasp" aria-hidden="true">',
+      '<path d="M155 360Q223 379 283 354" fill="none" stroke="#77866a" stroke-width="5" opacity=".76"/>',
+      '<circle cx="278" cy="359" r="9" fill="#b8a074" stroke="#574a32" stroke-width="3"/>',
+      '<path d="M274 360q7-8 9 0-6 6-9 0" fill="#526d50"/>',
+      '</g>'
+    ].join('');
+    return '';
+  }
+  function wardrobeHeadwear(outfit) {
+    if(outfit==='flowers')return [
+      '<g class="yr-worn-flowers" aria-hidden="true">',
+      '<path d="M132 208Q210 170 301 203" fill="none" stroke="#536c49" stroke-width="7" stroke-linecap="round"/>',
+      '<path d="M154 198q-17-15-20-1 10 12 20 1M185 185q-14-17-19-3 8 13 19 3M252 184q17-15 20-1-9 13-20 1M278 195q17-13 20-1-10 12-20 1" fill="#70865b" stroke="#425a41" stroke-width="1.5"/>',
+      '<g fill="#f5dfb4" stroke="#d7b77a" stroke-width="1.3"><ellipse cx="153" cy="192" rx="8" ry="13" transform="rotate(-37 153 192)"/><ellipse cx="165" cy="197" rx="8" ry="13" transform="rotate(43 165 197)"/><ellipse cx="201" cy="178" rx="8" ry="12" transform="rotate(-33 201 178)"/><ellipse cx="213" cy="177" rx="8" ry="12" transform="rotate(38 213 177)"/><ellipse cx="256" cy="185" rx="8" ry="12" transform="rotate(-38 256 185)"/><ellipse cx="269" cy="194" rx="8" ry="12" transform="rotate(38 269 194)"/></g>',
+      '<g fill="#daaa5e"><circle cx="159" cy="196" r="5"/><circle cx="207" cy="181" r="5"/><circle cx="263" cy="191" r="5"/></g>',
+      '<g fill="none" stroke="#fff4d1" stroke-width="2" opacity=".8"><path d="M154 187l3 5m48-15 3 5m51 5 4 5"/></g>',
+      '</g>'
+    ].join('');
+    if(outfit==='hat')return [
+      '<g class="yr-worn-hat" aria-hidden="true">',
+      '<path d="M145 219Q177 139 246 101Q236 159 307 217Q237 238 145 219Z" fill="#3e5948" stroke="#22392f" stroke-width="6"/>',
+      '<path d="M181 200Q214 142 244 118Q239 163 267 196" fill="none" stroke="#a1b28c" stroke-width="4" opacity=".46"/>',
+      '<path d="M141 212Q221 235 301 211L306 233Q220 260 126 233Z" fill="#2e4838" stroke="#c4a76b" stroke-width="4"/>',
+      '<path d="M142 225Q227 249 300 223" fill="none" stroke="#bfa56e" stroke-width="6"/>',
+      '<path d="M115 225Q218 243 319 221Q330 241 267 248Q176 259 109 241Z" fill="#375340" stroke="#21362d" stroke-width="4"/>',
+      '<path d="M231 220l5 6 8-3-3 8 5 6-8-1-5 6-1-9-8-4 8-2Z" fill="#d7bb7c" stroke="#795f36" stroke-width="1.5"/>',
+      '</g>'
+    ].join('');
+    if(outfit==='beret')return [
+      '<g class="yr-worn-beret" aria-hidden="true">',
+      '<path d="M134 219Q146 157 213 153Q280 141 307 214Q233 244 134 219Z" fill="#885f70" stroke="#4e3b47" stroke-width="5"/>',
+      '<path d="M161 206Q182 169 243 165" fill="none" stroke="#c799aa" stroke-width="6" stroke-linecap="round" opacity=".6"/>',
+      '<path d="M137 218Q220 238 302 213" fill="none" stroke="#cfa6b0" stroke-width="9"/>',
+      '<path d="M141 223Q224 241 300 218" fill="none" stroke="#533d4a" stroke-width="3"/>',
+      '<path d="M215 153q-5-12 6-19" fill="none" stroke="#664553" stroke-width="6" stroke-linecap="round"/>',
+      '<path d="M254 197l6-7 2 9 10 4-9 5-3 10-5-9-10-4Z" fill="#dbc09a" opacity=".8"/>',
+      '</g>'
+    ].join('');
+    return '';
+  }
+  function wardrobeNeckwear(outfit) {
+    if(outfit==='scarf')return [
+      '<g class="yr-worn-scarf" aria-hidden="true">',
+      '<path d="M151 340Q220 370 287 340L296 364Q231 391 146 365Z" fill="#8c4f3e" stroke="#633d33" stroke-width="4"/>',
+      '<g class="yr-worn-scarf-tail">',
+      '<path d="M258 362Q286 383 291 442Q281 449 269 442Q272 399 244 377Z" fill="#ad674b" stroke="#6c4639" stroke-width="3.5"/>',
+      '<path d="M268 381Q287 403 284 435" fill="none" stroke="#db9a73" stroke-width="5" opacity=".8"/>',
+      '<path d="M271 437l-3 13m12-12-1 14m10-15 2 12" fill="none" stroke="#ebc098" stroke-width="3" stroke-linecap="round"/>',
+      '</g>',
+      '<path d="M146 340Q217 365 287 340L292 366Q224 388 148 367Z" fill="#b36c50" stroke="#e3ad80" stroke-width="3"/>',
+      '<path d="M151 351Q213 373 278 351" fill="none" stroke="#db9b76" stroke-width="5" opacity=".75"/>',
+      '<path d="M153 363Q219 384 284 362" fill="none" stroke="#704537" stroke-width="2.5" opacity=".9"/>',
+      '<path d="M159 357q58 18 112 3" fill="none" stroke="#f4d1ab" stroke-width="1.7" stroke-dasharray="4 8" opacity=".85"/>',
+      '<path d="M252 351Q266 347 285 355L280 376Q263 379 251 367Z" fill="#995541" stroke="#dda37c" stroke-width="2.5"/>',
+      '<path d="M258 357q13 3 19 2" fill="none" stroke="#f0c49c" stroke-width="2"/>',
+      '</g>'
+    ].join('');
+    if(outfit==='ribbon')return [
+      '<g class="yr-worn-ribbon" aria-hidden="true">',
+      '<path d="M150 351Q219 378 286 348" fill="none" stroke="#567359" stroke-width="12" stroke-linecap="round"/>',
+      '<path d="M152 348Q218 371 283 346" fill="none" stroke="#a5b99c" stroke-width="5" stroke-linecap="round"/>',
+      '<path d="M263 359Q245 336 235 351Q232 367 262 369Q291 337 300 352Q305 371 266 371Z" fill="#a9c2a2" stroke="#607b60" stroke-width="3"/>',
+      '<path d="M255 367l-8 23 17-8 13 14 1-30" fill="#7d9b7c" stroke="#506b54" stroke-width="2"/>',
+      '<path d="M246 353q9 2 15 10m18-3q7-9 14-8" stroke="#ecf0d1" stroke-width="2" fill="none" opacity=".76"/>',
+      '<ellipse cx="265" cy="366" rx="7" ry="8" fill="#c7b37e" stroke="#6f704f" stroke-width="2"/>',
+      '</g>'
+    ].join('');
+    if(outfit==='star')return [
+      '<g class="yr-worn-star" aria-hidden="true">',
+      '<path d="M151 352Q220 380 286 349" fill="none" stroke="#384e54" stroke-width="12" stroke-linecap="round"/>',
+      '<path d="M153 350Q220 374 285 346" fill="none" stroke="#82999a" stroke-width="4" opacity=".8"/>',
+      '<circle cx="221" cy="368" r="5" fill="#d5b674" stroke="#775c39" stroke-width="2"/>',
+      '<path d="M222 372l6 14 16 2-12 10 3 16-14-8-14 8 3-16-12-10 16-2Z" fill="#e5c57f" stroke="#8a663c" stroke-width="3" stroke-linejoin="round"/>',
+      '<path d="M218 386l4-5 4 5m-9 11 4-3" fill="none" stroke="#fff0be" stroke-width="2.5" stroke-linecap="round"/>',
+      '</g>'
+    ].join('');
+    if(outfit==='acorn')return [
+      '<g class="yr-worn-acorn" aria-hidden="true">',
+      '<path d="M151 351Q217 380 284 349" stroke="#6b6545" stroke-width="10" fill="none" stroke-linecap="round"/>',
+      '<path d="M153 349Q218 373 282 348" fill="none" stroke="#b2a47a" stroke-width="3" opacity=".75"/>',
+      '<path d="M221 363v11" stroke="#c6ad74" stroke-width="4" stroke-linecap="round"/>',
+      '<path d="M221 375Q238 375 239 393Q238 413 222 420Q205 411 204 393Q205 376 221 375Z" fill="#ad7644" stroke="#684a32" stroke-width="3"/>',
+      '<path d="M207 389Q221 376 236 389L237 397Q223 391 206 399Z" fill="#67573e" stroke="#493e31" stroke-width="2"/>',
+      '<path d="M211 386l3 8m5-11 2 9m6-9 2 9" stroke="#b39b69" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+      '<path d="M214 402q6 8 14 2" stroke="#dfb27a" stroke-width="3" opacity=".7" fill="none"/>',
+      '<path d="M221 375q-2-9 5-11" stroke="#765b3c" stroke-width="2.5" fill="none"/>',
+      '</g>'
+    ].join('');
+    return '';
+  }
+
   const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
     <!-- Feather the shoulders over the already painted torso, without changing joint motion. -->
     <defs>
@@ -188,7 +309,7 @@
     <ellipse cx="223" cy="616" rx="146" ry="17" fill="#1d2118" opacity=".22"/>
     <g class="yr-painted-tail">${part('tail','1045 500 491 510',280,374,157,238)}</g>
     <g class="yr-book-body">
-      <g class="yr-painted-torso">${part('torso','0 480 560 520',55,312,300,310)}</g>
+      <g class="yr-painted-torso">${wardrobeCloak(outfit)}${part('torso','0 480 560 520',55,312,300,310)}${wardrobeBodywear(outfit)}</g>
       <g class="yr-painted-paw-left" mask="url(#yr-paw-shoulder-mask)">${part('paw-left','560 500 245 500',119,410,101,210)}</g>
       <g class="yr-painted-paw-right" mask="url(#yr-paw-shoulder-mask)">${part('paw-right','805 500 225 500',221,410,94,210)}</g>
     </g>
@@ -197,12 +318,9 @@
       <g class="yr-painted-ear-right">${part('ear-right','1120 20 416 460',231,82,134,198)}</g>
       ${part('head','0 0 560 480',48,145,331,232)}
       <svg x="48" y="145" width="331" height="232" viewBox="0 0 560 480" preserveAspectRatio="none" overflow="hidden"><g class="yr-book-lids" fill="#17130f"><path d="M141 239Q149 201 188 199Q226 197 249 240L255 271Q230 309 190 298Q153 292 141 259Z" fill="#221b15"/><path d="M328 241Q344 198 380 199Q422 200 430 245L430 272Q400 306 365 298Q335 290 328 263Z" fill="#211a14"/><g fill="none" stroke-linecap="round"><path d="M151 246Q191 278 240 252M338 252Q379 280 420 248" stroke="#0c0b09" stroke-width="8"/><path d="M155 256Q194 284 237 263M340 263Q380 285 417 259" stroke="#6c5038" stroke-width="2.5"/><path d="M155 220l12 6m6-14 12 8m14-9 12 10m11 1 9 11M342 226l11-9m4 5 12-12m13 8 11-9m6 15 12-7" stroke="#59402c" opacity=".5" stroke-width="2"/></g></g></svg>
-    ${outfit==='flowers'?'<g class="yr-book-flowers" transform="translate(0 95)" aria-hidden="true"><path d="M149 116Q214 98 283 123" stroke="#728155" stroke-width="5" fill="none"/><g fill="#f6df9e"><circle cx="169" cy="107" r="7"/><circle cx="205" cy="103" r="6"/><circle cx="249" cy="111" r="7"/></g><g fill="#ad8041"><circle cx="169" cy="107" r="2"/><circle cx="205" cy="103" r="2"/><circle cx="249" cy="111" r="2"/></g></g>':''}
-    ${outfit==='hat'?'<g class="yr-book-hat" transform="translate(0 95)" aria-hidden="true"><path d="M120 139Q183 27 247 11Q241 95 317 141Q216 155 120 139Z" fill="#445844" stroke="#283b2e" stroke-width="6"/><path d="M128 127Q218 145 298 124L309 148Q215 165 114 145Z" fill="#344c3b" stroke="#d1b47e" stroke-width="5"/></g>':''}
+      ${wardrobeHeadwear(outfit)}
+      ${wardrobeNeckwear(outfit)}
     </g>
-    ${outfit==='scarf'?'<path aria-hidden="true" d="M282 339Q305 376 300 447L277 447Q278 393 260 361Z" fill="#9e654b" stroke="#dbb28d" stroke-width="4" opacity=".9"/>':''}
-    ${outfit==='satchel'?'<g aria-hidden="true"><path d="M125 368Q221 394 298 575" fill="none" stroke="#bca16e" stroke-width="6" opacity=".8"/><path d="M289 554q23-11 47 3l-5 61-53-4Z" fill="#746440" stroke="#c1a56e" stroke-width="4"/></g>':''}
-    ${outfit==='cape'?'<g aria-hidden="true" opacity=".75"><path d="M72 372Q38 491 50 571Q76 607 117 620Q87 527 126 371Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/><path d="M308 364Q336 436 343 542L307 569Q320 483 279 376Z" fill="#476047" stroke="#b2ae7d" stroke-width="4"/></g>':''}
 
     <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3"><path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/></g>
   </svg>`;
@@ -214,9 +332,14 @@
     if(!puppet)return null;
     let timeout=0;
     let offerSide='right';
-    const scene={ready:true,action:'idle',offerSide,dispose(){clearTimeout(timeout);},pose(name,duration=1400){
+    const durationByPose={stand:2900,stretch:3400,turn:3200};
+    const controls=document.querySelectorAll('[data-yarrow-motion]');
+    const listeners=[];
+    for(const button of controls){const handler=()=>scene.pose(button.dataset.yarrowMotion,durationByPose[button.dataset.yarrowMotion]);button.addEventListener('click',handler);listeners.push([button,handler]);}
+    const scene={ready:true,action:'idle',offerSide,dispose(){clearTimeout(timeout);for(const [button,handler] of listeners)button.removeEventListener('click',handler);},pose(name,duration=1400){
       if(!puppet.isConnected)return false;
       clearTimeout(timeout);
+      if(duration===1400 && durationByPose[name])duration=durationByPose[name];
       if(name==='offer') {offerSide=offerSide==='right'?'left':'right';scene.offerSide=offerSide;puppet.dataset.side=offerSide;}
       // Restart repeat taps without requiring a full app render.
       if(puppet.dataset.pose===name){puppet.dataset.pose='idle';void puppet.offsetWidth;}
@@ -226,5 +349,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.0-dev'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.1-motion-preview'});
 })();

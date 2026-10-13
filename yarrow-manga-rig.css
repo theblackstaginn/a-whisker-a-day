@@ -1,0 +1,18 @@
+/* Yarrow manga-rig lab — isolated from the established production illustration.
+   Joints are posed by JS using authored world-space coordinates, not by CSS warps. */
+.manga-yarrow .ym-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;user-select:none;-webkit-user-select:none;filter:drop-shadow(0 5px 3px #24190f38)}
+.manga-yarrow .ym-tail-seg{fill:none;stroke:#251e1a;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke;filter:drop-shadow(0 1px 1px #0e0b0a66)}
+.manga-yarrow .ym-tail-seg:nth-child(even){stroke:#30251f}
+.manga-yarrow .ym-limb-coat{fill:#30251f;stroke:#1c1511;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.manga-yarrow .ym-limb-joint{fill:#30241f;stroke:#241b16;stroke-width:1.8}
+.manga-yarrow .ym-paw-pad{fill:#382b24;stroke:#1c1613;stroke-width:3}
+.manga-yarrow .ym-limb-shine{fill:none;stroke:#8c694b;stroke-width:2;stroke-linecap:round;opacity:.36}
+.manga-yarrow .ym-svg [data-part="head"]{transform-box:view-box}
+.manga-yarrow .ym-svg [data-part="collar"],.manga-yarrow .ym-svg [data-part="charm"]{pointer-events:none}
+.manga-yarrow .ym-svg .ym-worn{filter:drop-shadow(0 2px 2px #18120f4d)}
+.manga-yarrow:focus-visible{outline:3px solid #b5a66a;outline-offset:4px}
+/* Facial layers are initially hidden in SVG markup, then driven by JS. Never pin
+   opacity in CSS: a CSS declaration overrides SVG opacity presentation attributes,
+   making the side-facing head (and blinking/glints) permanently invisible. */
+@media(prefers-reduced-motion:reduce){.manga-yarrow .ym-svg *{animation:none!important;transition:none!important}}
+body.motion-off .manga-yarrow .ym-svg *{animation:none!important;transition:none!important}
