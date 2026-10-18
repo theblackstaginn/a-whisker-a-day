@@ -153,6 +153,128 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
 body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 
+
+/* Cottage now shares the Hearth's actual painted environment and Yarrow rig.
+   The former room-scene SVG included a second, flat cat and is not rendered. */
+.cottage-visual.cottage-storybook{height:clamp(330px,59vw,490px);min-height:330px;isolation:isolate;background:#695a40;overflow:hidden}
+.cottage-painted-room{position:absolute;inset:0;background:url('./assets/cottage-reading-nook.webp') center center / cover no-repeat, url('./assets/hearth-v24/apothecary.webp') center 56% / cover no-repeat;filter:saturate(1.04)}
+.cottage-storybook:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#211b1208 20%,transparent 52%,#1f1b1475 100%);pointer-events:none;z-index:1}
+.cottage-storybook .storybook-yarrow.hearth-character{position:absolute;z-index:3;left:50%;bottom:-7%;transform:translate(-50%,14%);width:min(55%,285px);height:85%;max-width:none;filter:drop-shadow(0 9px 9px #21190f40)}
+.cottage-storybook .visual-badge{z-index:5;top:16px;left:16px}
+.cottage-storybook .cottage-pet-invite{position:absolute;left:17px;bottom:16px;z-index:5;color:#fff4db;text-shadow:0 1px 5px #211a14;background:#314436b5;border:1px solid #d1bd87a8;border-radius:24px;padding:8px 12px;font:italic 13px Georgia,serif;pointer-events:none}
+.cottage-storybook .decor-overlay{z-index:4}
+@media(max-width:520px){.cottage-visual.cottage-storybook{height:clamp(335px,79vw,435px)}.cottage-storybook .storybook-yarrow.hearth-character{width:64%;height:87%;bottom:-8%}.cottage-painted-room{background-position:center center,center 53%}}
+
+/* Calm, compact familiar portrait: keep the whole animated rig visible on phones. */
+.yarrow-view .familiar-portrait{min-height:0;display:block;padding:12px;background:#e4e2cd}
+.yarrow-view .familiar-portrait:before,.yarrow-view .familiar-portrait:after{display:none}
+.yarrow-view .yarrow-portrait-wrap{min-height:0;height:clamp(345px,65vw,440px);background:radial-gradient(ellipse at 50% 42%,#f6eed9 5%,#d5dfc8 78%);border:1px solid #d1c9aa;border-radius:18px}
+.yarrow-view .yarrow-portrait-wrap:before{font-size:34px;top:12px;right:16px;opacity:.22}
+.yarrow-view .yarrow-puppet.profile-character{width:min(72%,260px);height:88%;max-width:none;max-height:none;margin:0 auto}
+.yarrow-view .yarrow-portrait-wrap .outfit-note{bottom:12px;left:50%;right:auto;transform:translateX(-50%);white-space:nowrap;font-size:12px;padding:7px 11px;max-width:90%;text-align:center}
+@media(max-width:600px){
+ .yarrow-view .familiar-portrait{padding:9px}
+ .yarrow-view .yarrow-portrait-wrap{height:clamp(310px,85vw,390px)}
+ .yarrow-view .yarrow-puppet.profile-character{width:min(68%,245px);height:86%}
+ .yarrow-view .yarrow-portrait-wrap .outfit-note{bottom:9px}
+}
+
+/* Mobile refinement: comfortably sized bottom navigation and visible keyboard focus. */
+@media(max-width:700px){
+  .mobile-nav{gap:4px;padding:7px 8px calc(7px + env(safe-area-inset-bottom))}
+  .mobile-nav-link{min-height:52px;padding:7px 1px 6px;gap:4px;font-size:11px;line-height:1.2;touch-action:manipulation}
+  .mobile-nav-link .icon-svg{width:24px;height:24px;flex-shrink:0}
+  .mobile-nav-link.active{box-shadow:inset 0 0 0 1px #c3d0b9}
+  .main-area{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
+}
+.mobile-nav-link:focus-visible{outline:3px solid #47694c;outline-offset:-3px}
+
+/* Brief page reveal; skip for motion-sensitive users. */
+@keyframes whisker-view-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+#main.view-enter{animation:whisker-view-enter .22s ease-out both}
+@media(prefers-reduced-motion:reduce){#main.view-enter{animation:none!important}}
+body.motion-off #main.view-enter{animation:none!important}
+/* Comfortable ritual checklist controls and calmer completed states. */
+.rituals-view .ritual-row{grid-template-columns:46px minmax(0,1fr) auto;gap:10px;align-items:center}
+.rituals-view .ritual-check{width:44px;height:44px;border-radius:14px;flex-shrink:0;touch-action:manipulation}
+.rituals-view .ritual-check:focus-visible,.rituals-view .del-icon:focus-visible{outline:3px solid #47694c;outline-offset:3px}
+.rituals-view .del-icon{width:44px;height:44px;border-radius:12px;touch-action:manipulation}
+.rituals-view .ritual-row.completed .ritual-name{text-decoration:none;color:#45634a}
+.rituals-view .ritual-row.completed .ritual-name:before{content:'✓ ';color:#557e56;font-weight:700}
+.rituals-view .ritual-hint{font-size:12px;line-height:1.5}
+@media(max-width:600px){
+ .rituals-view .ritual-row{padding:12px 9px;gap:8px;grid-template-columns:44px minmax(0,1fr) 44px}
+ .rituals-view .ritual-meta{gap:0}
+ .rituals-view .ritual-reward{display:none}
+ .rituals-view .ritual-name{font-size:16px;line-height:1.3}
+}
+
+/* Grimoire writing polish: quiet edit area, readable saved pages and draft status. */
+.grimoire-view .journal-editor textarea{font-size:16px;min-height:190px;line-height:1.75;background-size:auto 35px}
+.grimoire-view .journal-draft-status{display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-top:9px;color:#697b62;font-size:12px;line-height:1.4}
+.grimoire-view #journal-character-count{white-space:nowrap;font-variant-numeric:tabular-nums;color:#84745f}
+.grimoire-view .entry-card{border-left:3px solid #b4bd99}
+.grimoire-view .entry-card p{line-height:1.8;font-size:16px}
+.grimoire-view .entry-actions .btn{min-height:42px}
+@media(max-width:700px){.grimoire-view .journal-editor{padding:19px 16px}.grimoire-view .journal-editor textarea{min-height:220px}.grimoire-view .entry-card{padding:17px 15px}.grimoire-view .entry-actions{flex-wrap:wrap}}
+
+/* Clear garden states and touch-friendly plots, without modifying growth rules. */
+.garden-plot{cursor:pointer;touch-action:manipulation;min-height:132px}
+.garden-plot:focus-visible{outline:3px solid #416448;outline-offset:3px}
+.garden-plot.ready-to-harvest{border:2px solid #648653;background:#eef3dd;box-shadow:inset 0 0 0 2px #fff9e8}
+.garden-plot.ready-to-harvest .plant-caption{color:#315c39;font-weight:800}
+.garden-plot .plant-caption{line-height:1.35;max-width:100%;overflow-wrap:break-word}
+.garden-plot:active{transform:scale(.985)}
+@media(max-width:700px){.garden-plots{gap:9px}.garden-plot{min-height:118px;padding:10px 5px}.garden-plot .plant-caption{font-size:11px}.garden-plot.empty small{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.garden-plot:active{transform:none}}
+body.motion-off .garden-plot:active{transform:none}
+
+/* Illustrated gratitude jar and its accessible note-reading interior. */
+.gratitude-jar-button{width:min(100%,320px);margin:14px auto 4px;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;cursor:pointer;color:#536b52;font:italic 15px Georgia,serif;touch-action:manipulation}
+.gratitude-jar-button img{display:block;width:100%;height:auto;mix-blend-mode:multiply;transition:transform .2s ease;object-fit:contain}
+.gratitude-jar-button:hover img{transform:translateY(-4px)}
+.gratitude-jar-button:focus-visible{outline:3px solid #547b58;outline-offset:4px;border-radius:20px}
+.gratitude-jar-caption{padding:7px 10px}
+.gratitude-open-lid{text-align:center;color:#ab8248;font-size:27px;letter-spacing:11px;margin:9px auto 18px}
+.gratitude-open-notes{max-height:min(52vh,480px);overflow:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,195px),1fr));gap:12px;padding:5px}
+.gratitude-paper-note{margin:0;padding:16px;background:#fff6e2;border:1px solid #dec8a9;border-radius:7px;box-shadow:0 3px 8px #5c493015;transform:rotate(-.5deg);overflow-wrap:anywhere}
+.gratitude-paper-note:nth-child(even){background:#f8e7e0;transform:rotate(.6deg)}
+.gratitude-paper-note p{white-space:pre-wrap;font:16px/1.55 Georgia,serif;color:#514c41}
+.gratitude-paper-note .btn{min-height:40px}
+@media(prefers-reduced-motion:reduce){.gratitude-jar-button img{transition:none}.gratitude-jar-button:hover img{transform:none}}
+body.motion-off .gratitude-jar-button img{transition:none}
+body.motion-off .gratitude-jar-button:hover img{transform:none}
+
+/* Gift activities appear only once their corresponding gift is owned. */
+.reward-outfit-activities{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.reward-outfit-activities .btn{white-space:normal;text-align:left;min-height:44px}
+.shop-item [data-action="reward-moment"]{margin-top:7px;min-height:40px;white-space:normal}
+.reward-moment-steps{padding-left:23px;margin:20px 0;color:#425c48;font:16px/1.65 Georgia,serif}
+.reward-moment-steps li{margin:0 0 12px;padding-left:3px}
+/* New Cottage comforts: visible keepsakes without covering Yarrow's face. */
+.cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}
+.cottage-storybook .decor-overlay.pillow{right:13%;bottom:12%}
+.cottage-storybook .decor-overlay.clock{right:12%;top:17%}
+.cottage-storybook .decor-overlay.flowershelf{left:12%;top:28%}
+.cottage-storybook .decor-overlay.basket{left:23%;bottom:7%}
+.cottage-storybook .decor-overlay.mushroom{right:6%;bottom:7%}
+.cottage-storybook .decor-overlay.candles{left:5%;top:47%}
+.cottage-storybook .decor-overlay.quilt{right:25%;bottom:4%}
+.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:clamp(23px,3.3vw,38px);z-index:4;text-shadow:0 3px 5px #30211677;pointer-events:none}
+@media(max-width:700px){.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:24px}}
+/* Beta tester polish: browse larger collections without cramped controls. */
+.yarrow-view .outfit-grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:11px}
+.yarrow-view .outfit-option{min-height:116px;touch-action:manipulation}
+.yarrow-view .outfit-option:focus-visible,.cottage-view .shop-item button:focus-visible{outline:3px solid #47694c;outline-offset:3px}
+.cottage-view .shop-grid{grid-template-columns:repeat(auto-fit,minmax(137px,1fr));gap:12px}
+.cottage-view .shop-item{min-width:0}
+.cottage-view .shop-item .btn{width:100%;min-height:42px}
+@media(max-width:420px){.yarrow-view .outfit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cottage-view .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
+/* iPhone-friendly pull-to-refresh indicator. */
+.whisker-ptr{position:fixed;z-index:250;top:calc(8px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-130%);opacity:0;pointer-events:none;background:#36503e;color:#fff6df;border:1px solid #c8ac74;border-radius:25px;padding:10px 18px;font:600 12px Georgia,serif;box-shadow:0 5px 18px #17281d30;transition:opacity .15s,transform .15s}
+.whisker-ptr.visible{transform:translate(-50%,0);opacity:1}
+.whisker-ptr.ready{background:#55754b}
+@media(prefers-reduced-motion:reduce){.whisker-ptr{transition:none}}
 /* v2.4 development: independently transformed painted anatomy. */
 .storybook-yarrow .yr-book-body{animation:none!important;transform:none!important}
 .storybook-yarrow .yr-painted-head{transform-origin:220px 349px;animation:yr-painted-attention 6.8s ease-in-out infinite}
