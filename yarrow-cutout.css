@@ -131,13 +131,13 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 .storybook-yarrow .yr-book-magic{opacity:0}
 @keyframes yr-book-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1px) scale(1.006,1.008)}}
 @keyframes yr-book-blink{0%,43%,46%,100%{opacity:0}44%,45%{opacity:1}}
-@keyframes yr-book-blink-now{0%,25%,74%,100%{opacity:0}42%,57%{opacity:1}}
+@keyframes yr-book-blink-now{0%,18%,82%,100%{opacity:0}36%,64%{opacity:1}}
 @keyframes yr-book-tilt-whole{0%,100%{transform:rotate(0)}38%,66%{transform:rotate(-2deg)}}
 @keyframes yr-book-purr-whole{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px) scale(1.006)}}
 @keyframes yr-book-acknowledge{0%,100%{transform:translateY(0)}42%{transform:translateY(-4px)}}
 @keyframes yr-book-swish-whole{0%,100%{transform:rotate(0)}40%{transform:rotate(1deg)}70%{transform:rotate(-1deg)}}
 @keyframes yr-book-glow{0%,100%{opacity:0;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
-.storybook-yarrow[data-pose="blink"] .yr-book-lids{animation:yr-book-blink-now .85s ease-in-out 1}
+.storybook-yarrow[data-pose="blink"] .yr-book-lids{animation:yr-book-blink-now 1.35s ease-in-out 1}
 .storybook-yarrow[data-pose="tilt"] .yr-book-body{animation:yr-book-tilt-whole 1.4s ease-in-out 1}
 .storybook-yarrow[data-pose="purr"] .yr-book-body{animation:yr-book-purr-whole .75s ease-in-out 3}
 .storybook-yarrow[data-pose="purr"] .yr-book-lids{animation:yr-book-blink-now 1.2s ease-in-out 2}
