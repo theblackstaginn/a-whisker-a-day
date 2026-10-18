@@ -20,9 +20,9 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.4.4-dev'"),'Keep release metadata current');
+assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-purr2"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.5-decor1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -68,6 +68,18 @@ assert.ok(index.includes("save();render();toast('A new ritual"),'Library additio
 assert.ok(index.includes('const GRIMOIRE_LORE ='),'Grimoire field guide missing');
 assert.ok(index.includes('const HERB_LORE ='),'Herbal field guide missing');
 assert.ok(index.includes('A tiny cottage blessing'),'Cottage reflection missing');
+assert.ok(index.includes('const DEFAULT_DECOR_POSITIONS = Object.freeze({'),'Cottage decor needs stable default positions');
+assert.ok(index.includes('decorPositions:{}'),'New saves need a decor position map');
+assert.ok(index.includes("merged.decorPositions = {}"),'Saved decor positions need normalization');
+assert.ok(index.includes("data-decor-id="),'Visible cottage decor needs movable handles');
+assert.ok(index.includes("setTimeout(()=>{") && index.includes("},480);"),'Decor pickup needs a deliberate long press');
+assert.ok(index.includes("function handleDecorPointerMove(event)"),'Decor needs pointer-drag movement');
+assert.ok(index.includes("function settleDecorMove(pos=null)"),'Decor needs tap-to-place persistence');
+assert.ok(index.includes("if(decorMove&&cottageScene)"),'A cottage tap should settle the lifted item');
+assert.ok(index.includes("state.decorPositions[decorMove.id]"),'Placed coordinates must be saved');
+assert.ok(index.includes("-webkit-touch-callout:none"),'Long press should not open the iOS callout');
+assert.ok(index.includes("aria-grabbed=\"false\""),'Movable decor should expose placement state');
+
 assert.ok(index.includes('Tiny woodland discoveries'),'Yarrow nature prompts missing');
 
 for(const label of ['renderHearth','renderRituals','renderGrimoire','renderCottage','renderYarrow']){
@@ -92,4 +104,4 @@ for(const outfit of poses){
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
 assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
-console.log('A Whisker a Day v2.4.4 development: static source checks passed; mobile motion and purr QA still required.');
+console.log('A Whisker a Day v2.5.0 development: static source checks passed; mobile motion, purr, and cottage placement QA still required.');
