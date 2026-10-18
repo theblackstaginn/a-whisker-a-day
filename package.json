@@ -1,6 +1,6 @@
 {
   "name": "a-whisker-a-day",
-  "version": "2.4.3-dev",
+  "version": "2.4.4-dev",
   "private": true,
   "description": "Offline-first storybook self-care with Yarrow",
   "scripts": {
