@@ -1228,6 +1228,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   let meowAudio = null;
   let musicAudio = null;
   let purrStopTimer = null;
+  let purrFadeTimer = null;
 
   function icon(name, extraClass = '') {
     return `<svg class="icon-svg ${extraClass}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICON_PATHS[name] || ICON_PATHS.spark}</svg>`;
@@ -1726,22 +1727,32 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   }
   function stopYarrowEffects() {
     if(purrStopTimer){clearTimeout(purrStopTimer);purrStopTimer=null;}
+    if(purrFadeTimer){clearInterval(purrFadeTimer);purrFadeTimer=null;}
     for(const audio of [purrAudio,meowAudio]){
       if(!audio)continue;
       try{audio.pause();audio.currentTime=0;}catch{}
     }
+    if(purrAudio)purrAudio.volume=.72;
   }
   function playPurr() {
     if(!state.sound)return;
     ensureYarrowAudio();
     try{
       if(purrStopTimer){clearTimeout(purrStopTimer);purrStopTimer=null;}
+      if(purrFadeTimer){clearInterval(purrFadeTimer);purrFadeTimer=null;}
       purrAudio.pause();purrAudio.currentTime=0;purrAudio.volume=.72;
       purrAudio.play().catch(()=>{});
       purrStopTimer=setTimeout(()=>{
-        try{purrAudio.pause();purrAudio.currentTime=0;}catch{}
+        purrFadeTimer=setInterval(()=>{
+          purrAudio.volume=Math.max(0,purrAudio.volume-.09);
+          if(purrAudio.volume<=.01){clearInterval(purrFadeTimer);purrFadeTimer=null;}
+        },55);
+      },2650);
+      setTimeout(()=>{
+        try{purrAudio.pause();purrAudio.currentTime=0;purrAudio.volume=.72;}catch{}
+        if(purrFadeTimer){clearInterval(purrFadeTimer);purrFadeTimer=null;}
         purrStopTimer=null;
-      },3300);
+      },3150);
     }catch{}
   }
   function playMeow() {
