@@ -20,9 +20,9 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.4.3-dev'"),'Keep release metadata current');
+assert.ok(index.includes("window.__whiskerVersion = '2.4.4-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-audio1"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.4-purr2"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -34,18 +34,19 @@ assert.equal(manifest.display,'standalone');
 assert.ok(manifest.icons.some(i=>i.src==='./app-icon.svg'));
 assert.ok(index.includes('function exportBackup()') && index.includes('async function importBackup('));
 const purr=fs.readFileSync(path.join(root,'assets/audio/yarrow-purr.mp3'));
-const meow=fs.readFileSync(path.join(root,'assets/audio/yarrow-meow.mp3'));
-const music=fs.readFileSync(path.join(root,'assets/audio/hearth-music.ogg'));
 assert.equal(purr.toString('ascii',0,3),'ID3','Yarrow purr must be a real bundled MP3');
-assert.ok(meow[0]===0xff && (meow[1]&0xe0)===0xe0,'Yarrow meow must be a real bundled MP3 frame');
-assert.equal(music.toString('ascii',0,4),'OggS','Hearth music must be a real bundled OGG');
-assert.ok(index.includes("new Audio('./assets/audio/yarrow-purr.mp3')"),'Petting should use the recorded purr');
+assert.ok(index.includes("new Audio('./assets/audio/yarrow-purr.mp3')"),'Tap interaction should use the recorded purr');
+assert.ok(index.includes("const tappedYarrow=!!source?.closest('.yarrow-puppet,.yarrow-stage,.cat-stage,.photo-yarrow-hit')"),'Purr audio must be gated to direct taps on Yarrow');
+assert.ok(index.includes("if(tappedYarrow)playPurr();"),'Only a direct Yarrow tap may start the purr');
 assert.ok(index.includes("purrFadeTimer=setInterval"),'Recorded purr should fade before its noisy tail');
-assert.ok(index.includes("new Audio('./assets/audio/yarrow-meow.mp3')"),'Yarrow should have a recorded meow');
-assert.ok(index.includes("new Audio('./assets/audio/hearth-music.ogg')"),'Optional hearth music should be bundled');
-assert.ok(index.includes("case 'toggle-music'"),'Background music needs an explicit user control');
-assert.ok(index.includes("data-action=\"yarrow-meow\""),'Yarrow page needs a direct meow interaction');
-assert.ok(index.includes("merged.music = typeof raw.music==='boolean'?raw.music:false"),'Music preference must persist without enabling itself for existing users');
+assert.ok(index.includes("purrEndTimer=setTimeout"),'Repeated taps should replace the active purr cleanly');
+assert.ok(!index.includes("if(state.sound) playPurr(.55)"),'Ritual rewards must not play the purr');
+assert.ok(!index.includes("yarrow-meow"),'Meow interaction is deferred');
+assert.ok(!index.includes("hearth-music.ogg"),'Background music is deferred');
+assert.ok(!index.includes("toggle-music"),'Background music control is deferred');
+assert.ok(!index.includes("merged.music ="),'No unused music preference should remain');
+assert.ok(!sw.includes("yarrow-meow"),'Meow audio must not be cached');
+assert.ok(!sw.includes("hearth-music"),'Background music must not be cached');
 assert.ok(!index.includes("buffer=ctx.createBuffer"),'Retire the procedural wind-like purr synthesis');
 
 /* Optional witchy content must not replace saved user rituals or invent mandatory chores. */
@@ -91,4 +92,4 @@ for(const outfit of poses){
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
 assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
-console.log('A Whisker a Day v2.4.3 development: static source checks passed; mobile motion and seam QA still required.');
+console.log('A Whisker a Day v2.4.4 development: static source checks passed; mobile motion and purr QA still required.');
