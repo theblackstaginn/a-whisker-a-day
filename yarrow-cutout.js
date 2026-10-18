@@ -226,5 +226,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.0-dev'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.1-dev'});
 })();
