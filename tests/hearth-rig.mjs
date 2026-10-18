@@ -27,7 +27,7 @@ const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
 assert.ok(index.includes("},7600);"), 'Ambient familiar gesture cadence is under eight seconds');
 assert.ok(index.includes("Your device Reduce Motion setting is keeping Yarrow still."), 'Blocked motion explains the device setting');
 assert.ok(index.includes("setupYarrowScene();if(state.animation)"), 'Turning motion back on remounts the familiar controller');
-assert.ok(index.includes("window.__whiskerVersion = '2.4.2-dev';"));
+assert.ok(index.includes("window.__whiskerVersion = '2.4.3-dev';"));
 const sw=fs.readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 for(const file of ['apothecary','yarrow-parts']){
  assert.ok(sw.includes('./assets/hearth-v24/'+file+'.webp'));
