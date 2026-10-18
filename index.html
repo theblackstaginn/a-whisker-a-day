@@ -1227,6 +1227,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   let purrAudio = null;
   let purrStopTimer = null;
   let purrFadeTimer = null;
+  let purrEndTimer = null;
 
   function icon(name, extraClass = '') {
     return `<svg class="icon-svg ${extraClass}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICON_PATHS[name] || ICON_PATHS.spark}</svg>`;
@@ -1711,6 +1712,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   function stopYarrowPurr() {
     if(purrStopTimer){clearTimeout(purrStopTimer);purrStopTimer=null;}
     if(purrFadeTimer){clearInterval(purrFadeTimer);purrFadeTimer=null;}
+    if(purrEndTimer){clearTimeout(purrEndTimer);purrEndTimer=null;}
     if(!purrAudio)return;
     try{purrAudio.pause();purrAudio.currentTime=0;purrAudio.volume=.72;}catch{}
   }
@@ -1726,7 +1728,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
           if(purrAudio.volume<=.01){clearInterval(purrFadeTimer);purrFadeTimer=null;}
         },55);
       },2650);
-      setTimeout(()=>stopYarrowPurr(),3150);
+      purrEndTimer=setTimeout(()=>stopYarrowPurr(),3150);
     }catch{}
   }
 
@@ -2008,7 +2010,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     }
   }
   init();
-  window.__whiskerVersion = '2.4.3-dev';
+  window.__whiskerVersion = '2.4.4-dev';
 })();
 
   </script>
