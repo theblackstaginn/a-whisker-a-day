@@ -20,9 +20,9 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.4.0-dev'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.4.0-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-beta2"),'Offline cache version must track installed assets');
+assert.ok(index.includes("window.__whiskerVersion = '2.4.1-dev'"),'Keep release metadata current');
+assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.4-yarrow1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -65,7 +65,7 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.4.0-dev');
+assert.equal(ctx.window.YarrowCutout.version,'2.4.1-dev');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
@@ -77,4 +77,4 @@ for(const outfit of poses){
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
 assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
-console.log('A Whisker a Day v2.4 development: static source checks passed; mobile motion and seam QA still required.');
+console.log('A Whisker a Day v2.4.1 development: static source checks passed; mobile motion and seam QA still required.');
