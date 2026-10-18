@@ -20,6 +20,14 @@ for(const part of ['head','ear-left','ear-right','paw-left','paw-right','tail'])
 const css=fs.readFileSync(new URL('../yarrow-cutout.css',import.meta.url),'utf8');
 assert.ok(css.includes('body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important'));
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));
+assert.ok(css.includes('@keyframes yr-painted-breathe'), 'Painted Yarrow keeps visible breathing motion');
+assert.ok(css.includes('transform:rotate(-12deg)'), 'Tail swish remains visible at phone size');
+assert.ok(css.includes('yr-book-blink-now 1.35s'), 'Slow blink is long enough to read visually');
+const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+assert.ok(index.includes("},7600);"), 'Ambient familiar gesture cadence is under eight seconds');
+assert.ok(index.includes("Your device Reduce Motion setting is keeping Yarrow still."), 'Blocked motion explains the device setting');
+assert.ok(index.includes("setupYarrowScene();if(state.animation)"), 'Turning motion back on remounts the familiar controller');
+assert.ok(index.includes("window.__whiskerVersion = '2.4.1-dev';"));
 const sw=fs.readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 for(const file of ['apothecary','yarrow-parts']){
  assert.ok(sw.includes('./assets/hearth-v24/'+file+'.webp'));
