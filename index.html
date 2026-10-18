@@ -1225,6 +1225,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   let modalOpener = null;
   let lastDateKey = todayKey();
   let audioContext = null;
+  let activePurrStop = null;
 
   function icon(name, extraClass = '') {
     return `<svg class="icon-svg ${extraClass}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICON_PATHS[name] || ICON_PATHS.spark}</svg>`;
@@ -1700,21 +1701,111 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
       <div class="notice"><strong>Install on your phone:</strong> On iPhone, open this app in Safari and use Share → Add to Home Screen. On Android, use your browser’s Install or Add to Home Screen option. The main app works offline once installed from a secure site.</div>
       <div style="margin-top:19px"><button class="btn btn-danger btn-small" type="button" data-action="reset">Clear this device’s data</button></div>`,'wide');
   }
-  function playPurr(duration=1) {
+  function playPurr(duration=1.15) {
     if(!state.sound)return;
     try {
       const AC=window.AudioContext||window.webkitAudioContext;
       if(!AC)return;
       audioContext=audioContext||new AC();
       if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
-      const now=audioContext.currentTime;
-      const master=audioContext.createGain();master.gain.setValueAtTime(0,now);master.gain.linearRampToValueAtTime(.055,now+.08);master.gain.setValueAtTime(.055,now+duration-.12);master.gain.linearRampToValueAtTime(0,now+duration);
-      master.connect(audioContext.destination);
-      const mod=audioContext.createOscillator(),modGain=audioContext.createGain();mod.type='sine';mod.frequency.value=24;modGain.gain.value=.026;mod.connect(modGain);
-      const o=audioContext.createOscillator(),g=audioContext.createGain();o.type='triangle';o.frequency.setValueAtTime(93,now);o.frequency.linearRampToValueAtTime(107,now+duration);g.gain.value=.45;modGain.connect(g.gain);o.connect(g);g.connect(master);
-      const high=audioContext.createOscillator(),hg=audioContext.createGain();high.type='sine';high.frequency.value=162;hg.gain.value=.09;high.connect(hg);hg.connect(master);
-      mod.start(now);o.start(now);high.start(now);mod.stop(now+duration);o.stop(now+duration);high.stop(now+duration);
-      setTimeout(()=>{try{mod.disconnect();o.disconnect();high.disconnect();master.disconnect()}catch{}},Math.ceil((duration+0.15)*1000));
+      if(activePurrStop){activePurrStop();activePurrStop=null;}
+
+      const ctx=audioContext;
+      const now=ctx.currentTime;
+      const total=Math.max(.78,duration);
+      const sampleCount=Math.ceil(ctx.sampleRate*(total+.12));
+      const buffer=ctx.createBuffer(1,sampleCount,ctx.sampleRate);
+      const data=buffer.getChannelData(0);
+
+      // A purr is textured breath and throat vibration, not a clean musical tone.
+      // Brown-ish noise gives the sound a soft, irregular body before filtering.
+      let brown=0;
+      let drift=0;
+      const driftEvery=Math.max(1,Math.floor(ctx.sampleRate*.045));
+      for(let i=0;i<sampleCount;i++){
+        if(i%driftEvery===0)drift=(Math.random()*2-1)*.12;
+        const white=Math.random()*2-1;
+        brown=(brown*.985)+(white*.055);
+        data[i]=Math.max(-1,Math.min(1,brown*1.85+drift*.05));
+      }
+
+      const source=ctx.createBufferSource();
+      source.buffer=buffer;
+
+      const highpass=ctx.createBiquadFilter();
+      highpass.type='highpass';
+      highpass.frequency.value=58;
+      highpass.Q.value=.45;
+
+      const rumble=ctx.createBiquadFilter();
+      rumble.type='bandpass';
+      rumble.frequency.value=112+Math.random()*16;
+      rumble.Q.value=.72;
+
+      const throat=ctx.createGain();
+      throat.gain.setValueAtTime(.56,now);
+
+      const soften=ctx.createBiquadFilter();
+      soften.type='lowpass';
+      soften.frequency.value=430;
+      soften.Q.value=.5;
+
+      const fur=ctx.createBiquadFilter();
+      fur.type='bandpass';
+      fur.frequency.value=245+Math.random()*30;
+      fur.Q.value=.85;
+      const furGain=ctx.createGain();
+      furGain.gain.value=.075;
+
+      const master=ctx.createGain();
+      master.gain.setValueAtTime(0,now);
+      master.gain.linearRampToValueAtTime(.13,now+.09);
+      master.gain.setValueAtTime(.13,now+Math.max(.12,total-.16));
+      master.gain.linearRampToValueAtTime(0,now+total);
+
+      const compressor=ctx.createDynamicsCompressor();
+      compressor.threshold.value=-26;
+      compressor.knee.value=18;
+      compressor.ratio.value=2.5;
+      compressor.attack.value=.012;
+      compressor.release.value=.16;
+
+      // Cats purr in pulses. Modulate textured audio instead of emitting an audible oscillator.
+      const pulse=ctx.createOscillator();
+      pulse.type='sine';
+      pulse.frequency.setValueAtTime(24.5+Math.random()*2.5,now);
+      pulse.frequency.linearRampToValueAtTime(26.5+Math.random()*2.5,now+total*.45);
+      pulse.frequency.linearRampToValueAtTime(24+Math.random()*2.5,now+total);
+      const pulseDepth=ctx.createGain();
+      pulseDepth.gain.value=.16;
+      pulse.connect(pulseDepth);
+      pulseDepth.connect(throat.gain);
+
+      source.connect(highpass);
+      highpass.connect(rumble);
+      rumble.connect(throat);
+      throat.connect(soften);
+      soften.connect(master);
+      source.connect(fur);
+      fur.connect(furGain);
+      furGain.connect(master);
+      master.connect(compressor);
+      compressor.connect(ctx.destination);
+
+      const nodes=[source,pulse,highpass,rumble,throat,soften,fur,furGain,pulseDepth,master,compressor];
+      const cleanup=()=>{
+        try{source.stop();}catch{}
+        try{pulse.stop();}catch{}
+        nodes.forEach(node=>{try{node.disconnect();}catch{}});
+        if(activePurrStop===cleanup)activePurrStop=null;
+      };
+      activePurrStop=cleanup;
+
+      source.start(now);
+      pulse.start(now);
+      source.stop(now+total);
+      pulse.stop(now+total);
+      setTimeout(()=>{if(activePurrStop===cleanup)cleanup();},Math.ceil((total+.18)*1000));
     } catch { /* Some phones mute Web Audio; visual feedback still works. */ }
   }
   function petYarrow(source=null) {
@@ -1990,11 +2081,11 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
     bindEvents();render();startYarrowLife();setupPullToRefresh();
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta4',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta5',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
-  window.__whiskerVersion = '2.4.1-dev';
+  window.__whiskerVersion = '2.4.2-dev';
 })();
 
   </script>

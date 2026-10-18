@@ -20,9 +20,9 @@ assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden st
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
-assert.ok(index.includes("window.__whiskerVersion = '2.4.1-dev'"),'Keep release metadata current');
+assert.ok(index.includes("window.__whiskerVersion = '2.4.2-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.4-yarrow1"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.4-purr1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -33,6 +33,9 @@ assert.ok(index.includes("grid-template-columns:repeat(2,minmax(0,1fr))"),'Phone
 assert.equal(manifest.display,'standalone');
 assert.ok(manifest.icons.some(i=>i.src==='./app-icon.svg'));
 assert.ok(index.includes('function exportBackup()') && index.includes('async function importBackup('));
+assert.ok(index.includes("buffer=ctx.createBuffer"), 'Yarrow purr should use textured audio, not a bare musical tone');
+assert.ok(index.includes("Brown-ish noise gives the sound a soft, irregular body"), 'Natural purr synthesis comment should remain');
+assert.ok(!index.includes("o.type='triangle';o.frequency.setValueAtTime(93"), 'Remove the old electronic triangle-wave purr');
 
 /* Optional witchy content must not replace saved user rituals or invent mandatory chores. */
 const libraryMatch=index.match(/const RITUAL_LIBRARY = (\[[\s\S]*?\]);\s*const GRIMOIRE_LORE =/);
@@ -77,4 +80,4 @@ for(const outfit of poses){
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
 assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
-console.log('A Whisker a Day v2.4.1 development: static source checks passed; mobile motion and seam QA still required.');
+console.log('A Whisker a Day v2.4.2 development: static source checks passed; mobile motion and seam QA still required.');
