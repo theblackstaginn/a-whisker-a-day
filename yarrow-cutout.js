@@ -169,6 +169,14 @@
      illustration, not another vector interpretation. Separate photo layers
      share one immutable 440x700 source and overlapped neck masks. */
   const STORYBOOK_ART='./assets/yarrow-storybook.webp';
+  const FINAL_POSE_ART=Object.freeze({
+    sitting:'./assets/yarrow-v25/yarrow-sitting.webp',
+    sittingBlink:'./assets/yarrow-v25/yarrow-sitting-blink.webp',
+    standing:'./assets/yarrow-v25/yarrow-standing.webp',
+    standingBlink:'./assets/yarrow-v25/yarrow-standing-blink.webp',
+    sleeping:'./assets/yarrow-v25/yarrow-sleeping.webp'
+  });
+  const finalPoseArt=()=>`<span class="yr-final-art" aria-hidden="true"><img class="yr-final-pose yr-final-sitting" src="${FINAL_POSE_ART.sitting}" alt=""><img class="yr-final-pose yr-final-sitting-blink" src="${FINAL_POSE_ART.sittingBlink}" alt=""><img class="yr-final-pose yr-final-standing" src="${FINAL_POSE_ART.standing}" alt=""><img class="yr-final-pose yr-final-standing-blink" src="${FINAL_POSE_ART.standingBlink}" alt=""><img class="yr-final-pose yr-final-sleeping" src="${FINAL_POSE_ART.sleeping}" alt=""></span>`;
   /* v2.3: One continuous original painting. No disconnected head/body
      masks or traced silhouette. The soft image vignette is purely visual. */
   const STORYBOOK_BLEND_MASK='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAACMCAAAAADdUTHRAAAB3klEQVR42u3a22obMRAG4NFKWrsmaZzi9v3fr6Ykzq4Oc+yF5UBvVXI3P4iFBX0MP7u6EsAXJUAIMaac17zmnFOMywxjKkJMSIRMLGKWIKTj6en5+/nl/PLy/HQ65BlZsJXtdnt/e3+/feylsyWAmI9Pr5fLr5+Xy4/z8+kwA3Pbb29/rtff10M0IQJYvqpjhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGHHXbYYYcddthhhx122GGH/0kaTwMzsHsmmLHR4HN7ur9UFWEiQkwQJ1xGJGIWUR10AgAzFSbE3mqORlNXWHsptbaOJKJmD1iFCVvd1xQU1wnYpNdt20vriHyXE4DZcHMMgjVPwVj37bbtpSGJ6OhYlanVNS0mvR7S1DVhamX/uG2lduIxsZkJYy8xGGM9rjOwKWEt+7bttSOJmkECABXqcQkmWL8dcgwTEytTa6WUvTRk0dGxCsUlmFA7rmuag4UQW6u1NmSxR8fCCCbU13VNcZmBTYQIO/Z+r+LxVQQwZWw5pRjDFKwizERERI8qDBTAlCmmGJcY5mBTFRFhEb7/fAEghLCEZSQEmIJBzXTEBgwBwghMjft5ij3OMTAY44WxIPzHQWljgcFX5i9BboHlWCToGQAAAABJRU5ErkJggg==';
@@ -209,7 +217,7 @@
   function render({place='hearth',outfit='default',sleepy=false,comforting=false,stance='sitting'}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
     const resolvedStance=sleepy?'sleeping':(stance==='standing'?'standing':'sitting');
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${finalPoseArt()}${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
   }
   function mount(puppet){
     if(!puppet)return null;
@@ -227,5 +235,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.1-dev'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.5.1'});
 })();
