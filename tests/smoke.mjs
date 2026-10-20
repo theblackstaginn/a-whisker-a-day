@@ -16,13 +16,20 @@ assert.ok(storybook.length>50000,'Full painted Yarrow asset should be present');
 assert.ok(js.includes('storybookSvg(outfit)'),'Use the reference-derived painted rig in every scene');
 assert.ok(js.includes('yr-book-lids'),'Preserve illustrated blink reaction');
 assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden story card should reuse exact same image');
+for(const file of ['yarrow-sitting','yarrow-sitting-blink','yarrow-standing','yarrow-standing-blink','yarrow-sleeping']){
+  const asset=fs.readFileSync(path.join(root,'assets/yarrow-life/'+file+'.webp'));
+  assert.equal(asset.toString('ascii',0,4),'RIFF',file+' must be a real WebP');
+  assert.ok(sw.includes('./assets/yarrow-life/'+file+'.webp'),file+' must be available offline');
+}
+assert.ok(js.includes("lifePoseMarkup(resolvedStance)"),'Default Yarrow should use final Work-rendered pose art');
+assert.ok(js.includes("outfit==='default'?lifePoseMarkup(resolvedStance):storybookSvg(outfit)"),'Wardrobe keeps articulated fallback while default uses final poses');
 
 assert.ok(index.includes(js),'Self-contained index must include current Yarrow source');
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.5-yarrow1"),'Offline cache version must track installed assets');
+assert.ok(js.includes("version:'2.6.0-dev'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.5-yarrow2"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
