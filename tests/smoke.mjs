@@ -99,15 +99,19 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.4.1-dev');
+assert.equal(ctx.window.YarrowCutout.version,'2.6.0-dev');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
- assert.ok(markup.includes('yr-painted-head')&&markup.includes('yr-book-body')&&markup.includes('yr-painted-tail'),'Painted anatomy missing for '+outfit);
- assert.ok(markup.includes('yr-book-lids')&&markup.includes('yr-book-magic'),'Painted familiar expression layers missing for '+outfit);
- const opens=(markup.match(/<g(?:\s|>)/g)||[]).length;
- const closes=(markup.match(/<\/g>/g)||[]).length;
- assert.equal(opens,closes,'Unbalanced SVG groups for '+outfit);
+ if(outfit==='default'){
+   assert.ok(markup.includes('yr-life-render')&&markup.includes('yarrow-sitting.webp'),'Final default familiar render missing');
+ }else{
+   assert.ok(markup.includes('yr-painted-head')&&markup.includes('yr-book-body')&&markup.includes('yr-painted-tail'),'Painted wardrobe anatomy missing for '+outfit);
+   assert.ok(markup.includes('yr-book-lids')&&markup.includes('yr-book-magic'),'Painted wardrobe expression layers missing for '+outfit);
+   const opens=(markup.match(/<g(?:\s|>)/g)||[]).length;
+   const closes=(markup.match(/<\/g>/g)||[]).length;
+   assert.equal(opens,closes,'Unbalanced SVG groups for '+outfit);
+ }
 }
 assert.ok(css.includes('yr-book-blink-now') && css.includes('yr-book-breathe'), 'Painterly Yarrow should keep subtle blinking and breathing');
 assert.ok(!js.includes('STORYBOOK_OUTLINE') && !js.includes('yr-book-silhouette'), 'Do not bring back the broken hard-edged character mask');
