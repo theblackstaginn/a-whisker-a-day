@@ -21,10 +21,12 @@ assert.ok(index.includes(js),'Self-contained index must include current Yarrow s
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes('color-scheme:dark'),'Dark mode remains the default after restoring legacy Yarrow motion');
 assert.ok(index.includes('<meta name="theme-color" content="#101512">'),'Dark browser theme color remains active');
+assert.ok(index.includes('mix-blend-mode:normal'),'Dark gratitude jar must not multiply itself into the page background');
+assert.ok(index.includes('#gratitude-note{'),'Dark gratitude note field keeps dedicated contrast styling');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.5-dark-legacy-yarrow1"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.5-dark-gratitude1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
