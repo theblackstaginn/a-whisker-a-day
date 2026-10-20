@@ -453,3 +453,31 @@ textarea::placeholder,input::placeholder{color:#828878}
 .mobile-nav{background:#111713!important;border-color:#344035!important}
 .mobile-nav-link{color:#aeb9aa!important}
 .mobile-nav-link.active{color:#e9e5d7!important;background:#202a22!important}
+
+/* v2.5.1 — approved Work-chat pose paintings.
+   These sit above the legacy articulated atlas so the source rig remains a fallback. */
+.yr-final-art{position:absolute;inset:0;display:block;pointer-events:none;transform-origin:50% 72%}
+.yr-final-pose{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;opacity:0;transition:opacity .16s ease;filter:drop-shadow(0 9px 9px #21190f40)}
+.storybook-yarrow .yr-storybook-svg{opacity:0}
+.storybook-yarrow[data-stance="sitting"] .yr-final-sitting,
+.storybook-yarrow[data-stance="standing"] .yr-final-standing,
+.storybook-yarrow[data-stance="sleeping"] .yr-final-sleeping{opacity:1}
+.storybook-yarrow[data-pose="blink"][data-stance="sitting"] .yr-final-sitting{opacity:0}
+.storybook-yarrow[data-pose="blink"][data-stance="sitting"] .yr-final-sitting-blink{opacity:1}
+.storybook-yarrow[data-pose="blink"][data-stance="standing"] .yr-final-standing{opacity:0}
+.storybook-yarrow[data-pose="blink"][data-stance="standing"] .yr-final-standing-blink{opacity:1}
+.storybook-yarrow[data-pose="tilt"] .yr-final-art{animation:yr-final-tilt 1.55s cubic-bezier(.36,.06,.2,1) 1}
+.storybook-yarrow[data-pose="swish"] .yr-final-art{animation:yr-final-swish 1.3s ease-in-out 1}
+.storybook-yarrow[data-pose="knead"] .yr-final-art{animation:yr-final-knead 1.15s cubic-bezier(.42,0,.2,1) 3}
+.storybook-yarrow[data-pose="offer"] .yr-final-art,
+.storybook-yarrow[data-pose="happy"] .yr-final-art{animation:yr-final-acknowledge 1.1s ease-in-out 2}
+.storybook-yarrow[data-pose="purr"] .yr-final-art{animation:yr-final-purr .34s ease-in-out 7}
+.storybook-yarrow[data-stance="sleeping"][data-pose="idle"] .yr-final-art{animation:yr-final-sleep 6.6s ease-in-out infinite}
+@keyframes yr-final-tilt{0%,100%{transform:translate(0,0) rotate(0)}38%,67%{transform:translate(-2px,-1px) rotate(-4deg)}}
+@keyframes yr-final-swish{0%,100%{transform:translateX(0) rotate(0)}45%{transform:translateX(1.5px) rotate(.7deg)}70%{transform:translateX(-1px) rotate(-.45deg)}}
+@keyframes yr-final-knead{0%,100%{transform:translateY(0)}45%{transform:translateY(1.4px)}}
+@keyframes yr-final-acknowledge{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(-2px) scale(1.006)}}
+@keyframes yr-final-purr{0%,100%{transform:translate(0,0)}50%{transform:translate(.65px,-.3px)}}
+@keyframes yr-final-sleep{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1.5px) scale(1.006,1.012)}}
+body.motion-off .storybook-yarrow .yr-final-art,
+@media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-final-art{animation:none!important;transition:none!important}}
