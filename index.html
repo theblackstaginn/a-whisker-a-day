@@ -848,6 +848,23 @@ textarea::placeholder,input::placeholder{color:#828878}
 .gratitude-paper-note{background:#2a251d;border-color:#574a34}
 .gratitude-paper-note:nth-child(even){background:#2b211e}
 .gratitude-paper-note p{color:#e7dcc6}
+.gratitude-jar-button{color:#b9c8af}
+.gratitude-jar-button img{
+  mix-blend-mode:normal;
+  opacity:1;
+  filter:brightness(1.24) contrast(1.06) saturate(1.02) drop-shadow(0 15px 24px rgba(0,0,0,.38));
+}
+.gratitude-jar-caption{color:#aebfa8;text-shadow:0 1px 0 #000}
+form[data-form="gratitude"] label{color:#c5d1bd}
+#gratitude-note{
+  background:#171e19;
+  color:#f0ead9;
+  border-color:#5a6657;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 8px 22px rgba(0,0,0,.18);
+}
+#gratitude-note::placeholder{color:#8f9a89}
+#gratitude-note:focus{border-color:#91aa8b;box-shadow:0 0 0 3px rgba(145,170,139,.14),0 8px 22px rgba(0,0,0,.18)}
+
 .mobile-nav{background:#111713!important;border-color:#344035!important}
 .mobile-nav-link{color:#aeb9aa!important}
 .mobile-nav-link.active{color:#e9e5d7!important;background:#202a22!important}
@@ -2239,7 +2256,7 @@ textarea::placeholder,input::placeholder{color:#828878}
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
     bindEvents();render();startYarrowLife();setupPullToRefresh();
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta11',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta12',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
