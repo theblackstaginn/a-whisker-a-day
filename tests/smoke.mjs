@@ -13,6 +13,13 @@ const manifest=JSON.parse(read('manifest.webmanifest'));
 const storybook=fs.readFileSync(path.join(root,'assets/yarrow-storybook.webp'));
 assert.equal(storybook.toString('ascii',0,4),'RIFF','Original Yarrow portrait must be a real WebP');
 assert.ok(storybook.length>50000,'Full painted Yarrow asset should be present');
+for(const pose of ['yarrow-sitting','yarrow-sitting-blink','yarrow-standing','yarrow-standing-blink','yarrow-sleeping']){
+ const asset=fs.readFileSync(path.join(root,'assets/yarrow-v25/'+pose+'.webp'));
+ assert.equal(asset.toString('ascii',8,12),'WEBP','Final Yarrow pose must be a WebP: '+pose);
+ assert.ok(sw.includes("'./assets/yarrow-v25/"+pose+".webp'"),'Final Yarrow pose must be cached offline: '+pose);
+}
+assert.ok(js.includes('FINAL_POSE_ART'),'Final pose artwork must be wired into the familiar renderer');
+
 assert.ok(js.includes('storybookSvg(outfit)'),'Use the reference-derived painted rig in every scene');
 assert.ok(js.includes('yr-book-lids'),'Preserve illustrated blink reaction');
 assert.ok(index.includes('src="./assets/yarrow-storybook.webp"'),'Herb-garden story card should reuse exact same image');
@@ -21,8 +28,8 @@ assert.ok(index.includes(js),'Self-contained index must include current Yarrow s
 assert.ok(index.includes(css),'Self-contained index must include current animation CSS');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.5-yarrow1"),'Offline cache version must track installed assets');
+assert.ok(js.includes("version:'2.5.1'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.5-yarrow2"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -92,7 +99,7 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.4.1-dev');
+assert.equal(ctx.window.YarrowCutout.version,'2.5.1');
 const poses=['default','hat','flowers','scarf','satchel','cape'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
