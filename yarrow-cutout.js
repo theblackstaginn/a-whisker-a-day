@@ -206,9 +206,10 @@
 
     <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3"><path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/></g>
   </svg>`;
-  function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
+  function render({place='hearth',outfit='default',sleepy=false,comforting=false,stance='sitting'}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    const resolvedStance=sleepy?'sleeping':(stance==='standing'?'standing':'sitting');
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
   }
   function mount(puppet){
     if(!puppet)return null;
