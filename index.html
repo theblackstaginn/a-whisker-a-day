@@ -2348,7 +2348,7 @@ textarea::placeholder,input::placeholder{color:#828878}
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
     bindEvents();render();startYarrowLife();setupPullToRefresh();
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta8',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta9',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
