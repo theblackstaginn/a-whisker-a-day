@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#eae2ce">
+  <meta name="theme-color" content="#101512">
   <meta name="description" content="A little magic, a little kindness, one whisker at a time. A gentle storybook self-care companion with Yarrow, your black cat familiar.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="A Whisker a Day — A Little Everyday Magic">
   <meta property="og:description" content="A cozy self-care storybook with Yarrow, your black cat familiar. Tend tiny rituals, a grimoire, and a magical herb garden.">
   <meta name="twitter:card" content="summary">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Whisker a Day">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KIDxjaXJjbGUgY3g9IjYwIiBjeT0iNjAiIHI9IjU2IiBmaWxsPSIjNDM1ODQ0Ii8+CiA8Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2JhYzcyIiBzdHJva2Utd2lkdGg9IjIiLz4KIDxwYXRoIGQ9Ik0yOCA0OCAzNiAyMWwyNSAxOSAyMy0xOSA5IDI5djM0cS0zMSAzMy02NSAweiIgZmlsbD0iIzI0MmIyOCIgc3Ryb2tlPSIjYzRhOTc2IiBzdHJva2Utd2lkdGg9IjIuNSIvPgogPHBhdGggZD0iTTMyIDQ5cTI3LTE1IDU2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzU4NjA1MiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIuNyIvPgogPGVsbGlwc2UgY3g9IjQ2IiBjeT0iNjMiIHJ4PSI5IiByeT0iMTEiIGZpbGw9IiNkNWE5NTYiLz48ZWxsaXBzZSBjeD0iNzUiIGN5PSI2MyIgcng9IjkiIHJ5PSIxMSIgZmlsbD0iI2Q1YTk1NiIvPgogPGVsbGlwc2UgY3g9IjQ2IiBjeT0iNjMiIHJ4PSIzLjUiIHJ5PSI5IiBmaWxsPSIjMjYyODI1Ii8+PGVsbGlwc2UgY3g9Ijc1IiBjeT0iNjMiIHJ4PSIzLjUiIHJ5PSI5IiBmaWxsPSIjMjYyODI1Ii8+CiA8cGF0aCBkPSJNNTYgODNxNCA1IDggMG0tNC0zIDQtM2gtOHoiIHN0cm9rZT0iI2JhOTk3OCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSIjYmE5OTc4Ii8+CiA8cGF0aCBkPSJNMTggODBsLTEzLTdtMTQgMTMtMTQgMm05NS04IDEzLTdtLTE0IDEzIDE0IDIiIHN0cm9rZT0iI2M0YWE4ZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiA8cGF0aCBkPSJNNzAgMTZxMjUtMTYgMzItMS0xNC03LTMyIDEiIGZpbGw9IiNlNmM0ODYiLz4KIDxjaXJjbGUgY3g9IjU5IiBjeT0iOTQiIHI9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2RhYjk3OCIgc3Ryb2tlLXdpZHRoPSIzIi8+Cjwvc3ZnPgo=">
   <link rel="manifest" href="./manifest.webmanifest">
@@ -811,6 +811,141 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 .storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
 .storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}
 
+
+/* v2.5 — Yarrow's three-state life cycle.
+   Ears move independently so eye/face geometry never distorts. */
+.storybook-yarrow[data-pose="ear"] .yr-painted-ear-left{
+  animation:yr-painted-ear-now .82s cubic-bezier(.35,.05,.2,1) 1!important;
+}
+.storybook-yarrow[data-pose="ear"] .yr-painted-ear-right{
+  animation:yr-painted-ear-now-right .92s .08s cubic-bezier(.35,.05,.2,1) 1!important;
+}
+@keyframes yr-painted-ear-now{
+  0%,100%{transform:rotate(0)}
+  28%{transform:rotate(-10deg)}
+  48%{transform:rotate(4deg)}
+  68%{transform:rotate(-3deg)}
+}
+@keyframes yr-painted-ear-now-right{
+  0%,100%{transform:rotate(0)}
+  26%{transform:rotate(8deg)}
+  50%{transform:rotate(-3deg)}
+  72%{transform:rotate(2deg)}
+}
+.storybook-yarrow[data-pose="tilt"] .yr-painted-head{
+  animation:yr-painted-tilt-v25 1.55s cubic-bezier(.36,.06,.2,1) 1!important;
+}
+@keyframes yr-painted-tilt-v25{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  38%,67%{transform:translate(-2px,-1px) rotate(-10deg)}
+}
+.storybook-yarrow[data-stance="standing"] .yr-book-body{
+  transform:translateY(-14px) scaleY(1.08)!important;
+  transform-origin:220px 620px;
+}
+.storybook-yarrow[data-stance="standing"][data-pose="idle"] .yr-painted-head{
+  animation:yr-standing-attention 7.2s ease-in-out infinite;
+}
+@keyframes yr-standing-attention{
+  0%,34%,72%,100%{transform:translateY(-15px) rotate(0)}
+  46%,58%{transform:translate(-1px,-16px) rotate(-2.5deg)}
+}
+.storybook-yarrow[data-stance="standing"][data-pose="tilt"] .yr-painted-head{
+  animation:yr-standing-tilt 1.55s cubic-bezier(.36,.06,.2,1) 1!important;
+}
+@keyframes yr-standing-tilt{
+  0%,100%{transform:translateY(-15px) rotate(0)}
+  38%,67%{transform:translate(-2px,-16px) rotate(-10deg)}
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-storybook-svg{
+  transform:translateY(35px) scale(1.07,.78);
+  transform-origin:50% 88%;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-book-lids{
+  opacity:1!important;
+  animation:none!important;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-head{
+  animation:none;
+  transform:translateY(9px) rotate(-3deg);
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-tail{
+  animation:none;
+  transform:rotate(3deg);
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-torso{
+  animation:yr-sleep-breathe 6.6s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-ear-left{
+  animation:yr-sleep-ear-left 12.6s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-ear-right{
+  animation:yr-sleep-ear-right 15.2s 3.1s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"][data-pose="purr"] .yr-book-body{
+  animation:yr-sleep-purr .34s ease-in-out 7!important;
+}
+@keyframes yr-sleep-breathe{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-2px) scale(1.012,1.018)}
+}
+@keyframes yr-sleep-purr{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(.7px,-.35px)}
+}
+@keyframes yr-sleep-ear-left{
+  0%,82%,100%{transform:rotate(0)}
+  87%{transform:rotate(-4deg)}
+  91%{transform:rotate(2deg)}
+  95%{transform:rotate(-1deg)}
+}
+@keyframes yr-sleep-ear-right{
+  0%,84%,100%{transform:rotate(0)}
+  89%{transform:rotate(3deg)}
+  93%{transform:rotate(-2deg)}
+}
+
+/* Dark is the native atmosphere now: soot, moss, parchment-gold. */
+:root{
+  --page:#101512;--paper:#19201a;--paper-2:#20271f;--paper-3:#282b22;
+  --ink:#e9e2cf;--muted:#aaa995;--forest:#91ae8c;--forest-deep:#c2d3bb;
+  --sage:#8fa486;--light-sage:#222c23;--moss:#9aae8e;--clay:#c9906d;
+  --gold:#c9a462;--dark-gold:#b89051;--border:#3b4338;--shadow:rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+body{background:#101512;color:var(--ink)}
+body:before{background:radial-gradient(ellipse at 12% 12%,#29352a80,transparent 42%),radial-gradient(ellipse at 92% 84%,#322a204f,transparent 38%)}
+.app-frame{background:linear-gradient(135deg,#111713 0%,#151a16 72%);box-shadow:0 0 80px #0008}
+.topbar{background:rgba(17,23,19,.94);border-bottom-color:#394238}
+.sidebar{background:linear-gradient(180deg,#161d18,#111713);border-right-color:#343d34}
+.brand-tagline,.privacy-foot,.tiny-muted,.page-subtitle,.card-subtext{color:#a9aa97}
+.header-icon-btn,.season-chip,.nav-link.active,.btn-secondary,.filter-btn,.tabs,.outfit-option,.shop-item,
+.ritual-row,.journal-editor,.entry-card,.prompt-card,.breath-card,.summary-large,.summary-small,.quiet-card{
+  background:#1b231d;color:#e7e1cf;border-color:#3c463b;
+}
+.nav-link{color:#aeb9aa}
+.nav-link:hover,.header-icon-btn:hover,.btn-secondary:hover,.filter-btn:hover{background:#222c24;color:#eef0df}
+.card,.card-paper,.today-card,.scene-card,.speech-panel,.chapter-card,.story-portrait{
+  background:#19201a;border-color:#3b4338;
+}
+.page-title,.section-heading,.card-heading,.yarrow-copy h2,.ritual-name,.progress-note strong,
+.entry-card p,.story-portrait h3{color:#e8e4d5}
+textarea,input,select,.journal-editor textarea{background:#121813;color:#e9e2cf;border-color:#465044}
+textarea::placeholder,input::placeholder{color:#828878}
+.progress-track{background:#2d352d}
+.pill{background:#232d24;color:#c8d8c2;border-color:#455044}
+.pill.gold{background:#342d1f;color:#dfbf7b;border-color:#625338}
+.pill.clay{background:#34261f;color:#dfa180;border-color:#62483a}
+.yarrow-view .familiar-portrait{background:#171d18}
+.yarrow-view .yarrow-portrait-wrap{background:radial-gradient(ellipse at 50% 42%,#333329 4%,#1a211b 78%);border-color:#3b4438}
+.cottage-painted-room,.hearth-world .living-room{filter:brightness(.72) saturate(.92)}
+.gratitude-paper-note{background:#2a251d;border-color:#574a34}
+.gratitude-paper-note:nth-child(even){background:#2b211e}
+.gratitude-paper-note p{color:#e7dcc6}
+.mobile-nav{background:#111713!important;border-color:#344035!important}
+.mobile-nav-link{color:#aeb9aa!important}
+.mobile-nav-link.active{color:#e9e5d7!important;background:#202a22!important}
+
 </style>
   <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
 </head>
@@ -1068,9 +1203,10 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 
     <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3"><path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/></g>
   </svg>`;
-  function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
+  function render({place='hearth',outfit='default',sleepy=false,comforting=false,stance='sitting'}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    const resolvedStance=sleepy?'sleeping':(stance==='standing'?'standing':'sitting');
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
   }
   function mount(puppet){
     if(!puppet)return null;
@@ -1392,7 +1528,8 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
   }
   /* v2.0: Retired the old monolithic photo and triangular-mesh fallback.
      Yarrow is authored once as a jointed SVG, and always uses that rig. */
-  const YARROW_MOTIONS=new Set(['idle','blink','tilt','swish','knead','offer','purr','happy']);
+  const YARROW_MOTIONS=new Set(['idle','blink','tilt','swish','knead','offer','purr','happy','ear']);
+  const yarrowDayStance=Math.random()<.5?'sitting':'standing';
   let yarrowSceneController=null;
   let yarrowIdleTimer=null;
 
@@ -1415,6 +1552,7 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     return window.YarrowCutout.render({
       place,
       outfit:state.outfit,
+      stance:yarrowDayStance,
       sleepy:['night','dusk'].includes(timeOfDay()),
       comforting:!!state.checkins.find(m=>m.date===todayKey()&&['rainy','cloudy','windy','tender'].includes(m.mood))
     });
@@ -1451,21 +1589,31 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
     yarrowIdleTimer=window.setInterval(()=>{
       if(document.hidden||!yarrowCanAnimate()||(view!=='hearth'&&view!=='yarrow'&&view!=='cottage'))return;
       const scene=yarrowSceneController;if(!scene||!scene.ready||scene.action!=='idle')return;
-      const poses=['tilt','swish','blink','knead','swish','tilt','blink'];
+      const puppet=document.querySelector('.yarrow-puppet');
+      const stance=puppet?.dataset.stance||'sitting';
+      const poses=stance==='sleeping'
+        ?['ear','purr','ear','ear']
+        :stance==='standing'
+          ?['tilt','swish','blink','ear','swish','tilt','blink']
+          :['tilt','swish','blink','knead','ear','swish','tilt','blink'];
       const pose=poses[Math.floor(Math.random()*poses.length)];
-      const duration=pose==='knead'?2850:pose==='tilt'?1650:pose==='swish'?1450:1100;
+      const duration=pose==='knead'?2850:pose==='tilt'?1750:pose==='swish'?1450:pose==='purr'?2200:pose==='ear'?900:1200;
       setYarrowPose(pose,duration);
     },7600);
   }
 
   function yarrowMomentButtons() {
-    return `<div class="yarrow-moments" role="group" aria-label="Play with Yarrow">
+    const stance=['night','dusk'].includes(timeOfDay())?'sleeping':yarrowDayStance;
+    const common=`
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="blink" aria-label="Ask Yarrow for a slow blink"><span class="moment-icon" aria-hidden="true">♡</span> Slow blink</button>
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="tilt"><span class="moment-icon" aria-hidden="true">✧</span> Curious tilt</button>
-      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="offer"><span class="moment-icon" aria-hidden="true">🐾</span> Offer a paw</button>
-      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="knead"><span class="moment-icon" aria-hidden="true">✦</span> Make biscuits</button>
       <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="swish"><span class="moment-icon" aria-hidden="true">☾</span> Tail swish</button>
-    </div>`;
+      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="ear"><span class="moment-icon" aria-hidden="true">♢</span> Ear twitch</button>`;
+    const sitting=`<button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="knead"><span class="moment-icon" aria-hidden="true">✦</span> Make biscuits</button>`;
+    const sleeping=`
+      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="purr"><span class="moment-icon" aria-hidden="true">≈</span> Gentle purr</button>
+      <button type="button" class="yarrow-moment" data-action="yarrow-motion" data-pose="ear"><span class="moment-icon" aria-hidden="true">♢</span> Sleepy ear twitch</button>`;
+    return `<div class="yarrow-moments" role="group" aria-label="Play with Yarrow">${stance==='sleeping'?sleeping:(common+(stance==='sitting'?sitting:''))}</div>`;
   }
   function renderHearth() {
     const done = todayDone().length, total = state.rituals.length, progress = progressPercentage();
@@ -2086,6 +2234,8 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
           if(pose==='tilt')toast('Yarrow tilts her head to listen.');
           if(pose==='offer')toast('Yarrow offers you one soft little paw.');
           if(pose==='swish')toast('That tail has a mind of its own.');
+          if(pose==='ear')toast('One little ear turns toward you.');
+          if(pose==='purr')toast('A low, cozy purr rumbles through the blankets.');
           break;
         }
         case 'yarrow-gift':yarrowWisdom();break;
