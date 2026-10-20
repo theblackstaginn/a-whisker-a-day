@@ -229,8 +229,9 @@
   function render({place='hearth',outfit='default',sleepy=false,comforting=false,stance='sitting'}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
     const resolvedStance=sleepy?'sleeping':(stance==='standing'?'standing':'sitting');
-    const artwork=outfit==='default'?lifePoseMarkup(resolvedStance):storybookSvg(outfit);
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${outfit==='default'?'yr-final-render':''} ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${artwork}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    const useFinalArtwork=outfit==='crescent'||outfit==='default';
+    const artwork=useFinalArtwork?lifePoseMarkup(resolvedStance):storybookSvg(outfit);
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${useFinalArtwork?'yr-final-render':''} ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${artwork}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
   }
   function mount(puppet){
     if(!puppet)return null;
