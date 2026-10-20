@@ -206,32 +206,9 @@
 
     <g class="yr-book-magic" opacity="0" stroke="#ffe6a6" stroke-width="3"><path d="M87 458v17m-8-9h16M335 433v17m-8-9h16"/></g>
   </svg>`;
-  /* v2.6: Work-authored final pose renders are the default familiar.
-     The articulated painted rig remains the wardrobe fallback. */
-  const LIFE_ART_ROOT='./assets/yarrow-life/';
-  const LIFE_ART=Object.freeze({
-    sitting:{open:LIFE_ART_ROOT+'yarrow-sitting.webp',blink:LIFE_ART_ROOT+'yarrow-sitting-blink.webp'},
-    standing:{open:LIFE_ART_ROOT+'yarrow-standing.webp',blink:LIFE_ART_ROOT+'yarrow-standing-blink.webp'},
-    sleeping:{open:LIFE_ART_ROOT+'yarrow-sleeping.webp',blink:''}
-  });
-  const lifePoseMarkup=(stance='sitting')=>{
-    const art=LIFE_ART[stance]||LIFE_ART.sitting;
-    const blink=art.blink?`<img class="yr-life-img yr-life-blink" src="${art.blink}" alt="" aria-hidden="true" draggable="false">`:'';
-    return `<span class="yr-life-render" data-life-stance="${stance}" aria-hidden="true">
-      <img class="yr-life-img yr-life-base" src="${art.open}" alt="" aria-hidden="true" draggable="false">
-      ${blink}
-      <img class="yr-life-img yr-life-overlay yr-life-ear-left" src="${art.open}" alt="" aria-hidden="true" draggable="false">
-      <img class="yr-life-img yr-life-overlay yr-life-ear-right" src="${art.open}" alt="" aria-hidden="true" draggable="false">
-      <img class="yr-life-img yr-life-overlay yr-life-tail" src="${art.open}" alt="" aria-hidden="true" draggable="false">
-      ${stance==='sitting'?`<img class="yr-life-img yr-life-overlay yr-life-paw-left" src="${art.open}" alt="" aria-hidden="true" draggable="false"><img class="yr-life-img yr-life-overlay yr-life-paw-right" src="${art.open}" alt="" aria-hidden="true" draggable="false">`:''}
-    </span>`;
-  };
-  function render({place='hearth',outfit='default',sleepy=false,comforting=false,stance='sitting'}={}){
+  function render({place='hearth',outfit='default',sleepy=false,comforting=false}={}){
     const label=place==='hearth'?'Pet Yarrow, your black cat familiar':'Pet Yarrow in her cozy nook';
-    const resolvedStance=sleepy?'sleeping':(stance==='standing'?'standing':'sitting');
-    const useFinalArtwork=outfit==='crescent'||outfit==='default';
-    const artwork=useFinalArtwork?lifePoseMarkup(resolvedStance):storybookSvg(outfit);
-    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${useFinalArtwork?'yr-final-render':''} ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-stance="${resolvedStance}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${artwork}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
+    return `<button type="button" class="yarrow-puppet cutout-yarrow storybook-yarrow ${place==='hearth'?'hearth-character':'profile-character'} ${sleepy?'is-nighttime':''} ${comforting?'is-comforting':''}" data-pose="idle" data-action="pet-yarrow" aria-label="${label}" title="Give Yarrow a gentle pet">${storybookSvg(outfit)}<span class="yarrow-touch-glint" aria-hidden="true"></span></button>`;
   }
   function mount(puppet){
     if(!puppet)return null;
@@ -249,5 +226,5 @@
     }};
     return scene;
   }
-  window.YarrowCutout=Object.freeze({render,mount,version:'2.6.0-dev'});
+  window.YarrowCutout=Object.freeze({render,mount,version:'2.4.1-dev'});
 })();
