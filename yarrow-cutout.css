@@ -318,3 +318,138 @@ body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;t
 
 .storybook-yarrow.is-comforting .yr-painted-torso{animation-duration:7.2s}
 .storybook-yarrow.is-comforting[data-pose="idle"] .yr-painted-head{animation-duration:11s}
+
+
+/* v2.5 — Yarrow's three-state life cycle.
+   Ears move independently so eye/face geometry never distorts. */
+.storybook-yarrow[data-pose="ear"] .yr-painted-ear-left{
+  animation:yr-painted-ear-now .82s cubic-bezier(.35,.05,.2,1) 1!important;
+}
+.storybook-yarrow[data-pose="ear"] .yr-painted-ear-right{
+  animation:yr-painted-ear-now-right .92s .08s cubic-bezier(.35,.05,.2,1) 1!important;
+}
+@keyframes yr-painted-ear-now{
+  0%,100%{transform:rotate(0)}
+  28%{transform:rotate(-10deg)}
+  48%{transform:rotate(4deg)}
+  68%{transform:rotate(-3deg)}
+}
+@keyframes yr-painted-ear-now-right{
+  0%,100%{transform:rotate(0)}
+  26%{transform:rotate(8deg)}
+  50%{transform:rotate(-3deg)}
+  72%{transform:rotate(2deg)}
+}
+.storybook-yarrow[data-pose="tilt"] .yr-painted-head{
+  animation:yr-painted-tilt-v25 1.55s cubic-bezier(.36,.06,.2,1) 1!important;
+}
+@keyframes yr-painted-tilt-v25{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  38%,67%{transform:translate(-2px,-1px) rotate(-10deg)}
+}
+.storybook-yarrow[data-stance="standing"] .yr-book-body{
+  transform:translateY(-14px) scaleY(1.08)!important;
+  transform-origin:220px 620px;
+}
+.storybook-yarrow[data-stance="standing"][data-pose="idle"] .yr-painted-head{
+  animation:yr-standing-attention 7.2s ease-in-out infinite;
+}
+@keyframes yr-standing-attention{
+  0%,34%,72%,100%{transform:translateY(-15px) rotate(0)}
+  46%,58%{transform:translate(-1px,-16px) rotate(-2.5deg)}
+}
+.storybook-yarrow[data-stance="standing"][data-pose="tilt"] .yr-painted-head{
+  animation:yr-standing-tilt 1.55s cubic-bezier(.36,.06,.2,1) 1!important;
+}
+@keyframes yr-standing-tilt{
+  0%,100%{transform:translateY(-15px) rotate(0)}
+  38%,67%{transform:translate(-2px,-16px) rotate(-10deg)}
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-storybook-svg{
+  transform:translateY(35px) scale(1.07,.78);
+  transform-origin:50% 88%;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-book-lids{
+  opacity:1!important;
+  animation:none!important;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-head{
+  animation:none;
+  transform:translateY(9px) rotate(-3deg);
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-tail{
+  animation:none;
+  transform:rotate(3deg);
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-torso{
+  animation:yr-sleep-breathe 6.6s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-ear-left{
+  animation:yr-sleep-ear-left 12.6s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"] .yr-painted-ear-right{
+  animation:yr-sleep-ear-right 15.2s 3.1s ease-in-out infinite;
+}
+.storybook-yarrow[data-stance="sleeping"][data-pose="purr"] .yr-book-body{
+  animation:yr-sleep-purr .34s ease-in-out 7!important;
+}
+@keyframes yr-sleep-breathe{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-2px) scale(1.012,1.018)}
+}
+@keyframes yr-sleep-purr{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(.7px,-.35px)}
+}
+@keyframes yr-sleep-ear-left{
+  0%,82%,100%{transform:rotate(0)}
+  87%{transform:rotate(-4deg)}
+  91%{transform:rotate(2deg)}
+  95%{transform:rotate(-1deg)}
+}
+@keyframes yr-sleep-ear-right{
+  0%,84%,100%{transform:rotate(0)}
+  89%{transform:rotate(3deg)}
+  93%{transform:rotate(-2deg)}
+}
+
+/* Dark is the native atmosphere now: soot, moss, parchment-gold. */
+:root{
+  --page:#101512;--paper:#19201a;--paper-2:#20271f;--paper-3:#282b22;
+  --ink:#e9e2cf;--muted:#aaa995;--forest:#91ae8c;--forest-deep:#c2d3bb;
+  --sage:#8fa486;--light-sage:#222c23;--moss:#9aae8e;--clay:#c9906d;
+  --gold:#c9a462;--dark-gold:#b89051;--border:#3b4338;--shadow:rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+body{background:#101512;color:var(--ink)}
+body:before{background:radial-gradient(ellipse at 12% 12%,#29352a80,transparent 42%),radial-gradient(ellipse at 92% 84%,#322a204f,transparent 38%)}
+.app-frame{background:linear-gradient(135deg,#111713 0%,#151a16 72%);box-shadow:0 0 80px #0008}
+.topbar{background:rgba(17,23,19,.94);border-bottom-color:#394238}
+.sidebar{background:linear-gradient(180deg,#161d18,#111713);border-right-color:#343d34}
+.brand-tagline,.privacy-foot,.tiny-muted,.page-subtitle,.card-subtext{color:#a9aa97}
+.header-icon-btn,.season-chip,.nav-link.active,.btn-secondary,.filter-btn,.tabs,.outfit-option,.shop-item,
+.ritual-row,.journal-editor,.entry-card,.prompt-card,.breath-card,.summary-large,.summary-small,.quiet-card{
+  background:#1b231d;color:#e7e1cf;border-color:#3c463b;
+}
+.nav-link{color:#aeb9aa}
+.nav-link:hover,.header-icon-btn:hover,.btn-secondary:hover,.filter-btn:hover{background:#222c24;color:#eef0df}
+.card,.card-paper,.today-card,.scene-card,.speech-panel,.chapter-card,.story-portrait{
+  background:#19201a;border-color:#3b4338;
+}
+.page-title,.section-heading,.card-heading,.yarrow-copy h2,.ritual-name,.progress-note strong,
+.entry-card p,.story-portrait h3{color:#e8e4d5}
+textarea,input,select,.journal-editor textarea{background:#121813;color:#e9e2cf;border-color:#465044}
+textarea::placeholder,input::placeholder{color:#828878}
+.progress-track{background:#2d352d}
+.pill{background:#232d24;color:#c8d8c2;border-color:#455044}
+.pill.gold{background:#342d1f;color:#dfbf7b;border-color:#625338}
+.pill.clay{background:#34261f;color:#dfa180;border-color:#62483a}
+.yarrow-view .familiar-portrait{background:#171d18}
+.yarrow-view .yarrow-portrait-wrap{background:radial-gradient(ellipse at 50% 42%,#333329 4%,#1a211b 78%);border-color:#3b4438}
+.cottage-painted-room,.hearth-world .living-room{filter:brightness(.72) saturate(.92)}
+.gratitude-paper-note{background:#2a251d;border-color:#574a34}
+.gratitude-paper-note:nth-child(even){background:#2b211e}
+.gratitude-paper-note p{color:#e7dcc6}
+.mobile-nav{background:#111713!important;border-color:#344035!important}
+.mobile-nav-link{color:#aeb9aa!important}
+.mobile-nav-link.active{color:#e9e5d7!important;background:#202a22!important}
