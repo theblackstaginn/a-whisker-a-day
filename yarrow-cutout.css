@@ -479,5 +479,5 @@ textarea::placeholder,input::placeholder{color:#828878}
 @keyframes yr-final-acknowledge{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(-2px) scale(1.006)}}
 @keyframes yr-final-purr{0%,100%{transform:translate(0,0)}50%{transform:translate(.65px,-.3px)}}
 @keyframes yr-final-sleep{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1.5px) scale(1.006,1.012)}}
-body.motion-off .storybook-yarrow .yr-final-art,
+body.motion-off .storybook-yarrow .yr-final-art{animation:none!important;transition:none!important}
 @media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-final-art{animation:none!important;transition:none!important}}
