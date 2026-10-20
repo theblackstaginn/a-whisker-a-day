@@ -1,5 +1,5 @@
 /* A Whisker a Day: gentle offline support, network-first for fresh pages */
-const CACHE_NAME = 'whisker-a-day-v2.5-yarrow2';
+const CACHE_NAME = 'whisker-a-day-v2.5-yarrow3';
 const HOME = './index.html';
 self.addEventListener('install',event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(['./',HOME,'./app-icon.svg','./manifest.webmanifest','./assets/yarrow-storybook.webp','./assets/yarrow-life/yarrow-sitting.webp','./assets/yarrow-life/yarrow-sitting-blink.webp','./assets/yarrow-life/yarrow-standing.webp','./assets/yarrow-life/yarrow-standing-blink.webp','./assets/yarrow-life/yarrow-sleeping.webp','./assets/hearth-v24/apothecary.webp','./assets/hearth-v24/yarrow-parts.webp','./assets/cottage-reading-nook.webp','./assets/Jar.PNG','./assets/audio/yarrow-purr.mp3'])).then(()=>self.skipWaiting()));
