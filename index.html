@@ -958,14 +958,14 @@ form[data-form="gratitude"] label{color:#c5d1bd}
       </aside>
       <main id="main" class="main-area" tabindex="-1"></main>
     </div>
-    <nav class="mobile-nav" aria-label="Main navigation">
-      <button type="button" data-nav="hearth" class="mobile-nav-link active"><span data-icon="home"></span><span>Hearth</span></button>
-      <button type="button" data-nav="rituals" class="mobile-nav-link"><span data-icon="leaf"></span><span>Rituals</span></button>
-      <button type="button" data-nav="grimoire" class="mobile-nav-link"><span data-icon="book"></span><span>Grimoire</span></button>
-      <button type="button" data-nav="cottage" class="mobile-nav-link"><span data-icon="cottage"></span><span>Cottage</span></button>
-      <button type="button" data-nav="yarrow" class="mobile-nav-link"><span data-icon="cat"></span><span>Yarrow</span></button>
-    </nav>
   </div>
+  <nav class="mobile-nav" aria-label="Main navigation">
+    <button type="button" data-nav="hearth" class="mobile-nav-link active"><span data-icon="home"></span><span>Hearth</span></button>
+    <button type="button" data-nav="rituals" class="mobile-nav-link"><span data-icon="leaf"></span><span>Rituals</span></button>
+    <button type="button" data-nav="grimoire" class="mobile-nav-link"><span data-icon="book"></span><span>Grimoire</span></button>
+    <button type="button" data-nav="cottage" class="mobile-nav-link"><span data-icon="cottage"></span><span>Cottage</span></button>
+    <button type="button" data-nav="yarrow" class="mobile-nav-link"><span data-icon="cat"></span><span>Yarrow</span></button>
+  </nav>
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
@@ -2475,7 +2475,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     document.addEventListener('pointerdown',unlockMusic,{once:true,capture:true});
     document.addEventListener('keydown',unlockMusic,{once:true,capture:true});
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta12',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta13',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
