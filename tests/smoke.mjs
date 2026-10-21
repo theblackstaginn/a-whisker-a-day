@@ -26,7 +26,7 @@ assert.ok(index.includes('#gratitude-note{'),'Dark gratitude note field keeps de
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
 assert.ok(js.includes("version:'2.5.0-wearables1'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.5-cottage-rooms1"),'Offline cache version must track installed assets');
+assert.ok(sw.includes("whisker-a-day-v2.5-shell2"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
