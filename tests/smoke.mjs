@@ -90,6 +90,11 @@ assert.ok(!index.includes(".cottage-storybook .decor-overlay.teapot{left:8%;bott
 assert.ok(!css.includes(".cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}"),'Companion CSS must not restore stale fixed cottage coordinates');
 assert.ok(index.includes("aria-grabbed=\"false\""),'Movable decor should expose placement state');
 
+assert.ok(!index.includes("{ id: 'crescent', name: 'Moon charm'"),'Moon charm must not return to the wardrobe');
+assert.ok(!index.includes("{ id: 'ribbon', name: 'Sage ribbon'"),'Sage ribbon must not return to the wardrobe');
+assert.ok(index.includes("raw.outfit==='crescent'||raw.outfit==='ribbon'"),'Legacy permanent-accessory selections must migrate to no extra wearable');
+assert.ok(index.includes('Sage ribbon + ☾ moon charm always'),'Permanent Yarrow accessories should be explicit in the wardrobe UI');
+
 assert.ok(index.includes('Tiny woodland discoveries'),'Yarrow nature prompts missing');
 
 for(const label of ['renderHearth','renderRituals','renderGrimoire','renderCottage','renderYarrow']){
@@ -103,7 +108,7 @@ new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
 assert.equal(ctx.window.YarrowCutout.version,'2.4.1-dev');
-const poses=['default','hat','flowers','scarf','satchel','cape'];
+const poses=['default','hat','flowers','scarf','satchel','cape','star','beret','acorn'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
  assert.ok(markup.includes('yr-painted-head')&&markup.includes('yr-book-body')&&markup.includes('yr-painted-tail'),'Painted anatomy missing for '+outfit);
