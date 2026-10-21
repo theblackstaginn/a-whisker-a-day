@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yarrow Wearable Fit Lab</title>
+<link rel="stylesheet" href="./yarrow-cutout.css">
+<style>
+  :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#101512;color:#eee8d8}
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px;background:#101512}
+  main{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);gap:18px}
+  .panel{background:#18211c;border:1px solid #314238;border-radius:18px;padding:16px}
+  h1,h2{margin:.1rem 0 .6rem;font-family:Georgia,serif}
+  p{color:#bfc8bf;line-height:1.5}
+  .stage{position:relative;aspect-ratio:4/5;min-height:560px;overflow:hidden;border-radius:18px;background:
+    radial-gradient(circle at 50% 32%,#ece2c8 0 12%,#9ca98f 48%,#59644f 100%);
+    border:1px solid #536050}
+  .yarrow-host{position:absolute;inset:3% 7% 0;display:grid;place-items:end center}
+  .yarrow-host .yarrow-puppet{width:min(92%,560px);height:94%;max-width:none;max-height:none;margin:0}
+  .wearable-layer{position:absolute;left:50%;top:50%;width:36%;transform:translate(-50%,-50%);transform-origin:center;pointer-events:none;user-select:none;-webkit-user-drag:none}
+  .guide{position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(to right,transparent 49.85%,#ffffff24 50%,transparent 50.15%),
+    linear-gradient(to bottom,transparent 49.85%,#ffffff24 50%,transparent 50.15%)}
+  .toolbar{display:grid;gap:12px}
+  label{display:grid;gap:6px;font-size:13px;color:#c8d0c8}
+  select,input[type=file],button{font:inherit}
+  select,input[type=file]{width:100%;padding:10px 11px;border-radius:10px;border:1px solid #435247;background:#111814;color:#eee8d8}
+  input[type=range]{width:100%}
+  .readout{font-variant-numeric:tabular-nums;color:#dbc789}
+  .row{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:center}
+  .buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  button{min-height:44px;border-radius:10px;border:1px solid #536252;background:#223126;color:#f5f0df;padding:9px 11px;cursor:pointer}
+  button:hover{background:#2b3d31}
+  .wearables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:10px}
+  .wearables span{padding:7px 9px;border-radius:9px;background:#111814;color:#cdd4cc;font-size:12px;border:1px solid #354238}
+  .status{padding:10px 12px;border-radius:10px;background:#111814;border:1px solid #354238;color:#d7decf}
+  code{color:#e6c989}
+  @media(max-width:800px){body{padding:10px}main{grid-template-columns:1fr}.stage{min-height:480px}.panel{padding:12px}}
+</style>
+</head>
+<body>
+<main>
+  <section class="panel">
+    <h1>Yarrow Wearable Fit Lab</h1>
+    <p>Isolated preview only. This page does not read or write app progress and is not linked from the live app.</p>
+    <div class="stage" id="stage">
+      <div class="yarrow-host" id="yarrowHost"></div>
+      <img class="wearable-layer" id="wearableLayer" alt="" hidden>
+      <div class="guide" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <aside class="panel toolbar">
+    <h2>Fit controls</h2>
+    <label>Wearable image
+      <input id="fileInput" type="file" accept="image/webp,image/png">
+    </label>
+
+    <label>Anchor preset
+      <select id="anchor">
+        <option value="head">Head / hats / crown / beret</option>
+        <option value="neck">Neck / scarf / collar / pendant</option>
+        <option value="torso">Torso / cloak</option>
+        <option value="side">Side / satchel</option>
+      </select>
+    </label>
+
+    <div class="row"><label>X position <input id="x" type="range" min="0" max="100" step=".1" value="50"></label><span class="readout" id="xOut">50%</span></div>
+    <div class="row"><label>Y position <input id="y" type="range" min="0" max="100" step=".1" value="25"></label><span class="readout" id="yOut">25%</span></div>
+    <div class="row"><label>Width <input id="w" type="range" min="5" max="110" step=".1" value="42"></label><span class="readout" id="wOut">42%</span></div>
+    <div class="row"><label>Rotation <input id="r" type="range" min="-45" max="45" step=".1" value="0"></label><span class="readout" id="rOut">0°</span></div>
+
+    <div class="buttons">
+      <button type="button" data-pose="tilt">Head tilt test</button>
+      <button type="button" data-pose="blink">Blink test</button>
+      <button type="button" data-pose="knead">Knead test</button>
+      <button type="button" id="reset">Reset fit</button>
+    </div>
+
+    <div class="status" id="status">Load one transparent WebP or PNG to begin fitting.</div>
+
+    <div>
+      <strong>Canonical optional wearables</strong>
+      <div class="wearables">
+        <span>Flower Crown</span><span>Autumn Scarf</span>
+        <span>Witch Hat</span><span>Herb Satchel</span>
+        <span>Mossy Cloak</span><span>Starlight Collar</span>
+        <span>Rosewood Beret</span><span>Acorn Pendant</span>
+      </div>
+    </div>
+
+    <p style="font-size:12px">Permanent on Yarrow: <code>sage ribbon + brass crescent charm</code>.</p>
+  </aside>
+</main>
+
+<script src="./yarrow-cutout.js"></script>
+<script>
+(()=>{
+  const host=document.getElementById('yarrowHost');
+  const layer=document.getElementById('wearableLayer');
+  const status=document.getElementById('status');
+  const fileInput=document.getElementById('fileInput');
+  const anchor=document.getElementById('anchor');
+  const controls={x:document.getElementById('x'),y:document.getElementById('y'),w:document.getElementById('w'),r:document.getElementById('r')};
+  const outs={x:document.getElementById('xOut'),y:document.getElementById('yOut'),w:document.getElementById('wOut'),r:document.getElementById('rOut')};
+  const presets={
+    head:{x:50,y:18,w:48,r:0},
+    neck:{x:50,y:44,w:42,r:0},
+    torso:{x:50,y:58,w:62,r:0},
+    side:{x:67,y:58,w:38,r:5}
+  };
+  host.innerHTML=window.YarrowCutout.render({place:'profile',outfit:'default'});
+  const puppet=host.querySelector('.yarrow-puppet');
+  const scene=window.YarrowCutout.mount(puppet);
+
+  function apply(){
+    const x=Number(controls.x.value),y=Number(controls.y.value),w=Number(controls.w.value),r=Number(controls.r.value);
+    layer.style.left=x+'%';
+    layer.style.top=y+'%';
+    layer.style.width=w+'%';
+    layer.style.transform='translate(-50%,-50%) rotate('+r+'deg)';
+    outs.x.textContent=x.toFixed(1)+'%';
+    outs.y.textContent=y.toFixed(1)+'%';
+    outs.w.textContent=w.toFixed(1)+'%';
+    outs.r.textContent=r.toFixed(1)+'°';
+  }
+  function usePreset(name){
+    const p=presets[name]||presets.head;
+    for(const k of ['x','y','w','r'])controls[k].value=p[k];
+    apply();
+  }
+  fileInput.addEventListener('change',()=>{
+    const file=fileInput.files&&fileInput.files[0];
+    if(!file)return;
+    if(!/^image\/(webp|png)$/.test(file.type)){
+      status.textContent='Use a transparent WebP or PNG.';
+      fileInput.value='';
+      return;
+    }
+    const url=URL.createObjectURL(file);
+    layer.onload=()=>{URL.revokeObjectURL(url);layer.hidden=false;status.textContent=file.name+' loaded for fit testing.';};
+    layer.src=url;
+  });
+  anchor.addEventListener('change',()=>usePreset(anchor.value));
+  Object.values(controls).forEach(el=>el.addEventListener('input',apply));
+  document.querySelectorAll('[data-pose]').forEach(btn=>btn.addEventListener('click',()=>{
+    const pose=btn.dataset.pose;
+    scene&&scene.pose(pose,pose==='knead'?3000:1500);
+  }));
+  document.getElementById('reset').addEventListener('click',()=>usePreset(anchor.value));
+  usePreset('head');
+})();
+</script>
+</body>
+</html>
