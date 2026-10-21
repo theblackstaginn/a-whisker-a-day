@@ -46,8 +46,10 @@ assert.ok(index.includes("purrFadeTimer=setInterval"),'Recorded purr should fade
 assert.ok(index.includes("purrEndTimer=setTimeout"),'Repeated taps should replace the active purr cleanly');
 assert.ok(!index.includes("if(state.sound) playPurr(.55)"),'Ritual rewards must not play the purr');
 assert.ok(!index.includes("yarrow-meow"),'Meow interaction is deferred');
-assert.ok(!index.includes("hearth-music.ogg"),'Background music is deferred');
-assert.ok(!index.includes("toggle-music"),'Background music control is deferred');
+assert.ok(!index.includes("hearth-music.ogg"),'No copyrighted background music should be bundled in the repo');
+assert.ok(index.includes("data-action=\"toggle-music\""),'Settings should include a background music toggle');
+assert.ok(index.includes("id=\"music-file\""),'Settings should include a local music file selector');
+assert.ok(index.includes("id=\"music-volume\""),'Settings should include a music volume control');
 assert.ok(!index.includes("merged.music ="),'No unused music preference should remain');
 assert.ok(!sw.includes("yarrow-meow"),'Meow audio must not be cached');
 assert.ok(!sw.includes("hearth-music"),'Background music must not be cached');
