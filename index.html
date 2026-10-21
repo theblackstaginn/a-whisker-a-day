@@ -871,6 +871,22 @@ form[data-form="gratitude"] label{color:#c5d1bd}
 .mobile-nav-link{color:#aeb9aa!important}
 .mobile-nav-link.active{color:#e9e5d7!important;background:#202a22!important}
 
+
+/* Cottage multi-room system, 2026-10-21 */
+.room-switcher{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.room-switch{min-width:0;min-height:46px;border:1px solid var(--border);border-radius:14px;background:#1b231d;color:var(--muted);padding:7px 8px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;touch-action:manipulation}
+.room-switch span{color:var(--gold);font-size:15px}.room-switch strong{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.room-switch.active{background:#263127;color:var(--ink);border-color:#75866e;box-shadow:inset 0 0 0 1px #93a58b55}
+.room-switch:focus-visible{outline:3px solid #91ae8c;outline-offset:2px}
+.cottage-painted-room{background-image:var(--cottage-room-image)!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important}
+.cottage-storybook[data-room="bedroom"] .cottage-painted-room{background-position:center center!important}
+.cottage-storybook[data-room="kitchen"] .cottage-painted-room{background-position:center 54%!important}
+.cottage-storybook[data-room="crafting"] .cottage-painted-room{background-position:center center!important}
+.shop-room-select{display:grid;gap:4px;margin:8px 0 9px;text-align:left}.shop-room-select span{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.shop-room-select select{width:100%;min-height:40px;border:1px solid var(--border);border-radius:10px;background:#121813;color:var(--ink);padding:8px 9px;font-size:16px}
+.room-item-count{white-space:nowrap}
+@media(max-width:520px){.room-switcher{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.room-switch{min-height:44px}.room-item-count{display:block;margin-top:3px}.cottage-storybook .storybook-yarrow.hearth-character{width:60%;height:84%}}
+
 </style>
   <title>A Whisker a Day · Yarrow Paper-Cut Familiar v1.7</title>
 </head>
@@ -919,7 +935,6 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   <div id="modal-root"></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
-/* Editable in yarrow-cutout.js inside the full source archive */
 /* Yarrow Unified Painting Familiar • v2.3
    A single authored character: separate SVG anatomy, never full-photo switching.
    No subscriptions, network requests, tracking, timers per frame, or third-party assets.
@@ -1108,18 +1123,18 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   });
   const wearableImage=(id,x,y,w,h)=>WEARABLE_ASSETS[id]?`<image class="yr-wearable-image yr-wearable-${id}" href="${WEARABLE_ASSETS[id]}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"/>`:'';
   const HEAD_WEARABLES=Object.freeze({
-    flowers:wearableImage('flowers',112,46,216,202),
-    hat:wearableImage('hat',78,10,286,278),
-    beret:wearableImage('beret',102,46,238,204)
+    flowers:wearableImage('flowers',104,92,236,220),
+    hat:wearableImage('hat',78,18,286,278),
+    beret:wearableImage('beret',106,88,234,200)
   });
   const BODY_WEARABLES=Object.freeze({
-    scarf:wearableImage('scarf',104,346,232,250),
-    satchel:wearableImage('satchel',226,402,154,178),
-    star:wearableImage('star',142,328,156,156),
-    acorn:wearableImage('acorn',174,334,92,210)
+    scarf:wearableImage('scarf',98,292,248,278),
+    satchel:wearableImage('satchel',205,358,170,196),
+    star:wearableImage('star',132,276,184,184),
+    acorn:wearableImage('acorn',166,286,108,242)
   });
   const BACK_WEARABLES=Object.freeze({
-    cape:wearableImage('cape',64,338,312,356)
+    cape:wearableImage('cape',54,286,334,386)
   });
   const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
     <!-- Feather the shoulders over the already painted torso, without changing joint motion. -->
@@ -1173,7 +1188,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   window.YarrowCutout=Object.freeze({render,mount,version:'2.5.0-wearables1'});
 })();
 
-</script>
+  </script>
 <script>
 /*
  * A Whisker a Day — a cozy, offline-first storybook self-care app.
@@ -1269,6 +1284,13 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     candles:{x:68,y:54},
     quilt:{x:52,y:82}
   });
+  const COTTAGE_ROOMS = Object.freeze([
+    {id:'hearth',name:'Hearth',label:'Hearth Room',glyph:'♨',asset:'./assets/cottage/rooms/hearth.webp'},
+    {id:'bedroom',name:'Bedroom',label:'Bedroom',glyph:'☾',asset:'./assets/cottage/rooms/bedroom.webp'},
+    {id:'kitchen',name:'Kitchen',label:'Kitchen',glyph:'✦',asset:'./assets/cottage/rooms/kitchen.webp'},
+    {id:'crafting',name:'Crafting',label:'Crafting Room',glyph:'✧',asset:'./assets/cottage/rooms/crafting.webp'}
+  ]);
+  const COTTAGE_ROOM_IDS = new Set(COTTAGE_ROOMS.map(room=>room.id));
   const PLANTS = [
     { id: 'lavender', name: 'Lavender', emoji: '🪻', cost: 6, stem: '#668560', leaf: '#779467', bloom: '#9d82ab' },
     { id: 'chamomile', name: 'Chamomile', emoji: '🌼', cost: 6, stem: '#68865b', leaf: '#8da16e', bloom: '#f7ead8' },
@@ -1377,7 +1399,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     return {
       version:1, createdAt:new Date().toISOString(), userName:'', rituals:DEFAULT_RITUALS.map((r)=>({...r})),
       logs:{}, awards:{}, petals:16, friendship:0, totalMagic:0, checkins:[], journal:[],
-      outfitsOwned:[], outfit:'none', decorOwned:['fern'], decorVisible:['fern'], decorPositions:{},
+      outfitsOwned:[], outfit:'none', decorOwned:['fern'], decorVisible:['fern'], activeRoom:'hearth', decorRooms:{fern:'hearth'}, decorPositions:{hearth:{},bedroom:{},kitchen:{},crafting:{}},
       garden:[{ plant:'lavender', growth:1 },null,null,null,null,null], herbarium:{},
       petToday:{}, gratitudeJar:[], seasonalReflection:'', sound:true, animation:true, timePreference:'auto'
     };
@@ -1399,19 +1421,38 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     merged.outfitsOwned = Array.isArray(raw.outfitsOwned)? [...new Set(raw.outfitsOwned.filter(x=>OUTFITS.some(i=>i.id===x)))] : base.outfitsOwned;
     merged.outfit = (raw.outfit==='crescent'||raw.outfit==='ribbon')?'none':(merged.outfitsOwned.includes(raw.outfit)?raw.outfit:'none');
     merged.decorOwned = Array.isArray(raw.decorOwned)?[...new Set(raw.decorOwned.filter(x=>DECOR.some(i=>i.id===x)).concat('fern'))] : base.decorOwned;
-    merged.decorVisible = Array.isArray(raw.decorVisible)?raw.decorVisible.filter(x=>merged.decorOwned.includes(x)) : base.decorVisible;
-    merged.decorPositions = {};
-    if(raw.decorPositions&&typeof raw.decorPositions==='object'&&!Array.isArray(raw.decorPositions)){
+    merged.decorVisible = Array.isArray(raw.decorVisible)?[...new Set(raw.decorVisible.filter(x=>merged.decorOwned.includes(x)))] : base.decorVisible;
+    merged.activeRoom = COTTAGE_ROOM_IDS.has(raw.activeRoom)?raw.activeRoom:'hearth';
+    merged.decorRooms = {};
+    for(const item of DECOR){
+      if(!merged.decorOwned.includes(item.id))continue;
+      const savedRoom=raw.decorRooms&&typeof raw.decorRooms==='object'&&!Array.isArray(raw.decorRooms)?raw.decorRooms[item.id]:null;
+      merged.decorRooms[item.id]=COTTAGE_ROOM_IDS.has(savedRoom)?savedRoom:'hearth';
+    }
+    merged.decorPositions = Object.fromEntries(COTTAGE_ROOMS.map(room=>[room.id,{}]));
+    const rawPositions=raw.decorPositions&&typeof raw.decorPositions==='object'&&!Array.isArray(raw.decorPositions)?raw.decorPositions:{};
+    const looksLegacyPositions=DECOR.some(item=>{
+      const pos=rawPositions[item.id];
+      return pos&&Number.isFinite(Number(pos.x))&&Number.isFinite(Number(pos.y));
+    });
+    if(looksLegacyPositions){
       for(const item of DECOR){
-        const pos=raw.decorPositions[item.id];
+        const pos=rawPositions[item.id];
         if(!pos||!Number.isFinite(Number(pos.x))||!Number.isFinite(Number(pos.y)))continue;
-        merged.decorPositions[item.id]={
-          x:Math.max(4,Math.min(96,Number(pos.x))),
-          y:Math.max(7,Math.min(93,Number(pos.y)))
-        };
+        merged.decorPositions.hearth[item.id]={x:Math.max(4,Math.min(96,Number(pos.x))),y:Math.max(7,Math.min(93,Number(pos.y)))};
+      }
+    }else{
+      for(const room of COTTAGE_ROOMS){
+        const roomPositions=rawPositions[room.id];
+        if(!roomPositions||typeof roomPositions!=='object'||Array.isArray(roomPositions))continue;
+        for(const item of DECOR){
+          const pos=roomPositions[item.id];
+          if(!pos||!Number.isFinite(Number(pos.x))||!Number.isFinite(Number(pos.y)))continue;
+          merged.decorPositions[room.id][item.id]={x:Math.max(4,Math.min(96,Number(pos.x))),y:Math.max(7,Math.min(93,Number(pos.y)))};
+        }
       }
     }
-    merged.garden = Array.isArray(raw.garden)?Array.from({length:6},(_,i)=>{const p=raw.garden[i];return p&&PLANTS.some(plant=>plant.id===p.plant)?{plant:p.plant,growth:Math.max(0,Math.min(4,Math.floor(Number(p.growth)||0)))}:null;}):base.garden;
+    merged.garden = Array.isArray(raw.garden)?    merged.garden = Array.isArray(raw.garden)?Array.from({length:6},(_,i)=>{const p=raw.garden[i];return p&&PLANTS.some(plant=>plant.id===p.plant)?{plant:p.plant,growth:Math.max(0,Math.min(4,Math.floor(Number(p.growth)||0)))}:null;}):base.garden;
     merged.herbarium = raw.herbarium && typeof raw.herbarium==='object' && !Array.isArray(raw.herbarium) ? Object.fromEntries(PLANTS.map(p=>[p.id,Math.max(0,Math.min(10000,Math.floor(Number(raw.herbarium[p.id])||0)))])) : {};
     merged.petToday = raw.petToday && typeof raw.petToday==='object' && !Array.isArray(raw.petToday)?raw.petToday:{};
     merged.gratitudeJar = Array.isArray(raw.gratitudeJar) ? raw.gratitudeJar.slice(-100).filter(x=>x&&typeof x.text==='string').map(x=>({id:String(x.id||'').slice(0,60),date:String(x.date||'').slice(0,30),text:x.text.slice(0,280)})) : [];
@@ -1668,20 +1709,27 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     </div>`;
   }
   function formatEntryDate(value) { const d = new Date(value); return Number.isNaN(d.getTime()) ? 'A page in time' : new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(d); }
-  function decorPosition(id) {
+  function cottageRoom(id=state.activeRoom) {
+    return COTTAGE_ROOMS.find(room=>room.id===id)||COTTAGE_ROOMS[0];
+  }
+  function decorRoom(id) {
+    const roomId=state.decorRooms?.[id];
+    return COTTAGE_ROOM_IDS.has(roomId)?roomId:'hearth';
+  }
+  function decorPosition(id,roomId=state.activeRoom) {
     const fallback=DEFAULT_DECOR_POSITIONS[id]||{x:50,y:55};
-    const saved=state.decorPositions?.[id];
+    const saved=state.decorPositions?.[roomId]?.[id];
     return saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)?saved:fallback;
   }
-  function decorOverlay() {
-    return DECOR.filter(d=>state.decorVisible.includes(d.id)).map(d=>{
-      const pos=decorPosition(d.id);
+  function decorOverlay(roomId=state.activeRoom) {
+    return DECOR.filter(d=>state.decorVisible.includes(d.id)&&decorRoom(d.id)===roomId).map(d=>{
+      const pos=decorPosition(d.id,roomId);
       const asset=DECOR_ASSETS[d.id];
       const art=asset?`<img class="decor-art" src="${esc(asset)}" alt="" draggable="false" aria-hidden="true">`:d.emoji;
       return `<button type="button" class="decor-overlay ${d.id==='fern'?'plant':d.id}" data-decor-id="${esc(d.id)}" style="left:${pos.x}%;top:${pos.y}%" aria-label="${esc(d.name)}. Long press to move." aria-grabbed="false">${art}</button>`;
     }).join('');
   }
-  function renderCottage() {
+  function renderCottage() {function renderCottage() {
     const isRoom=cottageTab==='room';
     return `<div class="view cottage-view">
       ${pageTitle('A little place to grow','Your <em>Cottage</em>','Each act of self-care adds a little beauty to the home you and Yarrow are growing together.',`<span class="pill gold">✿ ${state.petals} petals</span>`)}
@@ -1700,9 +1748,14 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     openModal(inner,'wide');
   }
   function renderRoom() {
+    const room=cottageRoom();
+    const visibleHere=DECOR.filter(d=>state.decorVisible.includes(d.id)&&decorRoom(d.id)===room.id).length;
     return `<div class="cottage-layout"><div>
-      <section class="card cottage-visual cottage-storybook"><div class="cottage-painted-room" aria-hidden="true"></div>${renderAnimatedYarrow('hearth')}<span class="visual-badge">♡ Your own little sanctuary</span><span class="cottage-pet-invite" aria-hidden="true">♡ Tap Yarrow to say hello</span>${decorOverlay()}</section>
-      <p class="tiny-muted cottage-move-help" style="margin-top:12px"><strong>Arrange your cottage:</strong> long-press an item to pick it up, move it where you like, then tap once to set it down.</p>
+      <div class="room-switcher" role="tablist" aria-label="Cottage rooms">
+        ${COTTAGE_ROOMS.map(r=>`<button type="button" class="room-switch ${r.id===room.id?'active':''}" data-cottage-room="${r.id}" role="tab" aria-selected="${r.id===room.id}"><span aria-hidden="true">${r.glyph}</span><strong>${esc(r.name)}</strong></button>`).join('')}
+      </div>
+      <section class="card cottage-visual cottage-storybook" data-room="${room.id}" style="--cottage-room-image:url('${esc(room.asset)}')"><div class="cottage-painted-room" aria-hidden="true"></div>${renderAnimatedYarrow('hearth')}<span class="visual-badge">♡ ${esc(room.label)}</span><span class="cottage-pet-invite" aria-hidden="true">♡ Tap Yarrow to say hello</span>${decorOverlay(room.id)}</section>
+      <p class="tiny-muted cottage-move-help" style="margin-top:12px"><strong>Arrange ${esc(room.name)}:</strong> long-press an item to pick it up, move it where you like, then tap once to set it down. <span class="room-item-count">${visibleHere} item${visibleHere===1?'':'s'} here.</span></p>
       </div><div style="display:grid;gap:18px">
       <section class="card card-pad"><span class="eyebrow">The gratitude jar</span><h2 class="card-heading">Little things worth keeping</h2><p class="card-subtext">A pocket of goodness, with no streaks or daily obligation. Your notes stay on this device and are included in your app backup.</p>
         <form data-form="gratitude"><label for="gratitude-note">One thing you noticed or appreciated</label><textarea id="gratitude-note" name="gratitude" maxlength="280" rows="2" required placeholder="A warm cup, the sound of rain, a kind word…">${esc(gratitudeDraft)}</textarea><div class="form-actions"><button class="btn btn-primary btn-small" type="submit">${icon('plus')} Place in jar</button></div></form>
@@ -1714,11 +1767,11 @@ form[data-form="gratitude"] label{color:#c5d1bd}
       </section>
       <section class="card card-pad"><span class="eyebrow">The seasonal reflection shelf</span><h2 class="card-heading">What is changing around you?</h2><p class="card-subtext">Notice a sign of the season, then set an intention that feels kind and achievable. You can return to this note whenever you wish.</p>
         <form data-form="seasonal-reflection"><label for="seasonal-note">Your seasonal thought</label><textarea id="seasonal-note" name="seasonal" maxlength="500" rows="3" placeholder="This season, I am noticing…">${esc(seasonalDraft===null?state.seasonalReflection:seasonalDraft)}</textarea><div class="form-actions"><button class="btn btn-secondary btn-small" type="submit">${icon('pen')} Save reflection</button></div></form><p class="tiny-muted">Modern symbolic reflection · no required beliefs or ritual objects</p>
-      </section></div><section class="card card-pad"><span class="eyebrow">A quiet corner of your own</span><h2 class="card-heading">A tiny cottage blessing</h2><p class="card-subtext">Choose one familiar object—a pebble, cup, leaf fallen naturally, or cherished photograph. Place it where you'll see it, notice three details, and name one thing you are grateful for. No candle, purchase or special belief is needed.</p><p class="tiny-muted">Modern reflective practice · candle-free · take only what nature can spare.</p></section><section class="card card-pad"><div class="row-space"><h2 class="card-heading">Cottage comforts</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Spend petals from your rituals to gather lovely little things.</p><div class="shop-grid">
-      ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id);return `<div class="shop-item">${DECOR_ASSETS[d.id]?`<img class="shop-art" src="${esc(DECOR_ASSETS[d.id])}" alt="" draggable="false" aria-hidden="true" loading="lazy">`:`<span class="shop-emoji" aria-hidden="true">${d.emoji}</span>`}<strong>${d.name}</strong><small>${d.hint}</small><button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':'Place in room'):d.price===0?'Free':`${d.price} petals`}</button>${owned?`<button type="button" class="btn btn-secondary btn-small" data-action="reward-moment" data-id="${d.id}">✧ Enjoy gift</button>`:''}</div>`}).join('')}
+      </section></div><section class="card card-pad"><span class="eyebrow">A quiet corner of your own</span><h2 class="card-heading">A tiny cottage blessing</h2><p class="card-subtext">Choose one familiar object—a pebble, cup, leaf fallen naturally, or cherished photograph. Place it where you'll see it, notice three details, and name one thing you are grateful for. No candle, purchase or special belief is needed.</p><p class="tiny-muted">Modern reflective practice · candle-free · take only what nature can spare.</p></section><section class="card card-pad"><div class="row-space"><h2 class="card-heading">Cottage comforts</h2><span class="pill gold">✿ ${state.petals}</span></div><p class="card-subtext">Choose a room for each treasure. Moving an item between rooms keeps its last position in both places.</p><div class="shop-grid">
+      ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id),assignedRoom=cottageRoom(decorRoom(d.id));return `<div class="shop-item">${DECOR_ASSETS[d.id]?`<img class="shop-art" src="${esc(DECOR_ASSETS[d.id])}" alt="" draggable="false" aria-hidden="true" loading="lazy">`:`<span class="shop-emoji" aria-hidden="true">${d.emoji}</span>`}<strong>${d.name}</strong><small>${d.hint}</small>${owned?`<label class="shop-room-select"><span>Room</span><select data-decor-room="${d.id}" aria-label="Room for ${esc(d.name)}">${COTTAGE_ROOMS.map(r=>`<option value="${r.id}" ${r.id===assignedRoom.id?'selected':''}>${esc(r.label)}</option>`).join('')}</select></label>`:''}<button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':`Place in ${esc(assignedRoom.name)}`):d.price===0?'Free':`${d.price} petals`}</button>${owned?`<button type="button" class="btn btn-secondary btn-small" data-action="reward-moment" data-id="${d.id}">✧ Enjoy gift</button>`:''}</div>`}).join('')}
       </div></section></div>`;
   }
-  function plantDrawing(p, growth) {
+  function plantDrawing(p, growth) {function plantDrawing(p, growth) {
     const height=14+growth*14;let leaves='';
     for(let i=0;i<growth*2+1;i++){
       const y=87-i*(height/(growth*2+2))-8;
@@ -1926,17 +1979,34 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     if(!item||!owned)return;
     openModal(`<span class="eyebrow">A little gift with purpose</span><h2>${esc(item.title)}</h2><p>${esc(item.lead)}</p><ol class="reward-moment-steps">${item.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol><p class="tiny-muted">Always optional. No timer, streak, or additional petals required.</p><div class="form-actions"><button class="btn btn-primary" type="button" data-action="close-modal">Keep this moment ♡</button></div>`,'narrow');
   }
+  function moveDecorToRoom(id,roomId) {
+    if(!state.decorOwned.includes(id)||!COTTAGE_ROOM_IDS.has(roomId))return;
+    const oldRoom=decorRoom(id);
+    if(oldRoom===roomId)return;
+    state.decorRooms=state.decorRooms&&typeof state.decorRooms==='object'?state.decorRooms:{};
+    state.decorRooms[id]=roomId;
+    state.decorPositions=state.decorPositions&&typeof state.decorPositions==='object'?state.decorPositions:{};
+    state.decorPositions[roomId]=state.decorPositions[roomId]&&typeof state.decorPositions[roomId]==='object'?state.decorPositions[roomId]:{};
+    save();render();
+    const d=DECOR.find(item=>item.id===id);
+    toast(`${d?.name||'Cottage item'} moved to ${cottageRoom(roomId).label}. ✧`);
+  }
   function decor(id) {
     const d=DECOR.find(i=>i.id===id);if(!d)return;
     if(!state.decorOwned.includes(id)){
       if(state.petals<d.price)return;
-      state.petals-=d.price;state.decorOwned.push(id);state.decorVisible.push(id);toast(`${d.name} added to your cottage!`);
+      state.petals-=d.price;
+      state.decorOwned.push(id);
+      state.decorVisible.push(id);
+      state.decorRooms=state.decorRooms&&typeof state.decorRooms==='object'?state.decorRooms:{};
+      state.decorRooms[id]=state.activeRoom;
+      toast(`${d.name} added to ${cottageRoom().label}!`);
     }else{
       if(state.decorVisible.includes(id))state.decorVisible=state.decorVisible.filter(x=>x!==id);else state.decorVisible.push(id);
     }
     save();render();
   }
-  function gardenPlot(i) {
+  function gardenPlot(i) {function gardenPlot(i) {
     const plot=state.garden[i];if(i<0||i>=6)return;
     if(plot){const p=PLANTS.find(x=>x.id===plot.plant);if(!p)return;
       openModal(`<span class="eyebrow">Garden patch ${i+1}</span><h2>${p.emoji} ${p.name}</h2><p>${plot.growth===4?'This little herb is ready to be gathered!':'A little patience and kindness will help it grow.'}</p><div class="progress-track" style="margin:22px 0"><div class="progress-fill" style="width:${plot.growth*25}%"></div></div><p>${plot.growth} of 4 growing moments</p><div class="form-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">Leave it growing</button>${plot.growth===4?`<button type="button" class="btn btn-primary" data-action="harvest" data-index="${i}">${icon('leaf')} Harvest (+6 petals)</button>`:''}</div>`,'narrow');return;
@@ -2018,10 +2088,11 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     if(!item?.isConnected)return;
     const scene=item.closest('.cottage-storybook');
     const id=item.dataset.decorId;
-    if(!scene||!id||!state.decorVisible.includes(id))return;
+    if(!scene||!id||!state.decorVisible.includes(id)||decorRoom(id)!==state.activeRoom)return;
     clearDecorPressCandidate();
-    const pos=decorPosition(id);
-    decorMove={id,item,scene,pointerId,x:pos.x,y:pos.y};
+    const roomId=state.activeRoom;
+    const pos=decorPosition(id,roomId);
+    decorMove={id,item,scene,pointerId,roomId,x:pos.x,y:pos.y};
     item.dataset.moving='true';
     item.setAttribute('aria-grabbed','true');
     scene.classList.add('decor-placement-active');
@@ -2033,7 +2104,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   function cancelDecorMove() {
     clearDecorPressCandidate();
     if(!decorMove)return;
-    const saved=decorPosition(decorMove.id);
+    const saved=decorPosition(decorMove.id,decorMove.roomId);
     if(decorMove.item?.isConnected){
       decorMove.item.style.left=`${saved.x}%`;
       decorMove.item.style.top=`${saved.y}%`;
@@ -2047,7 +2118,8 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     if(!decorMove)return;
     if(pos)previewDecorPosition(pos);
     state.decorPositions=state.decorPositions&&typeof state.decorPositions==='object'?state.decorPositions:{};
-    state.decorPositions[decorMove.id]={
+    state.decorPositions[decorMove.roomId]=state.decorPositions[decorMove.roomId]&&typeof state.decorPositions[decorMove.roomId]==='object'?state.decorPositions[decorMove.roomId]:{};
+    state.decorPositions[decorMove.roomId][decorMove.id]={
       x:Math.round(decorMove.x*10)/10,
       y:Math.round(decorMove.y*10)/10
     };
@@ -2137,6 +2209,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     document.addEventListener('pointerup',handleDecorPointerUp,{passive:false});
     document.addEventListener('pointercancel',handleDecorPointerCancel);
     document.addEventListener('keydown',handleDecorKeydown);
+    document.addEventListener('change',(event)=>{const select=event.target.closest?.('[data-decor-room]');if(!select)return;moveDecorToRoom(select.dataset.decorRoom,select.value);});
     document.addEventListener('click',(event)=>{
       const cottageScene=event.target.closest?.('.cottage-storybook');
       if(cottageScene&&Date.now()<suppressDecorClickUntil){event.preventDefault();event.stopPropagation();return;}
@@ -2150,6 +2223,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
       const nav=event.target.closest('[data-nav]');if(nav){changeView(nav.dataset.nav);return;}
       if(event.target.matches('[data-backdrop]')){closeModal();return;}
       const category=event.target.closest('[data-filter]');if(category){filter=category.dataset.filter;render();return;}
+      const roomButton=event.target.closest('[data-cottage-room]');if(roomButton){const roomId=roomButton.dataset.cottageRoom;if(COTTAGE_ROOM_IDS.has(roomId)){state.activeRoom=roomId;save();render();}return;}
       const tab=event.target.closest('[data-cottage-tab]');if(tab){cottageTab=tab.dataset.cottageTab;render();return;}
       const btn=event.target.closest('[data-action]');if(!btn)return;
       const action=btn.dataset.action,id=btn.dataset.id,i=Number(btn.dataset.index);
