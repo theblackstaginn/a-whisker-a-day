@@ -715,8 +715,8 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
     bottom:0!important;
     z-index:100;
     width:100%;
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
+    transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
+    -webkit-transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
     padding-bottom:max(7px,env(safe-area-inset-bottom));
   }
   .main-area{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
@@ -2435,6 +2435,26 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     window.addEventListener('focus',rolloverIfNeeded);
     window.setInterval(rolloverIfNeeded,60000);
   }
+  function syncMobileNavToVisualViewport(){
+    const nav=document.querySelector('.mobile-nav');
+    if(!nav||window.innerWidth>700)return;
+    const vv=window.visualViewport;
+    if(!vv){nav.style.setProperty('--mobile-nav-vv-shift','0px');return;}
+    const layoutHeight=document.documentElement.clientHeight;
+    const visibleBottom=vv.offsetTop+vv.height;
+    const shift=Math.round(visibleBottom-layoutHeight);
+    nav.style.setProperty('--mobile-nav-vv-shift',shift+'px');
+  }
+  function setupMobileNavViewportSync(){
+    syncMobileNavToVisualViewport();
+    const vv=window.visualViewport;
+    if(vv){
+      vv.addEventListener('resize',syncMobileNavToVisualViewport,{passive:true});
+      vv.addEventListener('scroll',syncMobileNavToVisualViewport,{passive:true});
+    }
+    window.addEventListener('resize',syncMobileNavToVisualViewport,{passive:true});
+    window.addEventListener('orientationchange',()=>setTimeout(syncMobileNavToVisualViewport,80),{passive:true});
+  }
   function setupPullToRefresh(){
     if(!('ontouchstart' in window))return;
     let startY=0,startX=0,pulling=false,ready=false;
@@ -2470,12 +2490,12 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   }
   function init() {
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
-    bindEvents();render();startYarrowLife();setupPullToRefresh();
+    bindEvents();render();startYarrowLife();setupPullToRefresh();setupMobileNavViewportSync();
     const unlockMusic=()=>playBackgroundMusic();
     document.addEventListener('pointerdown',unlockMusic,{once:true,capture:true});
     document.addEventListener('keydown',unlockMusic,{once:true,capture:true});
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta13',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta14',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
