@@ -82,6 +82,12 @@ assert.ok(index.includes("function settleDecorMove(pos=null)"),'Decor needs tap-
 assert.ok(index.includes("if(decorMove&&cottageScene)"),'A cottage tap should settle the lifted item');
 assert.ok(index.includes("state.decorPositions[decorMove.id]"),'Placed coordinates must be saved');
 assert.ok(index.includes("-webkit-touch-callout:none"),'Long press should not open the iOS callout');
+assert.ok(index.includes("pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none"),'New cottage comforts must remain touchable on iOS');
+assert.ok(css.includes("pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none"),'Companion CSS must keep new cottage comforts touchable');
+assert.ok(!index.includes("text-shadow:0 3px 5px #30211677;pointer-events:none"),'No cottage comfort may disable pointer events');
+assert.ok(!css.includes("text-shadow:0 3px 5px #30211677;pointer-events:none"),'Companion CSS must not disable cottage pointer events');
+assert.ok(!index.includes(".cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}"),'Saved cottage positions must not be overridden by stale fixed coordinates');
+assert.ok(!css.includes(".cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}"),'Companion CSS must not restore stale fixed cottage coordinates');
 assert.ok(index.includes("aria-grabbed=\"false\""),'Movable decor should expose placement state');
 
 assert.ok(index.includes('Tiny woodland discoveries'),'Yarrow nature prompts missing');
