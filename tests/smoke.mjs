@@ -48,8 +48,12 @@ assert.ok(!index.includes("if(state.sound) playPurr(.55)"),'Ritual rewards must 
 assert.ok(!index.includes("yarrow-meow"),'Meow interaction is deferred');
 assert.ok(!index.includes("hearth-music.ogg"),'No copyrighted background music should be bundled in the repo');
 assert.ok(index.includes("data-action=\"toggle-music\""),'Settings should include a background music toggle');
-assert.ok(index.includes("id=\"music-file\""),'Settings should include a local music file selector');
 assert.ok(index.includes("id=\"music-volume\""),'Settings should include a music volume control');
+assert.ok(index.includes("const BUILT_IN_MUSIC_URL = 'https://lpjpuedylongafgqbwjh.supabase.co/storage/v1/object/public/a-whisker-a-day/Forest%20Elves%20-%20Tree%20of%20Life%20(Instrumental).mp3'"),'Tree of Life should be the built-in Supabase soundtrack');
+assert.ok(index.includes("musicAudio.loop=true"),'The complete soundtrack should loop only after reaching its end');
+assert.ok(index.includes("document.addEventListener('pointerdown',unlockMusic,{once:true,capture:true})"),'The global soundtrack should unlock from the first user interaction');
+assert.ok(!index.includes("id=\"music-file\""),'Built-in soundtrack should not require a local file picker');
+assert.ok(!index.includes("case 'choose-music'"),'Built-in soundtrack should not expose the retired custom-song action');
 assert.ok(!index.includes("merged.music ="),'No unused music preference should remain');
 assert.ok(!sw.includes("yarrow-meow"),'Meow audio must not be cached');
 assert.ok(!sw.includes("hearth-music"),'Background music must not be cached');
