@@ -40,7 +40,7 @@
 .cutout-yarrow[data-pose="offer"][data-side="right"] .yr-right-leg{animation:yr-offer-right 1.9s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-head{animation:yr-happy 1.1s ease-in-out 1}
 .cutout-yarrow[data-pose="happy"] .yr-magic,.cutout-yarrow[data-pose="purr"] .yr-magic{animation:yr-sparkles 1.4s ease-in-out infinite}
-.cutout-yarrow.is-nighttime .yr-lid-left,.cutout-yarrow.is-nighttime .yr-lid-right{animation-duration:9.3s}
+.cutout-yarrow.is-nighttime[data-pose="idle"] .yr-lid-left,.cutout-yarrow.is-nighttime[data-pose="idle"] .yr-lid-right{animation-duration:9.3s}
 .cutout-yarrow.is-comforting .yr-body{animation-duration:6.3s}
 @media(prefers-reduced-motion:reduce){.cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}}
 body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:none!important}
@@ -148,7 +148,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
 .storybook-yarrow[data-pose="knead"] .yr-book-body,
 .storybook-yarrow[data-pose="happy"] .yr-book-body{animation:yr-book-acknowledge 1.1s ease-in-out 2}
 .storybook-yarrow[data-pose="swish"] .yr-book-body{animation:yr-book-swish-whole 1.3s ease-in-out 1}
-.storybook-yarrow.is-nighttime .yr-book-lids{animation-duration:10s}
+.storybook-yarrow.is-nighttime[data-pose="idle"] .yr-book-lids{animation-duration:10s}
 .storybook-yarrow.is-comforting .yr-book-body{animation-duration:7.2s}
 @media(prefers-reduced-motion:reduce){.storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}.storybook-yarrow .yr-book-lids{opacity:0!important}}
 body.motion-off .storybook-yarrow .yr-storybook-svg *{animation:none!important;transition:none!important}
