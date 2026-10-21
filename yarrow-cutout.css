@@ -215,8 +215,8 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
     bottom:0!important;
     z-index:100;
     width:100%;
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
+    transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
+    -webkit-transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
     padding-bottom:max(7px,env(safe-area-inset-bottom));
   }
   .main-area{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
