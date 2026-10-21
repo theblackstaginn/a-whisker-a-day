@@ -186,18 +186,18 @@
   });
   const wearableImage=(id,x,y,w,h)=>WEARABLE_ASSETS[id]?`<image class="yr-wearable-image yr-wearable-${id}" href="${WEARABLE_ASSETS[id]}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"/>`:'';
   const HEAD_WEARABLES=Object.freeze({
-    flowers:wearableImage('flowers',112,46,216,202),
-    hat:wearableImage('hat',78,10,286,278),
-    beret:wearableImage('beret',102,46,238,204)
+    flowers:wearableImage('flowers',104,92,236,220),
+    hat:wearableImage('hat',78,18,286,278),
+    beret:wearableImage('beret',106,88,234,200)
   });
   const BODY_WEARABLES=Object.freeze({
-    scarf:wearableImage('scarf',104,346,232,250),
-    satchel:wearableImage('satchel',226,402,154,178),
-    star:wearableImage('star',142,328,156,156),
-    acorn:wearableImage('acorn',174,334,92,210)
+    scarf:wearableImage('scarf',98,292,248,278),
+    satchel:wearableImage('satchel',205,358,170,196),
+    star:wearableImage('star',132,276,184,184),
+    acorn:wearableImage('acorn',166,286,108,242)
   });
   const BACK_WEARABLES=Object.freeze({
-    cape:wearableImage('cape',64,338,312,356)
+    cape:wearableImage('cape',54,286,334,386)
   });
   const storybookSvg=(outfit='default')=>`<svg class="yr-storybook-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 700" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
     <!-- Feather the shoulders over the already painted torso, without changing joint motion. -->
