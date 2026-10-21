@@ -79,6 +79,13 @@ assert.ok(index.includes("decorPositions:{hearth:{},bedroom:{},kitchen:{},crafti
 assert.ok(index.includes("const looksLegacyPositions=DECOR.some"),'Legacy flat decor positions need Hearth migration');
 assert.ok(index.includes("merged.decorPositions = Object.fromEntries(COTTAGE_ROOMS.map"),'Saved room positions need normalization');
 assert.ok(index.includes("data-decor-id="),'Visible cottage decor needs movable handles');
+assert.ok(index.includes("const COTTAGE_ROOMS = Object.freeze(["),'Cottage room catalog missing');
+assert.ok(index.includes("data-cottage-room="),'Cottage needs a room switcher');
+assert.ok(index.includes("data-decor-room="),'Owned decor needs a room selector');
+assert.ok(index.includes("function moveDecorToRoom(id,roomId)"),'Decor room reassignment handler missing');
+for(const roomAsset of ['hearth.webp','bedroom.webp','kitchen.webp','crafting.webp']){
+  assert.ok(sw.includes("'./assets/cottage/rooms/"+roomAsset+"'"),'Room art must be available offline: '+roomAsset);
+}
 assert.ok(index.includes("setTimeout(()=>{") && index.includes("},480);"),'Decor pickup needs a deliberate long press');
 assert.ok(index.includes("function handleDecorPointerMove(event)"),'Decor needs pointer-drag movement');
 assert.ok(index.includes("function settleDecorMove(pos=null)"),'Decor needs tap-to-place persistence');

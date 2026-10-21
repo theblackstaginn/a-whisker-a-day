@@ -1452,7 +1452,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
         }
       }
     }
-    merged.garden = Array.isArray(raw.garden)?    merged.garden = Array.isArray(raw.garden)?Array.from({length:6},(_,i)=>{const p=raw.garden[i];return p&&PLANTS.some(plant=>plant.id===p.plant)?{plant:p.plant,growth:Math.max(0,Math.min(4,Math.floor(Number(p.growth)||0)))}:null;}):base.garden;
+    merged.garden = Array.isArray(raw.garden)?Array.from({length:6},(_,i)=>{const p=raw.garden[i];return p&&PLANTS.some(plant=>plant.id===p.plant)?{plant:p.plant,growth:Math.max(0,Math.min(4,Math.floor(Number(p.growth)||0)))}:null;}):base.garden;
     merged.herbarium = raw.herbarium && typeof raw.herbarium==='object' && !Array.isArray(raw.herbarium) ? Object.fromEntries(PLANTS.map(p=>[p.id,Math.max(0,Math.min(10000,Math.floor(Number(raw.herbarium[p.id])||0)))])) : {};
     merged.petToday = raw.petToday && typeof raw.petToday==='object' && !Array.isArray(raw.petToday)?raw.petToday:{};
     merged.gratitudeJar = Array.isArray(raw.gratitudeJar) ? raw.gratitudeJar.slice(-100).filter(x=>x&&typeof x.text==='string').map(x=>({id:String(x.id||'').slice(0,60),date:String(x.date||'').slice(0,30),text:x.text.slice(0,280)})) : [];
@@ -1729,7 +1729,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
       return `<button type="button" class="decor-overlay ${d.id==='fern'?'plant':d.id}" data-decor-id="${esc(d.id)}" style="left:${pos.x}%;top:${pos.y}%" aria-label="${esc(d.name)}. Long press to move." aria-grabbed="false">${art}</button>`;
     }).join('');
   }
-  function renderCottage() {function renderCottage() {
+  function renderCottage() {
     const isRoom=cottageTab==='room';
     return `<div class="view cottage-view">
       ${pageTitle('A little place to grow','Your <em>Cottage</em>','Each act of self-care adds a little beauty to the home you and Yarrow are growing together.',`<span class="pill gold">✿ ${state.petals} petals</span>`)}
@@ -1771,7 +1771,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
       ${DECOR.map(d=>{const owned=state.decorOwned.includes(d.id),visible=state.decorVisible.includes(d.id),assignedRoom=cottageRoom(decorRoom(d.id));return `<div class="shop-item">${DECOR_ASSETS[d.id]?`<img class="shop-art" src="${esc(DECOR_ASSETS[d.id])}" alt="" draggable="false" aria-hidden="true" loading="lazy">`:`<span class="shop-emoji" aria-hidden="true">${d.emoji}</span>`}<strong>${d.name}</strong><small>${d.hint}</small>${owned?`<label class="shop-room-select"><span>Room</span><select data-decor-room="${d.id}" aria-label="Room for ${esc(d.name)}">${COTTAGE_ROOMS.map(r=>`<option value="${r.id}" ${r.id===assignedRoom.id?'selected':''}>${esc(r.label)}</option>`).join('')}</select></label>`:''}<button type="button" class="btn ${owned?(visible?'btn-secondary':'btn-primary'):'btn-primary'} btn-small" data-action="decor" data-id="${d.id}" ${!owned&&state.petals<d.price?'disabled':''}>${owned?(visible?'Put away':`Place in ${esc(assignedRoom.name)}`):d.price===0?'Free':`${d.price} petals`}</button>${owned?`<button type="button" class="btn btn-secondary btn-small" data-action="reward-moment" data-id="${d.id}">✧ Enjoy gift</button>`:''}</div>`}).join('')}
       </div></section></div>`;
   }
-  function plantDrawing(p, growth) {function plantDrawing(p, growth) {
+  function plantDrawing(p, growth) {
     const height=14+growth*14;let leaves='';
     for(let i=0;i<growth*2+1;i++){
       const y=87-i*(height/(growth*2+2))-8;
@@ -2006,7 +2006,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     }
     save();render();
   }
-  function gardenPlot(i) {function gardenPlot(i) {
+  function gardenPlot(i) {
     const plot=state.garden[i];if(i<0||i>=6)return;
     if(plot){const p=PLANTS.find(x=>x.id===plot.plant);if(!p)return;
       openModal(`<span class="eyebrow">Garden patch ${i+1}</span><h2>${p.emoji} ${p.name}</h2><p>${plot.growth===4?'This little herb is ready to be gathered!':'A little patience and kindness will help it grow.'}</p><div class="progress-track" style="margin:22px 0"><div class="progress-fill" style="width:${plot.growth*25}%"></div></div><p>${plot.growth} of 4 growing moments</p><div class="form-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">Leave it growing</button>${plot.growth===4?`<button type="button" class="btn btn-primary" data-action="harvest" data-index="${i}">${icon('leaf')} Harvest (+6 petals)</button>`:''}</div>`,'narrow');return;
