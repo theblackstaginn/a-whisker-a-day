@@ -25,8 +25,8 @@ assert.ok(index.includes('mix-blend-mode:normal'),'Dark gratitude jar must not m
 assert.ok(index.includes('#gratitude-note{'),'Dark gratitude note field keeps dedicated contrast styling');
 assert.ok(index.includes("const STORAGE_KEY = 'a-whisker-a-day.v1'"),'Preserve existing user data key');
 assert.ok(index.includes("window.__whiskerVersion = '2.5.0-dev'"),'Keep release metadata current');
-assert.ok(js.includes("version:'2.4.1-dev'"),'Keep character rig version current');
-assert.ok(sw.includes("whisker-a-day-v2.5-dark-gratitude1"),'Offline cache version must track installed assets');
+assert.ok(js.includes("version:'2.5.0-wearables1'"),'Keep character rig version current');
+assert.ok(sw.includes("whisker-a-day-v2.5-cottage-rooms1"),'Offline cache version must track installed assets');
 assert.ok(sw.includes("'./assets/cottage-reading-nook.webp'"),'Cottage art must be available offline');
 assert.ok(sw.includes("'./assets/Jar.PNG'"),'Gratitude jar image must be available offline');
 assert.ok(index.includes('if(modalRoot.innerHTML)openGratitudeJar()'),'Removing a gratitude note should refresh the open jar');
@@ -73,14 +73,24 @@ assert.ok(index.includes('const GRIMOIRE_LORE ='),'Grimoire field guide missing'
 assert.ok(index.includes('const HERB_LORE ='),'Herbal field guide missing');
 assert.ok(index.includes('A tiny cottage blessing'),'Cottage reflection missing');
 assert.ok(index.includes('const DEFAULT_DECOR_POSITIONS = Object.freeze({'),'Cottage decor needs stable default positions');
-assert.ok(index.includes('decorPositions:{}'),'New saves need a decor position map');
-assert.ok(index.includes("merged.decorPositions = {}"),'Saved decor positions need normalization');
+assert.ok(index.includes("activeRoom:'hearth'"),'New saves need a default cottage room');
+assert.ok(index.includes("decorRooms:{fern:'hearth'}"),'New saves need item room assignments');
+assert.ok(index.includes("decorPositions:{hearth:{},bedroom:{},kitchen:{},crafting:{}}"),'New saves need room-specific decor position maps');
+assert.ok(index.includes("const looksLegacyPositions=DECOR.some"),'Legacy flat decor positions need Hearth migration');
+assert.ok(index.includes("merged.decorPositions = Object.fromEntries(COTTAGE_ROOMS.map"),'Saved room positions need normalization');
 assert.ok(index.includes("data-decor-id="),'Visible cottage decor needs movable handles');
+assert.ok(index.includes("const COTTAGE_ROOMS = Object.freeze(["),'Cottage room catalog missing');
+assert.ok(index.includes("data-cottage-room="),'Cottage needs a room switcher');
+assert.ok(index.includes("data-decor-room="),'Owned decor needs a room selector');
+assert.ok(index.includes("function moveDecorToRoom(id,roomId)"),'Decor room reassignment handler missing');
+for(const roomAsset of ['hearth.webp','bedroom.webp','kitchen.webp','crafting.webp']){
+  assert.ok(sw.includes("'./assets/cottage/rooms/"+roomAsset+"'"),'Room art must be available offline: '+roomAsset);
+}
 assert.ok(index.includes("setTimeout(()=>{") && index.includes("},480);"),'Decor pickup needs a deliberate long press');
 assert.ok(index.includes("function handleDecorPointerMove(event)"),'Decor needs pointer-drag movement');
 assert.ok(index.includes("function settleDecorMove(pos=null)"),'Decor needs tap-to-place persistence');
 assert.ok(index.includes("if(decorMove&&cottageScene)"),'A cottage tap should settle the lifted item');
-assert.ok(index.includes("state.decorPositions[decorMove.id]"),'Placed coordinates must be saved');
+assert.ok(index.includes("state.decorPositions[decorMove.roomId][decorMove.id]"),'Placed coordinates must be saved per room');
 assert.ok(index.includes("-webkit-touch-callout:none"),'Long press should not open the iOS callout');
 assert.ok(index.includes("pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none"),'New cottage comforts must remain touchable on iOS');
 assert.ok(css.includes("pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none"),'Companion CSS must keep new cottage comforts touchable');
@@ -107,7 +117,7 @@ new vm.Script(js,{filename:'yarrow-cutout.js'});
 new vm.Script(sw,{filename:'sw.js'});
 const ctx={window:{}};
 vm.runInNewContext(js,ctx,{timeout:3000});
-assert.equal(ctx.window.YarrowCutout.version,'2.4.1-dev');
+assert.equal(ctx.window.YarrowCutout.version,'2.5.0-wearables1');
 const poses=['default','hat','flowers','scarf','satchel','cape','star','beret','acorn'];
 for(const outfit of poses){
  const markup=ctx.window.YarrowCutout.render({outfit});
