@@ -690,36 +690,67 @@ body.motion-off .storybook-yarrow .yr-book-lids{opacity:0!important}
 }
 .mobile-nav-link:focus-visible{outline:3px solid #47694c;outline-offset:-3px}
 
-/* Mobile app chrome: pin both navigation rails to the viewport on iPhone/PWA. */
+/* Mobile app shell: the document stays still; only the content pane scrolls. */
 @media(max-width:700px){
+  html,body{
+    width:100%;
+    height:100%;
+    min-height:100%;
+    overflow:hidden!important;
+    overscroll-behavior:none;
+  }
+  body{
+    position:fixed;
+    inset:0;
+    height:100dvh;
+  }
+  .app-frame{
+    position:fixed;
+    inset:0;
+    width:100%;
+    max-width:none;
+    height:100dvh;
+    min-height:0;
+    overflow:hidden;
+    padding-top:calc(74px + env(safe-area-inset-top));
+  }
   .topbar{
-    position:fixed!important;
+    position:absolute!important;
     top:0;
     left:0;
     right:0;
     z-index:100;
     width:100%;
-    max-width:1640px;
-    margin:0 auto;
     height:calc(74px + env(safe-area-inset-top));
     padding-top:env(safe-area-inset-top);
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
+    transform:none!important;
+    -webkit-transform:none!important;
   }
-  .app-frame{padding-top:calc(74px + env(safe-area-inset-top))}
-  .app-layout{min-height:calc(100dvh - 74px - env(safe-area-inset-top))}
+  .app-layout{
+    height:calc(100dvh - 74px - env(safe-area-inset-top));
+    min-height:0!important;
+    overflow:hidden;
+  }
+  .main-area{
+    height:100%;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
+    padding-bottom:calc(115px + env(safe-area-inset-bottom));
+  }
   .mobile-nav{
-    position:fixed!important;
+    position:absolute!important;
     left:0!important;
     right:0!important;
     bottom:0!important;
-    z-index:100;
+    z-index:110;
     width:100%;
-    transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
-    -webkit-transform:translate3d(0,var(--mobile-nav-vv-shift,0px),0);
+    transform:none!important;
+    -webkit-transform:none!important;
     padding-bottom:max(7px,env(safe-area-inset-bottom));
   }
-  .main-area{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
 }
 
 /* Brief page reveal; skip for motion-sensitive users. */
@@ -1861,7 +1892,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   }
   function changeView(next) {
     if(!['hearth','rituals','grimoire','cottage','yarrow'].includes(next))return;
-    if(next===view){window.scrollTo({top:0,behavior:'auto'});return;}
+    if(next===view){scrollAppToTop('auto');return;}
     // Preserve unsaved input when navigating away from a page.
     if(view==='grimoire'){
       const editor=document.getElementById('journal-text');
@@ -1876,8 +1907,8 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     closeModal();
     view=next;
     render();
-    // An immediate reset avoids long scrolling behind a fixed mobile nav.
-    window.scrollTo({top:0,behavior:'instant'});
+    // Reset the app content pane without moving the fixed mobile shell.
+    scrollAppToTop('auto');
     if(state.animation&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
       main.classList.remove('view-enter');
       void main.offsetWidth;
@@ -2377,7 +2408,7 @@ form[data-form="gratitude"] label{color:#c5d1bd}
         case 'chapter':openChapter(i);break;
         case 'new-prompt':promptIndex=(promptIndex+1)%PROMPTS.length;render();break;
         case 'cancel-journal':journalDraft='';journalEditingId=null;render();break;
-        case 'edit-journal':{const entry=state.journal.find(x=>x.id===id);if(entry){journalDraft=entry.text;journalEditingId=id;render();document.getElementById('journal-text')?.focus();window.scrollTo({top:0,behavior:'smooth'});}break;}
+        case 'edit-journal':{const entry=state.journal.find(x=>x.id===id);if(entry){journalDraft=entry.text;journalEditingId=id;render();document.getElementById('journal-text')?.focus();scrollAppToTop('smooth');}break;}
         case 'delete-journal':if(window.confirm('Remove this page from your grimoire?')){state.journal=state.journal.filter(x=>x.id!==id);save();render();toast('The page has been removed.');}break;
         case 'breath-toggle':breathTimer?stopBreathing():startBreathing();break;
         case 'toggle-sound':state.sound=!state.sound;save();btn.classList.toggle('on',state.sound);btn.setAttribute('aria-checked',String(state.sound));if(!state.sound)stopYarrowPurr();toast(state.sound?'Yarrow’s purr is on. ♡':'Yarrow’s purr is resting.');break;
@@ -2435,25 +2466,12 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     window.addEventListener('focus',rolloverIfNeeded);
     window.setInterval(rolloverIfNeeded,60000);
   }
-  function syncMobileNavToVisualViewport(){
-    const nav=document.querySelector('.mobile-nav');
-    if(!nav||window.innerWidth>700)return;
-    const vv=window.visualViewport;
-    if(!vv){nav.style.setProperty('--mobile-nav-vv-shift','0px');return;}
-    const layoutHeight=document.documentElement.clientHeight;
-    const visibleBottom=vv.offsetTop+vv.height;
-    const shift=Math.round(visibleBottom-layoutHeight);
-    nav.style.setProperty('--mobile-nav-vv-shift',shift+'px');
+  function appScrollTop(){
+    return window.innerWidth<=700 ? main.scrollTop : window.scrollY;
   }
-  function setupMobileNavViewportSync(){
-    syncMobileNavToVisualViewport();
-    const vv=window.visualViewport;
-    if(vv){
-      vv.addEventListener('resize',syncMobileNavToVisualViewport,{passive:true});
-      vv.addEventListener('scroll',syncMobileNavToVisualViewport,{passive:true});
-    }
-    window.addEventListener('resize',syncMobileNavToVisualViewport,{passive:true});
-    window.addEventListener('orientationchange',()=>setTimeout(syncMobileNavToVisualViewport,80),{passive:true});
+  function scrollAppToTop(behavior='auto'){
+    if(window.innerWidth<=700)main.scrollTo({top:0,behavior});
+    else window.scrollTo({top:0,behavior});
   }
   function setupPullToRefresh(){
     if(!('ontouchstart' in window))return;
@@ -2464,13 +2482,13 @@ form[data-form="gratitude"] label{color:#c5d1bd}
     document.body.appendChild(indicator);
     const reset=()=>{pulling=false;ready=false;indicator.classList.remove('visible','ready');};
     document.addEventListener('touchstart',event=>{
-      if(event.touches.length!==1||window.scrollY>2||document.querySelector('.modal-backdrop')||event.target.closest('input,textarea,select,[contenteditable],.gratitude-open-notes')){reset();return;}
+      if(event.touches.length!==1||appScrollTop()>2||document.querySelector('.modal-backdrop')||event.target.closest('input,textarea,select,[contenteditable],.gratitude-open-notes')){reset();return;}
       startY=event.touches[0].clientY;startX=event.touches[0].clientX;pulling=true;ready=false;
     },{passive:true});
     document.addEventListener('touchmove',event=>{
       if(!pulling||event.touches.length!==1)return;
       const dy=event.touches[0].clientY-startY,dx=Math.abs(event.touches[0].clientX-startX);
-      if(window.scrollY>2||dx>dy){reset();return;}
+      if(appScrollTop()>2||dx>dy){reset();return;}
       ready=dy>105;
       indicator.classList.toggle('visible',dy>30);
       indicator.classList.toggle('ready',ready);
@@ -2490,12 +2508,12 @@ form[data-form="gratitude"] label{color:#c5d1bd}
   }
   function init() {
     document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon)});
-    bindEvents();render();startYarrowLife();setupPullToRefresh();setupMobileNavViewportSync();
+    bindEvents();render();startYarrowLife();setupPullToRefresh();
     const unlockMusic=()=>playBackgroundMusic();
     document.addEventListener('pointerdown',unlockMusic,{once:true,capture:true});
     document.addEventListener('keydown',unlockMusic,{once:true,capture:true});
     if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta14',{updateViaCache:'none'}).catch(()=>{}));
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=beta15',{updateViaCache:'none'}).catch(()=>{}));
     }
   }
   init();
