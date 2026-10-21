@@ -125,6 +125,7 @@ body.motion-off .cutout-yarrow .yr-svg *{animation:none!important;transition:non
    Gentle watercolor fading at the outer edge prevents harsh missing chunks. */
 .yarrow-puppet.storybook-yarrow{overflow:visible;contain:layout style;filter:drop-shadow(0 9px 10px #261c1635)}
 .storybook-yarrow .yr-storybook-svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;user-select:none}
+.storybook-yarrow .yr-wearable-image{pointer-events:none;user-select:none;-webkit-user-select:none}
 .storybook-yarrow .yr-book-body{transform-origin:220px 615px;animation:yr-book-breathe 6s ease-in-out infinite}
 .storybook-yarrow .yr-book-head{animation:none;transform:none}
 .storybook-yarrow .yr-book-lids{opacity:0;animation:yr-book-blink 8s ease-in-out infinite}
