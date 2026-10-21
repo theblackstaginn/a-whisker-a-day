@@ -251,16 +251,9 @@ body.motion-off .gratitude-jar-button:hover img{transform:none}
 .shop-item [data-action="reward-moment"]{margin-top:7px;min-height:40px;white-space:normal}
 .reward-moment-steps{padding-left:23px;margin:20px 0;color:#425c48;font:16px/1.65 Georgia,serif}
 .reward-moment-steps li{margin:0 0 12px;padding-left:3px}
-/* New Cottage comforts: visible keepsakes without covering Yarrow's face. */
-.cottage-storybook .decor-overlay.teapot{left:8%;bottom:14%}
-.cottage-storybook .decor-overlay.pillow{right:13%;bottom:12%}
-.cottage-storybook .decor-overlay.clock{right:12%;top:17%}
-.cottage-storybook .decor-overlay.flowershelf{left:12%;top:28%}
-.cottage-storybook .decor-overlay.basket{left:23%;bottom:7%}
-.cottage-storybook .decor-overlay.mushroom{right:6%;bottom:7%}
-.cottage-storybook .decor-overlay.candles{left:5%;top:47%}
-.cottage-storybook .decor-overlay.quilt{right:25%;bottom:4%}
-.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:clamp(23px,3.3vw,38px);z-index:4;text-shadow:0 3px 5px #30211677;pointer-events:none}
+/* Movable Cottage comforts: positions come from the saved/default drag state.
+   Keep every decor button touchable and suppress native iOS selection/callouts. */
+.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:clamp(23px,3.3vw,38px);z-index:4;text-shadow:0 3px 5px #30211677;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 @media(max-width:700px){.cottage-storybook .decor-overlay:is(.teapot,.pillow,.clock,.flowershelf,.basket,.mushroom,.candles,.quilt){font-size:24px}}
 /* Beta tester polish: browse larger collections without cramped controls. */
 .yarrow-view .outfit-grid{grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:11px}
